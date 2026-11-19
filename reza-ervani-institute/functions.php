@@ -8,8 +8,27 @@ require_once __DIR__ . '/includes/homepage-customizer.php';
 
 $mh_magazine_lite_data = wp_get_theme('mh-magazine-lite');
 $mh_magazine_lite_version = $mh_magazine_lite_data['Version'];
-$mh_healthmag_data = wp_get_theme('mh-healthmag');
+$mh_healthmag_data = wp_get_theme('reza-ervani-institute');
 $mh_healthmag_version = $mh_healthmag_data['Version'];
+
+/***** Carry Customizer Settings Across the Directory Rename *****/
+
+function reza_ervani_migrate_theme_mods($old_name, $old_theme) {
+    if ($old_theme->get_stylesheet() !== 'mh-healthmag') {
+        return;
+    }
+
+    $previous_mods = (array) get_option('theme_mods_mh-healthmag', array());
+    // WordPress maps menus and widgets when a theme is switched.
+    unset($previous_mods['nav_menu_locations'], $previous_mods['sidebars_widgets']);
+
+    $current_mods = (array) get_theme_mods();
+    $migrated_mods = $current_mods + $previous_mods;
+    if ($migrated_mods !== $current_mods) {
+        update_option('theme_mods_reza-ervani-institute', $migrated_mods);
+    }
+}
+add_action('after_switch_theme', 'reza_ervani_migrate_theme_mods', 5, 2);
 
 /***** Load Google Fonts *****/
 
