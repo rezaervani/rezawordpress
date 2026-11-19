@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.5 =
+* Kisi Tanya Jawab di beranda menampilkan subkategori dan tiga artikel terbaru per topik. Pengaturannya ada di Kategori Beranda.
+
 = v1.2.4 =
 * Tata blok widget footer dalam kolom bergaya direktori. Isi dan urutan widget tetap diatur melalui Tampilan → Widget.
 
