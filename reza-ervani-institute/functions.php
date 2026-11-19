@@ -1,13 +1,9 @@
 <?php
 
-
-
 require_once __DIR__ . '/includes/homepage-customizer.php';
 
 /***** Fetch Theme Data *****/
 
-$mh_magazine_lite_data = wp_get_theme('mh-magazine-lite');
-$mh_magazine_lite_version = $mh_magazine_lite_data['Version'];
 $mh_healthmag_data = wp_get_theme('reza-ervani-institute');
 $mh_healthmag_version = $mh_healthmag_data['Version'];
 
@@ -41,11 +37,14 @@ add_action('wp_enqueue_scripts', 'mh_healthmag_fonts', 11);
 /***** Load Stylesheets *****/
 
 function mh_healthmag_styles() {
-	global $mh_magazine_lite_version, $mh_healthmag_version;
-    wp_enqueue_style('mh-magazine-lite', get_template_directory_uri() . '/style.css', array(), $mh_magazine_lite_version);
+	global $mh_healthmag_version;
+    $legacy_parent = get_template() === 'mh-magazine-lite';
+    $base_css = $legacy_parent ? '/style.css' : '/magazine.css';
+    wp_enqueue_style('mh-magazine-lite', get_template_directory_uri() . $base_css, array(), $mh_healthmag_version);
     wp_enqueue_style('mh-healthmag', get_stylesheet_uri(), array('mh-magazine-lite'), $mh_healthmag_version);
     if (is_rtl()) {
-		wp_enqueue_style('mh-magazine-lite-rtl', get_template_directory_uri() . '/rtl.css', array(), $mh_magazine_lite_version);
+        $base_rtl_css = $legacy_parent ? '/rtl.css' : '/magazine-rtl.css';
+        wp_enqueue_style('mh-magazine-lite-rtl', get_template_directory_uri() . $base_rtl_css, array('mh-healthmag'), $mh_healthmag_version);
 	}
 }
 add_action('wp_enqueue_scripts', 'mh_healthmag_styles');
@@ -53,7 +52,7 @@ add_action('wp_enqueue_scripts', 'mh_healthmag_styles');
 /***** Load Translations *****/
 
 function mh_healthmag_theme_setup(){
-	load_child_theme_textdomain('mh-healthmag', get_stylesheet_directory() . '/languages');
+	load_theme_textdomain('mh-healthmag', __DIR__ . '/languages/mh-healthmag');
 }
 add_action('after_setup_theme', 'mh_healthmag_theme_setup');
 
@@ -65,7 +64,7 @@ function mh_healthmag_custom_colors() {
 }
 add_action('after_setup_theme', 'mh_healthmag_custom_colors');
 
-/***** Display Posts on Archives as Grid - Override Pluggable Function from Parent Theme *****/
+/***** Display Posts on Archives as Grid *****/
 
 if (!function_exists('mh_magazine_lite_loop_layout')) {
 	function mh_magazine_lite_loop_layout() {
@@ -103,6 +102,18 @@ function my_unescape_content($response, $post, $request) {
     return $response;
 }
 
+/***** Upgrade an Active Installation from the Child Theme *****/
 
+if (get_template() === 'mh-magazine-lite') {
+    // WordPress already scheduled the legacy parent to load in this request.
+    // Change the stored template for the next request without switching the stylesheet.
+    add_action('shutdown', 'reza_ervani_finish_standalone_upgrade');
+} else {
+    require_once __DIR__ . '/includes/theme-core.php';
+}
 
-?>
+function reza_ervani_finish_standalone_upgrade() {
+    if (get_option('stylesheet') === 'reza-ervani-institute' && get_option('template') === 'mh-magazine-lite') {
+        update_option('template', 'reza-ervani-institute');
+    }
+}

@@ -1,4 +1,4 @@
-=== MH HealthMag WordPress Theme (Child Theme) ===
+=== Reza Ervani Institute ===
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 MH HealthMag WordPress Theme, Copyright 2017-2018 MH Themes
@@ -9,15 +9,23 @@ MH HealthMag is derived from MH Magazine lite, Copyright 2017-2018 MH Themes
 Description
 ==================================
 
-MH HealthMag is a fresh and beautiful magazine WordPress theme for editorial websites with topics like health, fitness, body, food, beauty or else. This modern magazine theme is a child theme for the popular MH Magazine lite theme which includes various custom widgets to build a well-organized front page to showcase your valuable content. If you blog about latest fitness trends, delicious food, diet tips or other health related topics, then this could be the WordPress theme you’re looking for. If you like this free magazine theme and in case you need more features and options, then you can have the same layout with the premium version of MH Magazine (without the need of a child theme) which can be configured by making use of the flexible layout options. MH Magazine offers additional widget areas, multiple unique custom widgets, great features and extended layout options to manage several layout elements on your site including changing the color scheme and typography.
+Tema editorial mandiri untuk Reza Ervani Institute, dikembangkan dari MH Magazine Lite dan MH HealthMag. Beranda mendukung widget dan kisi artikel per kategori.
 
 ==================================
-Documentation & Theme Support
+Instalasi dan pembaruan
 ==================================
 
-In order to configure this theme, you can use the same instructions as stated in the theme documentation of MH Magazine: https://www.mhthemes.com/support/documentation-mh-magazine/
+Instal direktori reza-ervani-institute sebagai tema WordPress.
 
-If you have any additional questions, you can ask your questions in the theme support forums on WordPress.org and our support staff will be more than happy to assist.
+Jika reza-ervani-institute sudah aktif sebagai child theme, perbarui direktori
+tersebut dengan nama yang sama. Biarkan MH Magazine Lite terpasang hingga
+WordPress memproses satu permintaan setelah pembaruan. Permintaan tersebut
+memperbarui pengaturan template WordPress tanpa mengganti tema aktif.
+Pastikan opsi template dan stylesheet sama-sama berisi reza-ervani-institute
+sebelum menghapus MH Magazine Lite.
+
+Lihat credits-mh-magazine-lite.txt untuk kredit dan lisensi komponen yang berasal
+dari MH Magazine Lite.
 
 ==================================
 Credits
@@ -49,6 +57,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 ==================================
 Changelog
 ==================================
+
+= v1.1.0 =
+* Reza Ervani Institute menjadi tema mandiri.
 
 = v1.0.4 24-10-2018 =
 * CSS adjustments
