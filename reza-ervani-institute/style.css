@@ -4,13 +4,21 @@ Theme URI: https://rezaervani.com/
 Description: Tema editorial Reza Ervani Institute dengan beranda berbasis widget dan kategori.
 Author: MH Themes
 Author URI: https://www.mhthemes.com/
-Version: 1.2.1
+Version: 1.2.2
 Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-header, custom-menu, featured-images, full-width-template, theme-options, threaded-comments, translation-ready, rtl-language-support, blog, news
 Text Domain: mh-healthmag
 Domain Path: /languages/
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 *****/
+
+/***** Editorial palette *****/
+
+:root {
+    --reza-paper: #fcfaf4;
+    --reza-green: #2d5247;
+    --reza-serif: Georgia, "Times New Roman", serif;
+}
 
 /***** Typography *****/
 
@@ -70,10 +78,56 @@ a:hover { color: #e91f48; }
 
 /***** Footer *****/
 
-.mh-footer { background: #7b6938; }
-.mh-footer a, .mh-footer .mh-meta, .mh-footer .mh-meta a, .mh-footer .mh-meta a:hover { color: #fff; }
-.mh-copyright-wrap { border-color: rgba(255, 255, 255, 0.3); background: #05c1b6; }
-.mh-copyright, .mh-copyright a { color: #fff; }
+.mh-footer {
+    background: var(--reza-green);
+    color: var(--reza-paper);
+}
+
+.mh-footer a,
+.mh-footer .mh-meta,
+.mh-footer .mh-meta a {
+    color: var(--reza-paper);
+}
+
+.mh-footer a:hover,
+.mh-copyright a:hover {
+    text-decoration: underline;
+    text-underline-offset: .17em;
+}
+
+.mh-footer .mh-footer-widget-title {
+    padding-bottom: .6rem;
+    border-bottom: 1px solid rgba(252, 250, 244, .35);
+    margin-bottom: .85rem;
+    color: var(--reza-paper);
+    font: 700 1.2rem/1.2 var(--reza-serif);
+    text-transform: none;
+}
+
+.mh-footer .mh-footer-widget-title-inner {
+    padding: 0;
+    background: transparent;
+}
+
+.mh-footer select {
+    width: 100%;
+    min-height: 2.25rem;
+    padding-inline: .55rem;
+    background: var(--reza-paper);
+    border: 1px solid rgba(252, 250, 244, .35);
+    color: var(--reza-green);
+    font: inherit;
+}
+
+.mh-copyright-wrap {
+    border-top: 1px solid rgba(252, 250, 244, .25);
+    background: #203d35;
+}
+
+.mh-copyright,
+.mh-copyright a {
+    color: var(--reza-paper);
+}
 
 /***** Comments *****/
 
