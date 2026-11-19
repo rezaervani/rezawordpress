@@ -442,3 +442,95 @@ body.reza-editorial {
         border-top: 1px solid var(--reza-rule);
     }
 }
+
+/***** Tanya Jawab *****/
+
+.reza-editorial-questions {
+    padding-block: 1.35rem 1.65rem;
+    border-bottom: 1px solid var(--reza-ink);
+}
+
+.reza-editorial-questions-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .4rem 1rem;
+    margin-block-end: 1rem;
+}
+
+.reza-editorial-questions-header h2 {
+    color: var(--reza-ink);
+    font: 700 clamp(1.6rem, 3vw, 2.25rem)/1.1 var(--reza-serif);
+    letter-spacing: -.025em;
+}
+
+.reza-editorial-questions-header .reza-editorial-archive-link {
+    color: var(--reza-green);
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.reza-editorial-question-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.35rem 1.4rem;
+}
+
+.reza-editorial-question-card {
+    min-width: 0;
+    padding-block-start: .65rem;
+    border-top: 1px solid var(--reza-rule);
+    overflow-wrap: anywhere;
+}
+
+.reza-editorial-question-card h3 {
+    margin-block-end: .55rem;
+    font: 700 .85rem/1.2 var(--reza-sans);
+}
+
+.reza-editorial-question-card h3 a {
+    color: var(--reza-green);
+}
+
+.reza-editorial-question-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    margin-block-end: .55rem;
+}
+
+.reza-editorial-question-card li + li {
+    margin-block-start: .4rem;
+}
+
+.reza-editorial-question-card li a {
+    display: inline-block;
+    font: 600 1rem/1.25 var(--reza-serif);
+}
+
+.reza-editorial-question-card a:hover,
+.reza-editorial-questions-header a:hover {
+    text-decoration: underline;
+    text-underline-offset: .13em;
+}
+
+@media (min-width: 360px) {
+    .reza-editorial-question-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 700px) {
+    .reza-editorial-question-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1120px) {
+    .reza-editorial-question-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}

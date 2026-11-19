@@ -10,6 +10,12 @@ $categories = get_categories($slugs ? array(
     'pad_counts' => true,
 ));
 
+if (!empty($args['excluded_category_id'])) {
+    $categories = array_filter($categories, static function ($category) use ($args) {
+        return $category->term_id !== $args['excluded_category_id'];
+    });
+}
+
 if (!$categories) {
     return;
 }

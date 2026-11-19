@@ -42,3 +42,57 @@ function reza_ervani_editorial_title($post) {
     $title = get_the_title($post);
     return $title !== '' ? $title : __('Tanpa judul', 'mh-healthmag');
 }
+
+function reza_ervani_editorial_question_cards($category) {
+    $topics = get_categories(array(
+        'parent' => $category->term_id,
+        'orderby' => 'name',
+        'pad_counts' => true,
+    ));
+
+    $cards = array();
+    $labels = array();
+    foreach (array_merge($topics, array($category)) as $topic) {
+        $is_parent = $topic->term_id === $category->term_id;
+        if ($is_parent && $cards) {
+            break;
+        }
+
+        $stories = reza_ervani_editorial_posts(array(
+            'cat' => $topic->term_id,
+            'numberposts' => 3,
+        ));
+        $url = get_category_link($topic->term_id);
+        if (!$stories || is_wp_error($url)) {
+            continue;
+        }
+
+        $label = $is_parent ? __('Pertanyaan Terbaru', 'mh-healthmag') : ucfirst(preg_replace('/^Tanya Jawab\s+/i', '', $topic->name));
+        $label_key = sanitize_title($label);
+        if (isset($labels[$label_key])) {
+            $label = $topic->name;
+        }
+        $labels[$label_key] = true;
+
+        $thumbnail_post = null;
+        foreach ($stories as $story) {
+            if (has_post_thumbnail($story)) {
+                $thumbnail_post = $story;
+                break;
+            }
+        }
+
+        $cards[] = array(
+            'title' => $label,
+            'url' => $url,
+            'thumbnail_post' => $thumbnail_post,
+            'stories' => $stories,
+        );
+    }
+
+    usort($cards, static function ($left, $right) {
+        return strnatcasecmp($left['title'], $right['title']);
+    });
+
+    return $cards;
+}
