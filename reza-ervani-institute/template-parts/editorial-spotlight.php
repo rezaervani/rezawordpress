@@ -24,19 +24,23 @@ $has_image = has_post_thumbnail($featured);
                     <?php echo esc_html(get_the_date('', $featured)); ?>
                 </time>
             </div>
-            <?php if ($has_image) : ?>
-                <div class="reza-editorial-lead-media">
-                    <?php echo get_the_post_thumbnail($featured, 'mh-magazine-lite-content', array('loading' => 'eager', 'fetchpriority' => 'high')); ?>
+            <?php if ($has_image || $supporting) : ?>
+                <div class="reza-editorial-lead-side">
+                    <?php if ($has_image) : ?>
+                        <div class="reza-editorial-lead-media">
+                            <?php echo get_the_post_thumbnail($featured, 'mh-magazine-lite-content', array('loading' => 'eager', 'fetchpriority' => 'high')); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($supporting) : ?>
+                        <ul class="reza-editorial-support" aria-label="<?php esc_attr_e('Artikel pendamping', 'mh-healthmag'); ?>">
+                            <?php foreach ($supporting as $story) : ?>
+                                <li><a href="<?php echo esc_url(get_permalink($story)); ?>"><?php echo esc_html(reza_ervani_editorial_title($story)); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </article>
-        <?php if ($supporting) : ?>
-            <ul class="reza-editorial-support">
-                <?php foreach ($supporting as $story) : ?>
-                    <li><a href="<?php echo esc_url(get_permalink($story)); ?>"><?php echo esc_html(reza_ervani_editorial_title($story)); ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
     </section>
     <?php if ($latest) : ?>
         <section class="reza-editorial-latest" aria-labelledby="reza-latest-title">
