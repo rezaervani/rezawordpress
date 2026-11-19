@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.6 =
+* Kisi Tanya Jawab ditampilkan setelah blok kategori beranda.
+* Header editorial dikecualikan dari AdSense Ad intents.
+
 = v1.2.5 =
 * Kisi Tanya Jawab di beranda menampilkan subkategori dan tiga artikel terbaru per topik. Pengaturannya ada di Kategori Beranda.
 

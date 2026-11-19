@@ -5,7 +5,7 @@ $menus = array(
 );
 ?>
 <a class="screen-reader-text" href="#main-content"><?php esc_html_e('Lewati ke konten', 'mh-healthmag'); ?></a>
-<header class="reza-masthead">
+<header class="reza-masthead google-anno-skip">
     <div class="reza-editorial-wrap">
         <div class="reza-masthead-utility">
             <time datetime="<?php echo esc_attr(wp_date('Y-m-d')); ?>"><?php echo esc_html(wp_date('l, j F Y')); ?></time>

@@ -20,14 +20,14 @@ $question_cards = $question_category ? reza_ervani_editorial_question_cards($que
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
     <?php get_template_part('template-parts/editorial', 'spotlight', array('featured' => $featured, 'feed' => $feed)); ?>
-    <?php if ($question_cards) : ?>
-        <?php get_template_part('template-parts/editorial', 'questions', array('category' => $question_category, 'cards' => $question_cards)); ?>
-    <?php endif; ?>
     <?php if (get_theme_mod('reza_ervani_show_home_categories', true)) : ?>
         <?php get_template_part('template-parts/editorial', 'categories', array(
             'featured_id' => $featured ? $featured->ID : 0,
             'excluded_category_id' => $question_cards ? $question_category->term_id : 0,
         )); ?>
+    <?php endif; ?>
+    <?php if ($question_cards) : ?>
+        <?php get_template_part('template-parts/editorial', 'questions', array('category' => $question_category, 'cards' => $question_cards)); ?>
     <?php endif; ?>
     <?php if (get_theme_mod('reza_ervani_editorial_widgets', true)) : ?>
         <div class="reza-editorial-widgets">
