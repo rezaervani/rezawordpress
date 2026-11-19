@@ -58,6 +58,11 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.0 =
+* Beranda editorial dengan sorotan, artikel terbaru, dan kategori lebar penuh atau dalam kisi responsif.
+* Pengaturan ada di Tampilan → Sesuaikan → Theme Options → Kategori Beranda.
+* Gunakan template halaman Homepage. Matikan pengaturan Gunakan beranda editorial untuk kembali ke susunan widget lama.
+
 = v1.1.0 =
 * Reza Ervani Institute menjadi tema mandiri.
 
