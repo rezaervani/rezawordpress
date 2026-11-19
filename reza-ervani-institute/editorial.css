@@ -3,12 +3,9 @@
 body.reza-editorial {
     --reza-ink: #201e19;
     --reza-muted: #57554d;
-    --reza-paper: #fcfaf4;
     --reza-rule: #cec9b9;
     --reza-accent: #64412e;
-    --reza-green: #2d5247;
     --reza-wrap-width: min(calc(100% - 3rem), 1240px);
-    --reza-serif: Georgia, "Times New Roman", serif;
     --reza-sans: system-ui, sans-serif;
     color: var(--reza-ink);
     background: var(--reza-paper);
@@ -359,11 +356,6 @@ body.reza-editorial {
 
 .reza-editorial-widgets {
     margin-block-start: 1.65rem;
-}
-
-.reza-editorial .mh-copyright-wrap {
-    border-top: 1px solid var(--reza-rule);
-    background: var(--reza-green);
 }
 
 @media (min-width: 600px) {
