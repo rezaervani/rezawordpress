@@ -12,5 +12,9 @@
 <body id="mh-mobile" <?php body_class(); ?> itemscope="itemscope" itemtype="https://schema.org/WebPage">
 <?php wp_body_open(); ?>
 <?php mh_before_header();
-get_template_part('content', 'header');
+if (reza_ervani_uses_editorial_home()) {
+    get_template_part('template-parts/editorial', 'header');
+} else {
+    get_template_part('content', 'header');
+}
 mh_after_header(); ?>
