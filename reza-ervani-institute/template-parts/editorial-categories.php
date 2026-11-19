@@ -29,7 +29,7 @@ $category_labels = array(
 );
 
 ?>
-<div class="reza-editorial-categories">
+<div class="reza-editorial-categories" style="--reza-compact-tracks: <?php echo esc_attr($compact_count + 2); ?>">
     <?php foreach ($categories as $category) : ?>
         <?php
         $wide = in_array($category->slug, $wide_slugs, true);
