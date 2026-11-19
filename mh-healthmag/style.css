@@ -1,11 +1,11 @@
 /*****
-Theme Name: MH HealthMag
-Theme URI: https://www.mhthemes.com/themes/mh/healthmag/
-Description: MH HealthMag is a fresh and beautiful magazine WordPress theme for editorial websites with topics like health, fitness, body, food, beauty or else. This modern magazine theme is a child theme for the popular MH Magazine lite theme which includes various custom widgets to build a well-organized front page to showcase your valuable content. If you blog about latest fitness trends, delicious food, diet tips or other health related topics, then this could be the WordPress theme you’re looking for. If you like this free magazine theme and in case you need more features and options, then you can have the same layout with the premium version of MH Magazine (without the need of a child theme) which can be configured by making use of the flexible layout options. MH Magazine offers additional widget areas, multiple unique custom widgets, great features and extended layout options to manage several layout elements on your site including changing the color scheme and typography.
+Theme Name: Reza Ervani Institute
+Theme URI: https://rezaervani.com/
+Description: Tema editorial Reza Ervani Institute dengan beranda berbasis widget dan kategori.
 Author: MH Themes
 Author URI: https://www.mhthemes.com/
 Template: mh-magazine-lite
-Version: 1.0.4
+Version: 1.0.5
 Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-header, custom-menu, featured-images, full-width-template, theme-options, threaded-comments, translation-ready, rtl-language-support, blog, news
 Text Domain: mh-healthmag
 Domain Path: /languages/
@@ -144,4 +144,53 @@ input[type=submit]:hover { background: #05c1b6; }
 }
 @media only screen and (max-width: 420px) {
 	.mh-copyright-wrap { padding: 15px 20px; }
+}
+/***** Homepage *****/
+
+.mh-home #main-content.mh-home-content {
+    float: none;
+    margin: 0;
+}
+
+.reza-home-widgets,
+.reza-home-widget-columns,
+.reza-home-category-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 25px;
+}
+
+.reza-home-categories > h2 {
+    margin-bottom: 16px;
+}
+
+.reza-home-category li + li {
+    border-top: 1px dotted #ebebeb;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+@media screen and (min-width: 768px) {
+    .reza-home-widgets-with-sidebar {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    .mh-left-sb .reza-home-widgets-with-sidebar {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+
+    .mh-left-sb .reza-home-widgets-with-sidebar .reza-home-sidebar {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .reza-home-widget-columns {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .reza-home-category-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
+    }
 }

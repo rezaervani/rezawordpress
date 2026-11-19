@@ -2,6 +2,8 @@
 
 
 
+require_once __DIR__ . '/includes/homepage-customizer.php';
+
 /***** Fetch Theme Data *****/
 
 $mh_magazine_lite_data = wp_get_theme('mh-magazine-lite');
