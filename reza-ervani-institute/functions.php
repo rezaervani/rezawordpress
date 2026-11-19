@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/includes/homepage-customizer.php';
 require_once __DIR__ . '/includes/editorial-home.php';
+require_once __DIR__ . '/includes/footer-directory.php';
 
 /***** Fetch Theme Data *****/
 

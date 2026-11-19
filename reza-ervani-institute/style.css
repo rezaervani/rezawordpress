@@ -4,7 +4,7 @@ Theme URI: https://rezaervani.com/
 Description: Tema editorial Reza Ervani Institute dengan beranda berbasis widget dan kategori.
 Author: MH Themes
 Author URI: https://www.mhthemes.com/
-Version: 1.2.2
+Version: 1.2.3
 Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-header, custom-menu, featured-images, full-width-template, theme-options, threaded-comments, translation-ready, rtl-language-support, blog, news
 Text Domain: mh-healthmag
 Domain Path: /languages/
@@ -78,55 +78,170 @@ a:hover { color: #e91f48; }
 
 /***** Footer *****/
 
-.mh-footer {
-    background: var(--reza-green);
-    color: var(--reza-paper);
+.reza-site-footer {
+    --reza-footer-rule: #cec9b9;
+    --reza-footer-ink: #29261f;
+    color: var(--reza-footer-ink);
+    background: var(--reza-paper);
 }
 
-.mh-footer a,
-.mh-footer .mh-meta,
-.mh-footer .mh-meta a {
-    color: var(--reza-paper);
+.reza-footer-directory,
+.reza-footer-credits {
+    width: min(calc(100% - 3rem), 1240px);
+    margin-inline: auto;
 }
 
-.mh-footer a:hover,
-.mh-copyright a:hover {
+.reza-footer-directory {
+    border-top: 3px double var(--reza-green);
+    padding-block: 1.15rem 1.55rem;
+}
+
+.reza-footer-masthead,
+.reza-footer-credits {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .7rem 1.4rem;
+}
+
+.reza-footer-masthead {
+    margin-bottom: 1.35rem;
+}
+
+.reza-footer-brand {
+    color: var(--reza-green);
+    font: 700 clamp(1.45rem, 3.4vw, 2.1rem)/1.1 var(--reza-serif);
+    letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+}
+
+.reza-footer-top {
+    color: var(--reza-green);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.reza-footer-directory-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    gap: 1.2rem 1.6rem;
+}
+
+.reza-footer-directory-list li {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.reza-footer-directory-list > li > a,
+.reza-footer-directory-list > li > span {
+    display: inline-block;
+    margin-bottom: .35rem;
+    color: var(--reza-green);
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .055em;
+    text-transform: uppercase;
+}
+
+.reza-footer-directory-list .sub-menu a {
+    display: block;
+    padding-block: .18rem;
+    color: var(--reza-footer-ink);
+    font-size: .85rem;
+}
+
+.reza-footer-directory-list .sub-menu .sub-menu {
+    margin-inline-start: .7rem;
+}
+
+.reza-site-footer a:hover {
+    color: var(--reza-green);
     text-decoration: underline;
     text-underline-offset: .17em;
 }
 
-.mh-footer .mh-footer-widget-title {
-    padding-bottom: .6rem;
-    border-bottom: 1px solid rgba(252, 250, 244, .35);
-    margin-bottom: .85rem;
-    color: var(--reza-paper);
-    font: 700 1.2rem/1.2 var(--reza-serif);
+.reza-site-footer :focus-visible {
+    outline: 2px solid var(--reza-green);
+    outline-offset: 2px;
+}
+
+.reza-site-footer .mh-footer {
+    border-top: 1px solid var(--reza-footer-rule);
+    background: #f3efe4;
+    color: var(--reza-footer-ink);
+}
+
+.reza-site-footer .mh-footer-widgets {
+    max-width: 1240px;
+}
+
+.reza-site-footer .mh-footer a,
+.reza-site-footer .mh-footer .mh-meta,
+.reza-site-footer .mh-footer .wp-caption-text,
+.reza-site-footer .mh-footer .mh-tabbed-widget {
+    color: var(--reza-footer-ink);
+}
+
+.reza-site-footer .mh-footer-widget-title {
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--reza-footer-rule);
+    margin-bottom: .75rem;
+    color: var(--reza-green);
+    font: 700 1.1rem/1.2 var(--reza-serif);
     text-transform: none;
 }
 
-.mh-footer .mh-footer-widget-title-inner {
+.reza-site-footer .mh-footer-widget-title-inner {
     padding: 0;
     background: transparent;
 }
 
-.mh-footer select {
+.reza-site-footer .mh-footer select {
     width: 100%;
     min-height: 2.25rem;
     padding-inline: .55rem;
     background: var(--reza-paper);
-    border: 1px solid rgba(252, 250, 244, .35);
+    border: 1px solid var(--reza-footer-rule);
     color: var(--reza-green);
     font: inherit;
 }
 
-.mh-copyright-wrap {
-    border-top: 1px solid rgba(252, 250, 244, .25);
-    background: #203d35;
+.reza-site-footer .mh-footer-widget .tagcloud a {
+    background: var(--reza-paper);
 }
 
-.mh-copyright,
-.mh-copyright a {
+.reza-site-footer .mh-footer-widget .mh-tab-button.active {
+    background: var(--reza-green);
     color: var(--reza-paper);
+}
+
+.reza-site-footer .mh-copyright-wrap {
+    padding: .8rem 0 1rem;
+    border-top: 1px solid var(--reza-footer-rule);
+    background: transparent;
+}
+
+.reza-site-footer .mh-copyright,
+.reza-site-footer .mh-copyright a,
+.reza-site-footer .privacy-policy-link {
+    color: #555046;
+    font-size: .75rem;
+}
+
+@media (max-width: 599px) {
+    .reza-footer-directory,
+    .reza-footer-credits {
+        width: calc(100% - 2rem);
+    }
+
+    .reza-footer-directory-list {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr));
+    }
+
+    .reza-site-footer .mh-copyright {
+        text-align: start;
+    }
 }
 
 /***** Comments *****/
@@ -194,9 +309,6 @@ input[type=submit]:hover { background: #05c1b6; }
 	.mh-posts-grid-title { font-size: 14px; font-size: 0.875rem; }
 	.mh-posts-grid-meta { font-size: 11px; font-size: 0.6875rem; }
 	.mh-posts-grid-excerpt { display: none; }
-}
-@media only screen and (max-width: 420px) {
-	.mh-copyright-wrap { padding: 15px 20px; }
 }
 /***** Homepage *****/
 

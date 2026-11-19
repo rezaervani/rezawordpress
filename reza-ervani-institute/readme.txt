@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.3 =
+* Footer bergaya direktori dengan kelompok tautan dan widget yang sudah terpasang.
+* Untuk menyusun sendiri tautan, tetapkan menu ke lokasi Direktori Footer di Tampilan → Menu. Gunakan item tingkat atas sebagai kelompok dan submenu sebagai tautannya.
+
 = v1.2.0 =
 * Beranda editorial dengan sorotan, artikel terbaru, dan kategori lebar penuh atau dalam kisi responsif.
 * Pengaturan ada di Tampilan → Sesuaikan → Theme Options → Kategori Beranda.
