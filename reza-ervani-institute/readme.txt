@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.38 =
+* Terapkan tampilan editorial pada arsip kategori dengan masthead, artikel utama, kartu artikel, subkategori, dan sidebar yang diselaraskan dengan tema.
+
 = v1.2.37 =
 * Jadikan Sorotan Utama widget beranda dengan pengaturan jumlah judul untuk masing-masing kolom.
 
