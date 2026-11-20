@@ -5,6 +5,9 @@ require_once __DIR__ . '/includes/editorial-home.php';
 require_once __DIR__ . '/includes/editorial-widgets.php';
 require_once __DIR__ . '/includes/video-library.php';
 require_once __DIR__ . '/includes/video-gallery-widget.php';
+if (defined('WP_CLI') && WP_CLI) {
+    require_once __DIR__ . '/includes/video-migration.php';
+}
 
 /***** Fetch Theme Data *****/
 

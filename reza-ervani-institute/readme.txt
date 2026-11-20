@@ -58,6 +58,11 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.15 =
+* Galeri beranda memakai artikel terbit di kategori WordPress dengan slug video.
+* Pindahkan video AIOVG sebagai artikel dengan `wp reza video migrate`. Gunakan `--dry-run` untuk memeriksanya. Alamat video lama dialihkan ke artikel yang sama.
+* Cadangkan database, jalankan pemindahan, lalu nonaktifkan AIOVG dan periksa pemutaran sebelum menghapus plugin. Shortcode AIOVG yang terpasang di artikel atau halaman lain perlu ditangani secara terpisah.
+
 = v1.2.14 =
 * Galeri Video Beranda dapat menggabungkan video dari pustaka dengan artikel dari kategori WordPress, dalam satu urutan.
 * Saat kategori pustaka video yang kosong sudah dipilih, widget lama menambahkan kategori artikel Video dengan slug yang sama.

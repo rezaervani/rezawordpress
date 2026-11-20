@@ -3,7 +3,7 @@
 class Reza_Ervani_Video_Gallery extends WP_Widget {
     public function __construct() {
         parent::__construct('reza_video_gallery', __('Galeri Video – Reza Ervani Institute', 'mh-healthmag'), array(
-            'description' => __('Pilih video untuk ditampilkan di beranda.', 'mh-healthmag'),
+            'description' => __('Tampilkan artikel dari kategori WordPress Video di beranda.', 'mh-healthmag'),
         ));
     }
 
@@ -26,12 +26,8 @@ class Reza_Ervani_Video_Gallery extends WP_Widget {
         return array(
             'title' => sanitize_text_field($instance['title'] ?? __('Video Gallery', 'mh-healthmag')),
             'limit' => max(1, min(5, (int) ($instance['limit'] ?? 5))),
-            'category' => wp_parse_id_list($instance['category'] ?? array()),
-            'article_category' => wp_parse_id_list($instance['article_category'] ?? array()),
-            'tag' => wp_parse_id_list($instance['tag'] ?? array()),
             'orderby' => isset(self::sort_labels()[$sort]) ? $sort : 'date',
             'order' => sanitize_key($instance['order'] ?? 'desc') === 'asc' ? 'ASC' : 'DESC',
-            'featured' => !empty($instance['featured']),
             'show_duration' => !empty($instance['show_duration'] ?? true),
             'show_views' => !empty($instance['show_views'] ?? true),
             'show_category' => !empty($instance['show_category'] ?? true),
@@ -56,33 +52,8 @@ class Reza_Ervani_Video_Gallery extends WP_Widget {
             <?php
         }
 
-        $term_fields = array(
-            'category' => array('aiovg_categories', __('Kategori di Pustaka Video', 'mh-healthmag')),
-            'tag' => array('aiovg_tags', __('Tag di Pustaka Video', 'mh-healthmag')),
-            'article_category' => array('category', __('Kategori Artikel WordPress', 'mh-healthmag')),
-        );
-        foreach ($term_fields as $key => list($taxonomy, $label)) {
-            $terms = get_terms(array('taxonomy' => $taxonomy, 'hide_empty' => false));
-            if (is_wp_error($terms) || !$terms) {
-                continue;
-            }
-            ?>
-            <fieldset>
-                <legend><?php echo esc_html($label); ?></legend>
-                <div class="categorychecklist" style="max-height: 9em; overflow: auto;">
-                    <?php foreach ($terms as $term) : ?>
-                        <label style="display: block;">
-                            <input type="checkbox" name="<?php echo esc_attr($this->get_field_name($key)); ?>[]"
-                                value="<?php echo esc_attr($term->term_id); ?>" <?php checked(in_array((int) $term->term_id, $instance[$key], true)); ?>>
-                            <?php echo esc_html(sprintf('%s (%s)', $term->name, number_format_i18n($term->count))); ?>
-                        </label>
-                    <?php endforeach; ?>
-                </div>
-            </fieldset>
-            <?php
-        }
         ?>
-        <p class="description"><?php esc_html_e('Untuk menggabungkan kedua sumber, pilih kategori di masing-masing bagian. Jika semua filter kosong, galeri menampilkan video dari pustaka.', 'mh-healthmag'); ?></p>
+        <p class="description"><?php esc_html_e('Untuk menampilkan video di galeri, terbitkan artikel di kategori Video.', 'mh-healthmag'); ?></p>
         <?php
 
         $order_fields = array(
@@ -104,7 +75,6 @@ class Reza_Ervani_Video_Gallery extends WP_Widget {
         }
 
         $toggles = array(
-            'featured' => __('Hanya video unggulan dari galeri lama', 'mh-healthmag'),
             'show_duration' => __('Tampilkan durasi jika tersedia', 'mh-healthmag'),
             'show_views' => __('Tampilkan jumlah tayangan tersimpan', 'mh-healthmag'),
             'show_category' => __('Tampilkan kategori', 'mh-healthmag'),
@@ -121,8 +91,15 @@ class Reza_Ervani_Video_Gallery extends WP_Widget {
     }
 
     private function videos($settings) {
+        $category = get_category_by_slug('video');
+        if (!$category) {
+            return array();
+        }
+
         $query = array(
+            'post_type' => 'post',
             'post_status' => 'publish',
+            'category__in' => array((int) $category->term_id),
             'has_password' => false,
             'suppress_filters' => false,
             'numberposts' => $settings['limit'],
@@ -138,51 +115,7 @@ class Reza_Ervani_Video_Gallery extends WP_Widget {
             $query['orderby'] = array('counter' => $settings['order'], 'date' => 'DESC', 'ID' => 'DESC');
         }
 
-        if (!$settings['article_category']) {
-            return get_posts($this->library_query($query, $settings));
-        }
-
-        $article_query = array(
-            'post_type' => 'post',
-            'tax_query' => array(array(
-                'taxonomy' => 'category',
-                'field' => 'term_id',
-                'terms' => $settings['article_category'],
-            )),
-        ) + $query;
-        if (!$settings['category'] && !$settings['tag'] && !$settings['featured']) {
-            return get_posts($article_query);
-        }
-
-        // Resolve the filters within each source before ranking the combined candidates.
-        $ids_only = array('fields' => 'ids');
-        $candidates = array_merge(
-            get_posts($this->library_query($query, $settings) + $ids_only),
-            get_posts($article_query + $ids_only)
-        );
-        if (!$candidates) {
-            return array();
-        }
-
-        return get_posts(array('post_type' => array('aiovg_videos', 'post'), 'post__in' => $candidates) + $query);
-    }
-
-    private function library_query($query, $settings) {
-        $query['post_type'] = 'aiovg_videos';
-        foreach (array('category' => 'aiovg_categories', 'tag' => 'aiovg_tags') as $key => $taxonomy) {
-            if ($settings[$key]) {
-                $query['tax_query'][] = array(
-                    'taxonomy' => $taxonomy,
-                    'field' => 'term_id',
-                    'terms' => $settings[$key],
-                    'include_children' => false,
-                );
-            }
-        }
-        if ($settings['featured']) {
-            $query['meta_query'][] = array('key' => 'featured', 'value' => 1);
-        }
-        return $query;
+        return get_posts($query);
     }
 
     public function widget($args, $instance) {
@@ -241,7 +174,6 @@ function reza_ervani_migrate_video_gallery() {
             }
 
             $settings = Reza_Ervani_Video_Gallery::settings(array('limit' => 5) + (array) $legacy[$legacy_id]);
-            unset($settings['article_category']);
             $native[$number] = $settings + array('legacy_widget' => $legacy_id);
         }
         $gallery[$position] = 'reza_video_gallery-' . $number;
@@ -261,29 +193,3 @@ function reza_ervani_migrate_video_gallery() {
 }
 // Migrate before WordPress registers saved widget instances in WP_Widget_Factory at priority 100.
 add_action('widgets_init', 'reza_ervani_migrate_video_gallery', 95);
-
-function reza_ervani_migrate_video_article_category() {
-    if (is_customize_preview()) {
-        return;
-    }
-
-    $widgets = (array) get_option('widget_reza_video_gallery', array());
-    $previous = array_filter($widgets, static function ($instance) {
-        return is_array($instance) && !array_key_exists('article_category', $instance);
-    });
-    if (!$previous) {
-        return;
-    }
-
-    // The site has an empty library term named video and an article archive with the same slug.
-    $library = get_term_by('slug', 'video', 'aiovg_categories');
-    $article = $library && (int) $library->count === 0 ? get_category_by_slug('video') : false;
-    foreach ($previous as $number => $instance) {
-        $selected = wp_parse_id_list($instance['category'] ?? array());
-        $widgets[$number]['article_category'] = $article && in_array((int) $library->term_id, $selected, true)
-            ? array((int) $article->term_id)
-            : array();
-    }
-    update_option('widget_reza_video_gallery', $widgets);
-}
-add_action('wp_loaded', 'reza_ervani_migrate_video_article_category');
