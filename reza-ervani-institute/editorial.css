@@ -107,7 +107,7 @@ body.reza-editorial {
     max-height: 60px;
 }
 
-.reza-masthead-brand h1,
+.reza-masthead-brand-name,
 .reza-editorial-lead h3,
 .reza-editorial-category h2,
 .reza-editorial-category h3 {
@@ -117,7 +117,7 @@ body.reza-editorial {
     overflow-wrap: anywhere;
 }
 
-.reza-masthead-brand h1 {
+.reza-masthead-brand-name {
     font-size: clamp(2rem, 6vw, 4.45rem);
     line-height: 1;
     letter-spacing: -.055em;

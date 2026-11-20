@@ -4,6 +4,7 @@ $menus = array(
     'top_nav' => __('Layanan dan kategori', 'mh-healthmag'),
 );
 $today = current_datetime();
+$brand_tag = is_category() ? 'div' : 'h1';
 ?>
 <a class="screen-reader-text" href="#main-content"><?php esc_html_e('Lewati ke konten', 'mh-healthmag'); ?></a>
 <header class="reza-masthead google-anno-skip">
@@ -26,7 +27,7 @@ $today = current_datetime();
             <?php if (has_custom_logo()) : ?>
                 <?php the_custom_logo(); ?>
             <?php endif; ?>
-            <h1><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></h1>
+            <<?php echo $brand_tag; ?> class="reza-masthead-brand-name"><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></<?php echo $brand_tag; ?>>
             <?php if (get_bloginfo('description')) : ?>
                 <p><?php bloginfo('description'); ?></p>
             <?php endif; ?>

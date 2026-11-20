@@ -5,7 +5,7 @@ function reza_ervani_uses_editorial_home() {
 }
 
 function reza_ervani_editorial_body_class($classes) {
-    if (reza_ervani_uses_editorial_home() || is_singular('post')) {
+    if (reza_ervani_uses_editorial_home() || is_category() || is_singular('post')) {
         $classes[] = 'reza-editorial';
     }
 
