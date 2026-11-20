@@ -1,17 +1,38 @@
 /***** Editorial single articles *****/
 
-.reza-masthead-compact .reza-masthead-brand {
-    padding-block: .8rem;
+.reza-article-masthead {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 100;
+    background: var(--reza-paper);
+    border-block-end: 1px solid var(--reza-rule);
 }
 
-.reza-masthead-compact .custom-logo-link {
-    margin-block-end: .3rem;
+.reza-article-masthead-brand {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-block-size: 3.25rem;
+    padding-block: .55rem;
+    text-align: center;
 }
 
-.reza-masthead-compact .reza-masthead-name {
-    font: 700 clamp(1.45rem, 3vw, 2.1rem)/1.1 var(--reza-serif);
+.reza-article-masthead-brand a {
+    font: 700 clamp(1.4rem, 3vw, 1.9rem)/1.1 var(--reza-serif);
     letter-spacing: -.035em;
     overflow-wrap: anywhere;
+}
+
+@media (min-width: 601px) {
+    .admin-bar .reza-article-masthead {
+        inset-block-start: var(--wp-admin--admin-bar--height, 32px);
+    }
+}
+
+.reza-article-layout,
+.reza-article-layout [id] {
+    scroll-margin-block-start: 3.5rem;
 }
 
 .reza-editorial #main-content.reza-article-layout {
@@ -191,8 +212,7 @@
     max-inline-size: 100%;
 }
 
-.reza-article-comments .mh-widget-title,
-.reza-article-site-widgets .mh-widget-title {
+.reza-article-comments .mh-widget-title {
     padding-block-end: .55rem;
     border-block-end: 1px solid var(--reza-rule);
     color: var(--reza-green);
@@ -200,14 +220,12 @@
     text-transform: none;
 }
 
-.reza-article-comments .mh-widget-title-inner,
-.reza-article-site-widgets .mh-widget-title-inner {
+.reza-article-comments .mh-widget-title-inner {
     padding: 0;
     background: none;
 }
 
-.reza-article-related,
-.reza-article-site-widgets {
+.reza-article-related {
     margin-block: 2rem;
     padding-block-start: 1rem;
     border-block-start: 1px solid var(--reza-ink);
@@ -219,8 +237,7 @@
     font: 700 1.6rem/1.15 var(--reza-serif);
 }
 
-.reza-article-related-list,
-.reza-article-site-widgets .mh-sidebar {
+.reza-article-related-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
     gap: 1.25rem;
@@ -238,18 +255,5 @@
 .reza-article-related-list h3 {
     color: inherit;
     font: 700 1.16rem/1.3 var(--reza-serif);
-    overflow-wrap: anywhere;
-}
-
-.reza-article-site-widgets .mh-sidebar {
-    float: none;
-    width: 100%;
-    margin: 0;
-    overflow: visible;
-}
-
-.reza-article-site-widgets .mh-widget {
-    min-width: 0;
-    margin-block-end: 0;
     overflow-wrap: anywhere;
 }

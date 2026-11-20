@@ -32,10 +32,4 @@
             <?php comments_template(); ?>
         </div>
     <?php endwhile; ?>
-
-    <?php if (is_active_sidebar('sidebar')) : ?>
-        <div class="reza-article-site-widgets">
-            <?php get_sidebar(); ?>
-        </div>
-    <?php endif; ?>
 </main>
