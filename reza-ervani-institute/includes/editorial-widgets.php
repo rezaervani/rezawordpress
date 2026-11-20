@@ -188,3 +188,29 @@ function reza_ervani_move_home_topics_to_inactive_widgets() {
     update_option($migration, 1, false);
 }
 add_action('wp_loaded', 'reza_ervani_move_home_topics_to_inactive_widgets');
+
+function reza_ervani_move_legacy_jazariyyah_to_inactive_widgets() {
+    $migration = 'reza_ervani_legacy_jazariyyah_inactive_1_2_33';
+    if (get_option($migration) || is_customize_preview()) {
+        return;
+    }
+
+    $sidebars = (array) get_option('sidebars_widgets', array());
+    $widget_id = 'mh_custom_posts-4';
+    if (in_array($widget_id, $sidebars['home-4'] ?? array(), true)) {
+        $widgets = (array) get_option('widget_mh_custom_posts', array());
+        $category = get_category_by_slug('manzhumah-al-jazariyah');
+        if ($category && (int) ($widgets[4]['category'] ?? 0) === (int) $category->term_id) {
+            $sidebars['home-4'] = array_values(array_diff($sidebars['home-4'], array($widget_id)));
+            $sidebars['wp_inactive_widgets'] = array_values(array_unique(array_merge($sidebars['wp_inactive_widgets'] ?? array(), array($widget_id))));
+            $sidebars['array_version'] = $sidebars['array_version'] ?? 3;
+            wp_set_sidebars_widgets($sidebars);
+            if (get_option('sidebars_widgets') !== $sidebars) {
+                return;
+            }
+        }
+    }
+
+    update_option($migration, 1, false);
+}
+add_action('widgets_init', 'reza_ervani_move_legacy_jazariyyah_to_inactive_widgets', 95);
