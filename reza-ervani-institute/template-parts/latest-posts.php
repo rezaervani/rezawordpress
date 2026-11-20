@@ -1,4 +1,4 @@
-<div class="reza-latest-posts-columns">
+<div class="reza-latest-posts-columns" style="--reza-latest-posts-rows: <?php echo esc_attr(count($args['columns'][0])); ?>;">
     <?php foreach ($args['columns'] as $index => $stories) : ?>
         <ol class="reza-latest-posts-list" role="list" start="<?php echo esc_attr(1 + $index * $args['posts_per_column']); ?>">
             <?php foreach ($stories as $story) : ?>

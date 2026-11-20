@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.19 =
+* Sejajarkan tinggi baris artikel dan kolom Posting Terakhir mengikuti judul terpanjang pada setiap baris.
+
 = v1.2.18 =
 * Pindahkan Posting Terakhir dari sidebar ke segmen penutup beranda dengan tiga kolom judul dan tanggal publikasi.
 * Ubah jumlah artikel per kolom melalui Tampilan → Widget → Beranda – Posting Terakhir. Pengaturan awal 20 artikel per kolom.
