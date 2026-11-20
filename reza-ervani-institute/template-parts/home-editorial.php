@@ -61,18 +61,7 @@ $english_category_ids = array_column($english_sections, 'category_id');
     <?php if ($show_widgets || $manuscripts) : ?>
         <div class="reza-editorial-widgets">
             <?php if ($show_widgets) :
-                $replaced_categories = array_filter(array_merge(
-                    $series_category_ids,
-                    $collection_category_ids,
-                    $english_category_ids,
-                    reza_ervani_legacy_collection_category_ids()
-                ));
-                $filter = static function ($instance, $widget, $sidebar) use ($replaced_categories) {
-                    return reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $replaced_categories);
-                };
-                add_filter('widget_display_callback', $filter, 10, 3);
                 dynamic_sidebar('home-1');
-                remove_filter('widget_display_callback', $filter, 10);
                 dynamic_sidebar(Reza_Ervani_Posting_Ads::HOME_AREA);
             endif; ?>
             <?php if ($show_widgets && is_active_sidebar('home-video-gallery')) : ?>
@@ -82,14 +71,12 @@ $english_category_ids = array_column($english_sections, 'category_id');
             <?php endif; ?>
             <?php if ($show_widgets) :
                 get_template_part('template-parts/home', 'category-widgets');
-                add_filter('widget_display_callback', $filter, 10, 3);
-                add_filter('dynamic_sidebar_params', 'reza_ervani_style_hadits_widget');
+                add_filter('widget_display_callback', 'reza_ervani_filter_editorial_widget', 10, 3);
                 get_template_part('template-parts/home', 'widgets', array(
                     'editorial' => true,
                     'english_sections' => $english_sections,
                 ));
-                remove_filter('dynamic_sidebar_params', 'reza_ervani_style_hadits_widget');
-                remove_filter('widget_display_callback', $filter, 10);
+                remove_filter('widget_display_callback', 'reza_ervani_filter_editorial_widget');
             endif; ?>
             <?php if ($manuscripts) : ?>
                 <?php get_template_part('template-parts/editorial', 'series', $manuscripts + array('square_images' => true)); ?>

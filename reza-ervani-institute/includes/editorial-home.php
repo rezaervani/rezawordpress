@@ -45,47 +45,13 @@ function reza_ervani_editorial_hijri_date(DateTimeImmutable $date) {
     return sprintf(__('%1$d %2$s %3$d H', 'mh-healthmag'), $day, $months[$month - 1], $year);
 }
 
-function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $replaced_categories) {
-    if ($sidebar['id'] === 'home-1' && $widget->id_base === 'mh_slider_hp') {
-        return false;
-    }
-
-    if ($widget->id_base === 'mh_magazine_lite_posts_focus' && strcasecmp(trim(wp_strip_all_tags($instance['title'] ?? '')), 'Terbaru') === 0) {
-        return false;
-    }
-
-    if ($sidebar['id'] === 'home-5' && $widget->id_base === 'mh_magazine_lite_tabbed'
-        && strcasecmp(trim(wp_strip_all_tags($instance['title'] ?? '')), 'Pintasan') === 0) {
-        return false;
-    }
-
+function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar) {
     if ($sidebar['id'] === 'home-6' && $widget->id_base === 'custom_html'
         && strcasecmp(trim(wp_strip_all_tags($instance['title'] ?? '')), 'Disclaimer') === 0) {
         return false;
     }
 
-    if (in_array($widget->id_base, array('mh_custom_posts', 'mh_magazine_lite_posts_focus'), true) &&
-        in_array((int) ($instance['category'] ?? 0), $replaced_categories, true)) {
-        return false;
-    }
-
     return $instance;
-}
-
-function reza_ervani_style_hadits_widget($params) {
-    if ($params[0]['id'] !== 'home-5'
-        || !preg_match('/^mh_magazine_lite_posts_focus-(\d+)$/D', $params[0]['widget_id'], $match)) {
-        return $params;
-    }
-
-    $widgets = (array) get_option('widget_mh_magazine_lite_posts_focus', array());
-    $category_id = absint($widgets[$match[1]]['category'] ?? 0);
-    $hadits = get_category_by_slug('ilmu-hadits');
-    if ($hadits && $category_id === (int) $hadits->term_id) {
-        $params[0]['before_widget'] = str_replace('class="mh-widget ', 'class="mh-widget reza-editorial-hadits-widget ', $params[0]['before_widget']);
-    }
-
-    return $params;
 }
 
 function reza_ervani_editorial_category_defaults() {

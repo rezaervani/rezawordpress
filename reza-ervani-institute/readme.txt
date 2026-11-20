@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.34 =
+* Hapus widget bawaan MH dari dashboard. Pindahkan daftar kategori dan sorotan Ilmu Hadits yang aktif ke widget Daftar Artikel.
+
 = v1.2.33 =
 * Pindahkan widget Jazariyyah lama dari Home 4 ke Widget Nonaktif.
 

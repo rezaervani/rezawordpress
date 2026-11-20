@@ -850,7 +850,7 @@ body.reza-editorial {
     margin-block-end: 0;
 }
 
-body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widget) {
+body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widget, .reza-article-list-widget) {
     --reza-ink: #201e19;
     --reza-muted: #57554d;
     --reza-rule: #cec9b9;
@@ -999,7 +999,7 @@ body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widg
     padding-block-end: .65rem;
 }
 
-.reza-editorial-widget-columns .mh-widget-title {
+.reza-article-list-widget .mh-widget-title {
     margin: 0;
     padding-block: .15rem .7rem;
     border: 0;
@@ -1010,51 +1010,45 @@ body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widg
     overflow-wrap: anywhere;
 }
 
-.reza-editorial-widget-columns .mh-widget-title a {
+.reza-article-list-widget .mh-widget-title-inner {
+    padding: 0;
+    background: none;
+}
+
+.reza-article-list-widget .mh-widget-title a {
     color: inherit;
 }
 
-.reza-editorial-widget-columns .mh-custom-posts-widget::after,
-.reza-editorial-widget-columns .mh-custom-posts-item::after {
-    content: none;
-}
-
-.reza-editorial-widget-columns .mh-custom-posts-item,
-.reza-editorial-widget-columns .mh-custom-posts-item:first-child {
+.reza-article-list-item {
     display: grid;
     grid-template-columns: 80px minmax(0, 1fr);
     gap: .85rem;
     align-items: start;
     padding-block: .8rem;
-    border: 0;
     border-block-start: 1px solid var(--reza-rule);
 }
 
-.reza-editorial-widget-columns .mh-custom-posts-thumb {
-    float: none;
-    margin: 0;
-}
-
-.reza-editorial-widget-columns .mh-custom-posts-thumb img {
+.reza-article-list-thumb img {
     display: block;
-    width: 80px;
-    height: 60px;
+    width: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
 }
 
-.reza-editorial-widget-columns .mh-custom-posts-small-title {
+.reza-article-list-title {
     margin: 0 0 .32rem;
     color: var(--reza-ink);
     font: 700 1rem/1.27 var(--reza-serif);
     overflow-wrap: anywhere;
 }
 
-.reza-editorial-widget-columns .mh-custom-posts-meta,
-.reza-editorial-widget-columns .mh-custom-posts-meta a {
+.reza-article-list-meta,
+.reza-article-list-meta a {
     color: var(--reza-muted);
+    font-size: .7rem;
 }
 
-.reza-editorial-widget-columns a:hover {
+.reza-article-list-widget a:hover {
     color: var(--reza-green);
     text-decoration: underline;
     text-underline-offset: .13em;
@@ -1083,16 +1077,16 @@ body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widg
             grid-row: span 51;
         }
 
-        .reza-editorial-widget-columns > .mh_custom_posts {
+        .reza-editorial-widget-columns > .reza-article-list-widget {
             display: grid;
             grid-template-rows: subgrid;
         }
 
-        .reza-editorial-widget-columns > .mh_custom_posts > .mh-widget-title {
+        .reza-editorial-widget-columns > .reza-article-list-widget > .mh-widget-title {
             grid-row: 1;
         }
 
-        .reza-editorial-widget-columns .mh-custom-posts-widget {
+        .reza-editorial-widget-columns .reza-article-list-posts {
             display: grid;
             grid-row: 2 / -1;
             grid-template-rows: subgrid;
@@ -1102,7 +1096,7 @@ body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widg
 
 /***** Ilmu Hadits and English-language sidebar *****/
 
-.reza-editorial-hadits-widget > .mh-widget-title,
+.reza-home-widgets-hadits .reza-article-list-widget > .mh-widget-title,
 .reza-editorial-sidebar-heading {
     margin: 0 0 .85rem;
     padding: 0 0 .6rem;
@@ -1114,38 +1108,44 @@ body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widg
     overflow-wrap: anywhere;
 }
 
-.reza-editorial-hadits-widget .mh-widget-title-inner {
-    padding: 0;
-    background: none;
-}
-
-.reza-editorial-hadits-widget .mh-widget-title a,
 .reza-editorial-sidebar-heading a {
     color: inherit;
 }
 
-#mh-mobile .reza-editorial-hadits-widget .mh-posts-focus-item {
-    border-block-end: 1px solid var(--reza-rule);
+.reza-article-list-featured .reza-article-list-item {
+    grid-template-columns: minmax(0, 29%) minmax(0, 1fr);
+    padding-block: 1rem;
 }
 
-#mh-mobile .reza-editorial-hadits-widget .mh-posts-focus-title {
-    color: var(--reza-ink);
-    font: 700 clamp(1.1rem, 1.7vw, 1.35rem)/1.25 var(--reza-serif);
-    overflow-wrap: anywhere;
+.reza-article-list-featured .reza-article-list-lead {
+    display: block;
+    padding-block-start: 0;
+    border-block-start: 0;
 }
 
-#mh-mobile .reza-editorial-hadits-widget .mh-posts-focus-title-large {
+.reza-article-list-lead .reza-article-list-thumb {
+    display: block;
+    margin-block-end: .65rem;
+}
+
+.reza-article-list-featured .reza-article-list-title {
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+}
+
+.reza-article-list-lead .reza-article-list-title {
     font-size: clamp(1.4rem, 2.5vw, 2rem);
 }
 
-.reza-editorial-hadits-widget .mh-posts-focus-excerpt,
-.reza-editorial-hadits-widget .mh-posts-focus-meta,
-.reza-editorial-hadits-widget .mh-posts-focus-meta a,
+.reza-article-list-excerpt {
+    margin-block-start: .65rem;
+    font-size: .85rem;
+}
+
+.reza-article-list-excerpt,
 .reza-editorial-sidebar-story time {
     color: var(--reza-muted);
 }
 
-.reza-editorial-hadits-widget a:hover,
 .reza-editorial-sidebar-lists a:hover h3,
 .reza-editorial-sidebar-heading a:hover {
     color: var(--reza-green);
