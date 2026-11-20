@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.28 =
+* Gunakan tampilan huruf yang sama untuk tanggal Masehi dan Hijriyah di header beranda.
+
 = v1.2.27 =
 * Sediakan dua area widget Iklan Tengah Artikel untuk unit iklan di sela paragraf. Slot bergantung pada panjang artikel dan jarak antarparagraf.
 

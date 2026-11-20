@@ -57,11 +57,6 @@ body.reza-editorial {
     padding-block: .35rem;
 }
 
-.reza-masthead-date-hijri {
-    color: var(--reza-green);
-    font-weight: 650;
-}
-
 .reza-masthead-search {
     position: relative;
     color: var(--reza-ink);
