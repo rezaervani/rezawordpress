@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.10 =
+* Tampilkan Kunuuz Riyadhus Shalihin, Jazariyyah, dan Ilmu Rasm dan Dhabth dalam blok editorial di bawah pencarian.
+
 = v1.2.9 =
 * Slot iklan responsif setelah Fiqh Muyassar tersedia di Tampilan → Sesuaikan → Theme Options → Iklan Beranda.
 * Buat unit Display responsif di AdSense, lalu isi data-ad-client dan data-ad-slot. Slot memakai skrip AdSense yang sudah terpasang di situs.
