@@ -783,15 +783,25 @@ body.reza-editorial {
     }
 }
 
-/***** Iklan beranda *****/
+/***** Pita iklan beranda dan artikel *****/
+
+:is(.reza-editorial-ad, .reza-article-ad) {
+    --reza-ad-background: #f3efe5;
+    border-block: 1px solid var(--reza-rule);
+    background: var(--reza-ad-background);
+    /* Extend the paint without resizing the ad unit or the page. */
+    border-image: linear-gradient(
+        var(--reza-rule) 0 1px,
+        var(--reza-ad-background) 1px calc(100% - 1px),
+        var(--reza-rule) calc(100% - 1px) 100%
+    ) 0 fill / 0 / 0 100vmax;
+}
 
 .reza-editorial-ad {
     box-sizing: border-box;
     min-block-size: clamp(6.5rem, 15vw, 13rem);
     margin-block: 1.5rem;
     padding: .65rem clamp(.6rem, 2vw, 1.5rem) 1rem;
-    border-block: 1px solid var(--reza-rule);
-    background: #f3efe5;
     color: var(--reza-muted);
     text-align: center;
 }

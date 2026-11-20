@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.36 =
+* Bentangkan latar dan garis pembatas pita iklan beranda dan artikel sampai ke tepi halaman.
+
 = v1.2.35 =
 * Kecilkan judul Sorotan Utama, tampilkan delapan judul di Terbaru dan samakan lebar tiga kolom di desktop.
 
