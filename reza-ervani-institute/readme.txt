@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.24 =
+* Gunakan header artikel melekat dengan nama situs sebagai tautan ke beranda.
+* Hilangkan blok widget sidebar lama dari halaman artikel.
+
 = v1.2.23 =
 * Gunakan satu kolom baca pada artikel dengan header ringkas, foto utama lebar, dan bacaan terkait.
 * Gunakan area widget Posts 1 dan Posts 2 untuk iklan di atas dan bawah artikel. Tampilkan widget sidebar lama di bawah artikel.
