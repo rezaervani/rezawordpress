@@ -4,7 +4,7 @@ Theme URI: https://rezaervani.com/
 Description: Tema editorial Reza Ervani Institute dengan beranda berbasis widget dan kategori.
 Author: MH Themes
 Author URI: https://www.mhthemes.com/
-Version: 1.2.18
+Version: 1.2.19
 Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-header, custom-menu, featured-images, full-width-template, theme-options, threaded-comments, translation-ready, rtl-language-support, blog, news
 Text Domain: mh-healthmag
 Domain Path: /languages/
@@ -498,5 +498,25 @@ input[type=submit]:hover { background: #05c1b6; }
 @media (min-width: 950px) {
     .reza-latest-posts-columns {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@supports (grid-template-rows: subgrid) {
+    @media (min-width: 620px) {
+        .reza-latest-posts-columns {
+            row-gap: 0;
+        }
+
+        .reza-latest-posts-list {
+            display: grid;
+            grid-row: span var(--reza-latest-posts-rows);
+            grid-template-rows: subgrid;
+        }
+    }
+
+    @media (620px <= width < 950px) {
+        .reza-latest-posts .reza-latest-posts-list:nth-child(3) {
+            margin-block-start: 1rem;
+        }
     }
 }
