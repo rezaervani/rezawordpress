@@ -23,6 +23,14 @@ function reza_ervani_register_editorial_sidebars() {
         'before_title' => '<h2 class="mh-widget-title"><span class="mh-widget-title-inner">',
         'after_title' => '</span></h2>',
     ) + $widget_markup);
+
+    register_sidebar(array(
+        'id' => 'home-editorial-category-widgets',
+        'name' => __('Beranda – Tiga Kolom Kategori', 'mh-healthmag'),
+        'description' => __('Susun widget MH Custom Posts untuk memilih kategori, judul, dan jumlah artikel di deretan bawah galeri video.', 'mh-healthmag'),
+        'before_title' => '<h2 class="mh-widget-title">',
+        'after_title' => '</h2>',
+    ) + $widget_markup);
 }
 add_action('widgets_init', 'reza_ervani_register_editorial_sidebars');
 
@@ -65,3 +73,72 @@ function reza_ervani_migrate_editorial_widgets() {
     update_option($migration, 1, false);
 }
 add_action('wp_loaded', 'reza_ervani_migrate_editorial_widgets');
+
+function reza_ervani_migrate_category_widgets() {
+    $migration = 'reza_ervani_category_widgets_1_2_16';
+    if (get_option($migration) || is_customize_preview()) {
+        return;
+    }
+
+    $destination = 'home-editorial-category-widgets';
+    $sidebars = (array) get_option('sidebars_widgets', array());
+    if (!empty($sidebars[$destination])) {
+        update_option($migration, 1, false);
+        return;
+    }
+
+    $titles = array(
+        'manzhumah-syatibiyah' => __("Qiroah Sab'ah", 'mh-healthmag'),
+        'ilmu-qiroaat' => __('Ilmu Qiroat', 'mh-healthmag'),
+        'hilyatut-tilawah' => __('Hilyatut Tilawah', 'mh-healthmag'),
+    );
+    $instances = (array) get_option('widget_mh_custom_posts', array());
+    $legacy = array();
+    foreach (array('home-3', 'home-4', 'home-2', 'home-5') as $source) {
+        foreach ($sidebars[$source] ?? array() as $widget_id) {
+            if (preg_match('/^mh_custom_posts-(\d+)$/D', $widget_id, $match) && !empty($instances[$match[1]]['category'])) {
+                $category_id = (int) $instances[$match[1]]['category'];
+                $legacy[$category_id] = $legacy[$category_id] ?? array($source, (int) $match[1]);
+            }
+        }
+    }
+
+    foreach ($titles as $slug => $title) {
+        $category = get_category_by_slug($slug);
+        if (!$category) {
+            continue;
+        }
+
+        $category_id = (int) $category->term_id;
+        if (isset($legacy[$category_id])) {
+            list($source, $number) = $legacy[$category_id];
+            $sidebars[$source] = array_values(array_diff($sidebars[$source], array('mh_custom_posts-' . $number)));
+        } else {
+            $number = 2;
+            while (isset($instances[$number])) {
+                $number++;
+            }
+            $instances[$number] = array('category' => $category_id);
+        }
+
+        $instances[$number]['title'] = $title;
+        $sidebars[$destination][] = 'mh_custom_posts-' . $number;
+    }
+
+    if (empty($sidebars[$destination])) {
+        return;
+    }
+
+    $instances['_multiwidget'] = 1;
+    if (!update_option('widget_mh_custom_posts', $instances) && get_option('widget_mh_custom_posts') !== $instances) {
+        return;
+    }
+
+    wp_set_sidebars_widgets($sidebars);
+    $sidebars['array_version'] = $sidebars['array_version'] ?? 3;
+    if (get_option('sidebars_widgets') === $sidebars) {
+        update_option($migration, 1, false);
+    }
+}
+// Saved widget instances are registered by WP_Widget_Factory at priority 100.
+add_action('widgets_init', 'reza_ervani_migrate_category_widgets', 95);

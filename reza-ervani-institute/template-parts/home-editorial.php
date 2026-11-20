@@ -66,6 +66,7 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
                 </div>
             <?php endif; ?>
             <?php if ($show_widgets) :
+                get_template_part('template-parts/home', 'category-widgets');
                 add_filter('widget_display_callback', $filter, 10, 3);
                 get_template_part('template-parts/home', 'widgets', array('editorial' => true));
                 remove_filter('widget_display_callback', $filter, 10);
