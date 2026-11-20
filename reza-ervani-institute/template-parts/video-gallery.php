@@ -24,7 +24,8 @@ $settings = $args['settings'];
                 <p class="reza-video-meta"><?php echo esc_html(sprintf(__('%s tayangan', 'mh-healthmag'), number_format_i18n((int) $views))); ?></p>
             <?php endif; ?>
             <?php if ($settings['show_category']) :
-                $terms = get_the_term_list($video->ID, 'aiovg_categories', '', ', ');
+                $taxonomy = $video->post_type === 'post' ? 'category' : 'aiovg_categories';
+                $terms = get_the_term_list($video->ID, $taxonomy, '', ', ');
                 if ($terms && !is_wp_error($terms)) :
                     ?>
                     <p class="reza-video-meta"><?php echo wp_kses_post($terms); ?></p>
