@@ -50,6 +50,14 @@ function reza_ervani_register_editorial_sidebars() {
     }
 
     register_sidebar(array(
+        'id' => Reza_Ervani_Category_Grid::HOME_AREA,
+        'name' => __('Beranda – Kisi Kategori', 'mh-healthmag'),
+        'description' => __('Tambahkan dan urutkan widget Kisi Kategori untuk ditampilkan sebelum deretan seri di beranda.', 'mh-healthmag'),
+        'before_title' => '<h2 class="mh-widget-title">',
+        'after_title' => '</h2>',
+    ) + $widget_markup);
+
+    register_sidebar(array(
         'id' => Reza_Ervani_Posting_Ads::HOME_AREA,
         'name' => __('Beranda – Posting dan Iklan', 'mh-healthmag'),
         'description' => __('Tambahkan dan urutkan widget Posting dan Iklan untuk ditampilkan sebelum galeri video.', 'mh-healthmag'),

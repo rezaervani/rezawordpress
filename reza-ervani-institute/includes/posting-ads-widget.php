@@ -128,17 +128,7 @@ function reza_ervani_register_posting_ads_widget() {
 add_action('widgets_init', 'reza_ervani_register_posting_ads_widget');
 
 function reza_ervani_home_posting_ads_categories() {
-    $sidebars = wp_get_sidebars_widgets();
-    $instances = (array) get_option('widget_' . Reza_Ervani_Posting_Ads::ID_BASE, array());
-    $ids = array_merge($sidebars['home-1'] ?? array(), $sidebars[Reza_Ervani_Posting_Ads::HOME_AREA] ?? array());
-    $categories = array();
-    foreach ($ids as $id) {
-        if (preg_match('/^' . Reza_Ervani_Posting_Ads::ID_BASE . '-(\d+)$/D', $id, $matches)) {
-            $categories[] = absint($instances[$matches[1]]['category'] ?? 0);
-        }
-    }
-
-    return array_values(array_unique(array_filter($categories)));
+    return reza_ervani_home_widget_category_ids(Reza_Ervani_Posting_Ads::ID_BASE, array('home-1', Reza_Ervani_Posting_Ads::HOME_AREA));
 }
 
 function reza_ervani_migrate_posting_ads_widgets() {

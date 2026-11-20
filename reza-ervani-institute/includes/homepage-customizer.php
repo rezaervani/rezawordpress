@@ -50,12 +50,6 @@ function reza_ervani_customize_homepage($customizer) {
             'input_attrs' => array('min' => 0, 'step' => 1),
             'sanitize' => 'absint',
         ),
-        'reza_ervani_show_home_questions' => array(
-            'default' => true,
-            'label' => __('Tampilkan kisi topik Tanya Jawab', 'mh-healthmag'),
-            'type' => 'checkbox',
-            'sanitize' => 'rest_sanitize_boolean',
-        ),
         'reza_ervani_show_home_categories' => array(
             'default' => get_theme_mod('reza_ervani_editorial_home', true),
             'label' => __('Tampilkan bagian artikel per kategori', 'mh-healthmag'),

@@ -3,16 +3,19 @@ $category = $args['category'];
 $cards = $args['cards'];
 $archive_url = get_category_link($category->term_id);
 ?>
-<section class="reza-editorial-questions" aria-labelledby="reza-editorial-questions-title">
+<section class="reza-editorial-questions" aria-labelledby="<?php echo esc_attr($args['title_id']); ?>">
     <header class="reza-editorial-questions-header">
-        <h2 id="reza-editorial-questions-title"><?php echo esc_html($category->name); ?></h2>
+        <h2 id="<?php echo esc_attr($args['title_id']); ?>"><?php echo esc_html($args['title']); ?></h2>
         <?php if (!is_wp_error($archive_url)) : ?>
             <a class="reza-editorial-archive-link" href="<?php echo esc_url($archive_url); ?>">
-                <?php esc_html_e('Semua Tanya Jawab', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
+                <?php
+                /* translators: %s: category name. */
+                echo esc_html(sprintf(__('Semua %s', 'mh-healthmag'), $category->name));
+                ?> <span aria-hidden="true">→</span>
             </a>
         <?php endif; ?>
     </header>
-    <div class="reza-editorial-question-grid">
+    <div class="reza-editorial-question-grid" style="--reza-question-columns: <?php echo esc_attr($args['columns']); ?>">
         <?php foreach ($cards as $card) : ?>
             <section class="reza-editorial-question-card">
                 <h3><a href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html($card['title']); ?></a></h3>

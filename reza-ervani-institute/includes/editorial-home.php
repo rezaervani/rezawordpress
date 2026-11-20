@@ -129,31 +129,81 @@ function reza_ervani_editorial_series($slug, $title = null) {
     );
 }
 
-function reza_ervani_editorial_question_cards($category) {
-    $topics = get_categories(array(
-        'parent' => $category->term_id,
-        'orderby' => 'name',
-        'pad_counts' => true,
-    ));
+function reza_ervani_home_widget_category_ids($base, $areas) {
+    $sidebars = wp_get_sidebars_widgets();
+    $instances = (array) get_option('widget_' . $base, array());
+    $categories = array();
+    foreach ($areas as $area) {
+        foreach ($sidebars[$area] ?? array() as $id) {
+            if (preg_match('/^' . $base . '-(\d+)$/D', $id, $matches)) {
+                $categories[] = absint($instances[$matches[1]]['category'] ?? 0);
+            }
+        }
+    }
 
+    return array_values(array_unique(array_filter($categories)));
+}
+
+function reza_ervani_editorial_question_topics($category, $scope) {
+    if ($scope === 'root') {
+        return array($category);
+    }
+
+    $selection = $scope === 'grandchildren' ? 'child_of' : 'parent';
+    $descendants = get_categories(array(
+        $selection => $category->term_id,
+        'orderby' => 'name',
+        'hide_empty' => false,
+    ));
+    $by_parent = array();
+    foreach ($descendants as $term) {
+        $by_parent[$term->parent][] = $term;
+    }
+
+    $children = $by_parent[$category->term_id] ?? array();
+    if ($scope === 'child_cards') {
+        return array_merge($children, array($category));
+    }
+
+    $topics = array($category);
+    foreach ($children as $child) {
+        $topics[] = $child;
+        foreach ($by_parent[$child->term_id] ?? array() as $grandchild) {
+            $topics[] = $grandchild;
+        }
+    }
+
+    return $topics;
+}
+
+function reza_ervani_editorial_question_cards($category, $scope = 'child_cards', $limit = 3) {
+    $topics = reza_ervani_editorial_question_topics($category, $scope);
+    $group_child_stories = $scope === 'child_cards';
     $cards = array();
     $labels = array();
-    foreach (array_merge($topics, array($category)) as $topic) {
+    foreach ($topics as $topic) {
         $is_parent = $topic->term_id === $category->term_id;
-        if ($is_parent && $cards) {
+        if ($group_child_stories && $is_parent && $cards) {
             break;
         }
 
-        $stories = reza_ervani_editorial_posts(array(
-            'cat' => $topic->term_id,
-            'numberposts' => 3,
-        ));
+        $term_filter = $group_child_stories
+            ? array('cat' => $topic->term_id)
+            : array('category__in' => array($topic->term_id));
+        $stories = reza_ervani_editorial_posts(array('numberposts' => $limit) + $term_filter);
         $url = get_category_link($topic->term_id);
         if (!$stories || is_wp_error($url)) {
             continue;
         }
 
-        $label = $is_parent ? __('Pertanyaan Terbaru', 'mh-healthmag') : ucfirst(preg_replace('/^Tanya Jawab\s+/i', '', $topic->name));
+        $label = $topic->name;
+        if ($category->slug === 'tanya-jawab') {
+            if (!$is_parent) {
+                $label = ucfirst(preg_replace('/^Tanya Jawab\s+/i', '', $label));
+            } elseif ($group_child_stories) {
+                $label = __('Pertanyaan Terbaru', 'mh-healthmag');
+            }
+        }
         $label_key = sanitize_title($label);
         if (isset($labels[$label_key])) {
             $label = $topic->name;
@@ -176,9 +226,11 @@ function reza_ervani_editorial_question_cards($category) {
         );
     }
 
-    usort($cards, static function ($left, $right) {
-        return strnatcasecmp($left['title'], $right['title']);
-    });
+    if ($group_child_stories) {
+        usort($cards, static function ($left, $right) {
+            return strnatcasecmp($left['title'], $right['title']);
+        });
+    }
 
     return $cards;
 }

@@ -15,8 +15,7 @@ if (!$featured) {
     $featured = array_shift($feed);
 }
 
-$question_category = get_theme_mod('reza_ervani_show_home_questions', true) ? get_category_by_slug('tanya-jawab') : false;
-$question_cards = $question_category ? reza_ervani_editorial_question_cards($question_category) : array();
+$grid_category_ids = reza_ervani_home_widget_category_ids(Reza_Ervani_Category_Grid::ID_BASE, array(Reza_Ervani_Category_Grid::HOME_AREA));
 $fatwa_series = reza_ervani_editorial_series('fatwa-lajnah-daimah-saudi-arabia', __('Fatwa Lajnah Daimah', 'mh-healthmag'));
 $series = array_filter(array(
     reza_ervani_editorial_series('fiqh-muyassar'),
@@ -45,16 +44,14 @@ $english_category_ids = array_column($english_sections, 'category_id');
         <?php get_template_part('template-parts/editorial', 'categories', array(
             'featured_id' => $featured ? $featured->ID : 0,
             'excluded_category_ids' => array_filter(array_merge(
-                array($question_cards ? $question_category->term_id : 0),
+                $grid_category_ids,
                 $series_category_ids,
                 $collection_category_ids,
                 $english_category_ids
             )),
         )); ?>
     <?php endif; ?>
-    <?php if ($question_cards) : ?>
-        <?php get_template_part('template-parts/editorial', 'questions', array('category' => $question_category, 'cards' => $question_cards)); ?>
-    <?php endif; ?>
+    <?php dynamic_sidebar(Reza_Ervani_Category_Grid::HOME_AREA); ?>
     <?php foreach ($series as $section) : ?>
         <?php get_template_part('template-parts/editorial', 'series', $section); ?>
     <?php endforeach; ?>
