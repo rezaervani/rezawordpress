@@ -1,13 +1,11 @@
 <?php
 $featured = $args['featured'];
-$feed = $args['feed'];
-
 if (!$featured) {
     return;
 }
 
-$latest = array_slice($feed, 0, 5);
-$supporting = array_slice($feed, 5, 2);
+$latest = $args['latest'];
+$supporting = $args['supporting'];
 $has_image = has_post_thumbnail($featured);
 ?>
 <div class="reza-editorial-opening<?php echo $latest ? ' reza-editorial-opening-with-latest' : ''; ?>">
