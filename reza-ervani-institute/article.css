@@ -172,8 +172,6 @@
     min-block-size: clamp(7rem, 14vw, 12rem);
     margin-block-end: 1.65rem;
     padding: .65rem 1rem 1rem;
-    border-block: 1px solid var(--reza-rule);
-    background: #f3efe5;
 }
 
 .reza-article-ad-label {
