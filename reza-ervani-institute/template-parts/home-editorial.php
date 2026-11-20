@@ -32,6 +32,11 @@ $series_category_ids = array_filter(array_merge(array_column($series, 'category_
 $collections = reza_ervani_editorial_collections();
 $collection_category_ids = array_column($collections, 'category_id');
 $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
+$english_sections = $show_widgets ? array_filter(array(
+    reza_ervani_editorial_series('tadabbur-al-quran-in-english'),
+    reza_ervani_editorial_series('islamic-question-answer'),
+)) : array();
+$english_category_ids = array_column($english_sections, 'category_id');
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
     <?php get_template_part('template-parts/editorial', 'spotlight', array('featured' => $featured, 'feed' => $feed)); ?>
@@ -41,7 +46,8 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
             'excluded_category_ids' => array_filter(array_merge(
                 array($question_cards ? $question_category->term_id : 0),
                 $series_category_ids,
-                $collection_category_ids
+                $collection_category_ids,
+                $english_category_ids
             )),
         )); ?>
     <?php endif; ?>
@@ -60,6 +66,7 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
                 $replaced_categories = array_filter(array_merge(
                     $series_category_ids,
                     $collection_category_ids,
+                    $english_category_ids,
                     array_column($collections, 'replaces_id')
                 ));
                 $filter = static function ($instance, $widget, $sidebar) use ($replaced_categories) {
@@ -80,7 +87,12 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
             <?php if ($show_widgets) :
                 get_template_part('template-parts/home', 'category-widgets');
                 add_filter('widget_display_callback', $filter, 10, 3);
-                get_template_part('template-parts/home', 'widgets', array('editorial' => true));
+                add_filter('dynamic_sidebar_params', 'reza_ervani_style_hadits_widget');
+                get_template_part('template-parts/home', 'widgets', array(
+                    'editorial' => true,
+                    'english_sections' => $english_sections,
+                ));
+                remove_filter('dynamic_sidebar_params', 'reza_ervani_style_hadits_widget');
                 remove_filter('widget_display_callback', $filter, 10);
             endif; ?>
             <?php if ($manuscripts) : ?>

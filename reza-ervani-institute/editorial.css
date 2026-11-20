@@ -946,3 +946,117 @@ body.reza-editorial {
         }
     }
 }
+
+/***** Ilmu Hadits and English-language sidebar *****/
+
+.reza-editorial-hadits-widget > .mh-widget-title,
+.reza-editorial-sidebar-heading {
+    margin: 0 0 .85rem;
+    padding: 0 0 .6rem;
+    border-block-end: 1px solid var(--reza-rule);
+    color: var(--reza-green);
+    font: 700 clamp(1.25rem, 2vw, 1.65rem)/1.2 var(--reza-serif);
+    letter-spacing: -.015em;
+    text-transform: none;
+    overflow-wrap: anywhere;
+}
+
+.reza-editorial-hadits-widget .mh-widget-title-inner {
+    padding: 0;
+    background: none;
+}
+
+.reza-editorial-hadits-widget .mh-widget-title a,
+.reza-editorial-sidebar-heading a {
+    color: inherit;
+}
+
+#mh-mobile .reza-editorial-hadits-widget .mh-posts-focus-item {
+    border-block-end: 1px solid var(--reza-rule);
+}
+
+#mh-mobile .reza-editorial-hadits-widget .mh-posts-focus-title {
+    color: var(--reza-ink);
+    font: 700 clamp(1.1rem, 1.7vw, 1.35rem)/1.25 var(--reza-serif);
+    overflow-wrap: anywhere;
+}
+
+#mh-mobile .reza-editorial-hadits-widget .mh-posts-focus-title-large {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+}
+
+.reza-editorial-hadits-widget .mh-posts-focus-excerpt,
+.reza-editorial-hadits-widget .mh-posts-focus-meta,
+.reza-editorial-hadits-widget .mh-posts-focus-meta a,
+.reza-editorial-sidebar-story time {
+    color: var(--reza-muted);
+}
+
+.reza-editorial-hadits-widget a:hover,
+.reza-editorial-sidebar-lists a:hover h3,
+.reza-editorial-sidebar-heading a:hover {
+    color: var(--reza-green);
+    text-decoration: underline;
+    text-underline-offset: .13em;
+}
+
+.reza-home-sidebar-english {
+    min-width: 0;
+    margin-block-start: 1.2rem;
+}
+
+.reza-editorial-sidebar-lists {
+    display: grid;
+    gap: 1.35rem;
+    margin-block-end: 1.35rem;
+}
+
+.reza-editorial-sidebar-heading {
+    margin-block-end: 0;
+    font-size: clamp(1.18rem, 1.8vw, 1.45rem);
+}
+
+.reza-editorial-sidebar-stories li + li {
+    border-block-start: 1px solid var(--reza-rule);
+}
+
+.reza-editorial-sidebar-story {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: start;
+    gap: .7rem;
+    padding-block: .62rem;
+}
+
+.reza-editorial-sidebar-story img {
+    display: block;
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.reza-editorial-sidebar-story h3 {
+    color: var(--reza-ink);
+    font: 700 1rem/1.25 var(--reza-serif);
+    overflow-wrap: anywhere;
+}
+
+.reza-editorial-sidebar-story time {
+    display: block;
+    margin-block-start: .25rem;
+    font-size: .73rem;
+    line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+    .reza-home-widgets-with-sidebar .reza-home-widgets-hadits {
+        grid-column: 1;
+    }
+
+    .reza-home-widgets-with-sidebar .reza-home-sidebar-english {
+        grid-column: 2;
+        margin-block-start: 0;
+        padding-inline-start: 1rem;
+        border-inline-start: 1px solid var(--reza-rule);
+    }
+}
