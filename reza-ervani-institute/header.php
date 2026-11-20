@@ -14,6 +14,8 @@
 <?php mh_before_header();
 if (reza_ervani_uses_editorial_home()) {
     get_template_part('template-parts/editorial', 'header');
+} elseif (is_singular('post')) {
+    get_template_part('template-parts/editorial', 'header', array('compact' => true));
 } else {
     get_template_part('content', 'header');
 }

@@ -1,11 +1,12 @@
 <?php
+$compact = $args['compact'] ?? false;
 $menus = array(
     'main_nav' => __('Menu utama', 'mh-healthmag'),
     'top_nav' => __('Layanan dan kategori', 'mh-healthmag'),
 );
 ?>
 <a class="screen-reader-text" href="#main-content"><?php esc_html_e('Lewati ke konten', 'mh-healthmag'); ?></a>
-<header class="reza-masthead google-anno-skip">
+<header class="reza-masthead google-anno-skip<?php echo $compact ? ' reza-masthead-compact' : ''; ?>">
     <div class="reza-editorial-wrap">
         <div class="reza-masthead-utility">
             <time datetime="<?php echo esc_attr(wp_date('Y-m-d')); ?>"><?php echo esc_html(wp_date('l, j F Y')); ?></time>
@@ -22,9 +23,13 @@ $menus = array(
             <?php if (has_custom_logo()) : ?>
                 <?php the_custom_logo(); ?>
             <?php endif; ?>
-            <h1><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></h1>
-            <?php if (get_bloginfo('description')) : ?>
-                <p><?php bloginfo('description'); ?></p>
+            <?php if ($compact) : ?>
+                <a class="reza-masthead-name" href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>
+            <?php else : ?>
+                <h1><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></h1>
+                <?php if (get_bloginfo('description')) : ?>
+                    <p><?php bloginfo('description'); ?></p>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
         <?php foreach ($menus as $location => $label) : ?>
