@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.26 =
+* Samakan lebar tiga kolom Palestina di desktop dan tampilkan hingga lima artikel pendamping.
+* Tampilkan tanggal Masehi dan Hijriyah sipil pada header beranda sesuai zona waktu WordPress.
+
 = v1.2.25 =
 * Sejajarkan kolom Sorotan Utama dan Terbaru pada desktop.
 * Susun kartu Tanya Jawab dalam tujuh kolom pada layar lebar dan sejajarkan gambar serta daftar judul di setiap baris.
