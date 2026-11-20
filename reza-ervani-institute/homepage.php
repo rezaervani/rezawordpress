@@ -11,6 +11,7 @@
             <?php if (get_theme_mod('reza_ervani_show_home_categories', false)) : ?>
                 <?php get_template_part('template-parts/home', 'categories'); ?>
             <?php endif; ?>
+            <?php dynamic_sidebar('home-latest-posts'); ?>
         </main>
     </div>
 <?php endif; ?>
