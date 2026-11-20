@@ -13,8 +13,16 @@ function reza_ervani_editorial_body_class($classes) {
 }
 add_filter('body_class', 'reza_ervani_editorial_body_class');
 
-function reza_ervani_skip_home_slider($instance, $widget, $sidebar) {
+function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $fiqh_category_id) {
     if ($sidebar['id'] === 'home-1' && $widget->id_base === 'mh_slider_hp') {
+        return false;
+    }
+
+    if ($widget->id_base === 'mh_magazine_lite_posts_focus' && strcasecmp(trim(wp_strip_all_tags($instance['title'] ?? '')), 'Terbaru') === 0) {
+        return false;
+    }
+
+    if ($fiqh_category_id && $widget->id_base === 'mh_custom_posts' && (int) ($instance['category'] ?? 0) === $fiqh_category_id) {
         return false;
     }
 

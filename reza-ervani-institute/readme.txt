@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.8 =
+* Beranda editorial menampilkan serial Fiqh Muyassar dalam deretan kartu bergambar dan menyembunyikan widget Terbaru lama.
+
 = v1.2.7 =
 * Baris artikel pada kategori berkolom disejajarkan ketika tampil berdampingan.
 
