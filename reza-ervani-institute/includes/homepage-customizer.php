@@ -17,6 +17,16 @@ function reza_ervani_sanitize_home_article_count($value) {
     return max(1, min(8, (int) $value));
 }
 
+function reza_ervani_sanitize_adsense_publisher($value) {
+    $value = is_string($value) ? trim($value) : '';
+    return preg_match('/\Aca-pub-[0-9]{16}\z/', $value) ? $value : '';
+}
+
+function reza_ervani_sanitize_adsense_slot($value) {
+    $value = is_string($value) || is_int($value) ? trim((string) $value) : '';
+    return preg_match('/\A[0-9]+\z/', $value) ? $value : '';
+}
+
 function reza_ervani_customize_homepage($customizer) {
     $section = 'reza_ervani_homepage';
 
@@ -99,3 +109,37 @@ function reza_ervani_customize_homepage($customizer) {
 }
 
 add_action('customize_register', 'reza_ervani_customize_homepage', 20);
+
+function reza_ervani_customize_home_ad($customizer) {
+    $section = 'reza_ervani_home_ad';
+    $customizer->add_section($section, array(
+        'title' => __('Iklan Beranda', 'mh-healthmag'),
+        'description' => __('Slot responsif setelah Fiqh Muyassar, menggunakan skrip AdSense yang sudah terpasang di situs.', 'mh-healthmag'),
+        'panel' => 'mh_theme_options',
+    ));
+
+    $customizer->add_setting('reza_ervani_home_adsense_publisher', array(
+        'default' => '',
+        'sanitize_callback' => 'reza_ervani_sanitize_adsense_publisher',
+    ));
+    $customizer->add_control('reza_ervani_home_adsense_publisher', array(
+        'section' => $section,
+        'label' => __('ID penayang AdSense', 'mh-healthmag'),
+        'description' => __('Salin nilai data-ad-client (ca-pub-…) dari kode unit iklan.', 'mh-healthmag'),
+        'type' => 'text',
+    ));
+
+    $customizer->add_setting('reza_ervani_home_adsense_slot', array(
+        'default' => '',
+        'sanitize_callback' => 'reza_ervani_sanitize_adsense_slot',
+    ));
+    $customizer->add_control('reza_ervani_home_adsense_slot', array(
+        'section' => $section,
+        'label' => __('ID unit iklan', 'mh-healthmag'),
+        'description' => __('Salin angka data-ad-slot dari unit Display responsif. Kosongkan untuk menonaktifkan slot.', 'mh-healthmag'),
+        'type' => 'text',
+        'input_attrs' => array('inputmode' => 'numeric'),
+    ));
+}
+
+add_action('customize_register', 'reza_ervani_customize_home_ad', 20);

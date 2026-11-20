@@ -655,3 +655,38 @@ body.reza-editorial {
         border-inline-start: 1px solid var(--reza-rule);
     }
 }
+
+/***** Iklan beranda *****/
+
+.reza-editorial-ad {
+    box-sizing: border-box;
+    min-block-size: clamp(6.5rem, 15vw, 13rem);
+    margin-block: 1.5rem;
+    padding: .65rem clamp(.6rem, 2vw, 1.5rem) 1rem;
+    border-block: 1px solid var(--reza-rule);
+    background: #f3efe5;
+    color: var(--reza-muted);
+    text-align: center;
+}
+
+.reza-editorial-ad-label {
+    margin-block-end: .55rem;
+    font-size: .66rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.reza-editorial-ad-preview {
+    padding-block: 1.25rem;
+    font-size: .85rem;
+}
+
+.reza-editorial-ad-unit {
+    display: block;
+    width: 100%;
+}
+
+.reza-editorial-ad-unit[data-ad-status="unfilled"],
+.reza-editorial-ad:has(> [data-ad-status="unfilled"]) {
+    display: none !important;
+}
