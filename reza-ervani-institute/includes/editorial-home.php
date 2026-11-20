@@ -106,15 +106,29 @@ function reza_ervani_editorial_question_cards($category) {
     return $cards;
 }
 
-function reza_ervani_editorial_collections() {
-    $topics = array(
-        'kunuuz-riyadhus-shaalihin' => array('title' => __('Kunuuz Riyadhus Shalihin', 'mh-healthmag'), 'replaces' => 'tadabbur-al-quran'),
-        'manzhumah-al-jazariyah' => array('title' => __('Jazariyyah', 'mh-healthmag'), 'replaces' => 'tanya-jawab'),
-        'ilmu-rasm-dan-dhabth' => array('title' => __('Ilmu Rasm dan Dhabth', 'mh-healthmag'), 'replaces' => 'sejarah-palestina'),
+function reza_ervani_editorial_collection_topics() {
+    return array(
+        'kunuuz-riyadhus-shaalihin' => array(
+            'title' => __('Kunuuz Riyadhus Shalihin', 'mh-healthmag'),
+            'replaces' => 'tadabbur-al-quran',
+            'sidebar' => 'home-ad-kunuuz',
+        ),
+        'manzhumah-al-jazariyah' => array(
+            'title' => __('Jazariyyah', 'mh-healthmag'),
+            'replaces' => 'tanya-jawab',
+            'sidebar' => 'home-ad-jazariyyah',
+        ),
+        'ilmu-rasm-dan-dhabth' => array(
+            'title' => __('Ilmu Rasm dan Dhabth', 'mh-healthmag'),
+            'replaces' => 'sejarah-palestina',
+            'sidebar' => 'home-ad-rasm',
+        ),
     );
+}
 
+function reza_ervani_editorial_collections() {
     $collections = array();
-    foreach ($topics as $slug => $topic) {
+    foreach (reza_ervani_editorial_collection_topics() as $slug => $topic) {
         $category = get_category_by_slug($slug);
         if (!$category) {
             continue;
@@ -128,6 +142,7 @@ function reza_ervani_editorial_collections() {
         $previous = get_category_by_slug($topic['replaces']);
         $collections[] = array(
             'title' => $topic['title'],
+            'sidebar' => $topic['sidebar'],
             'category_id' => $category->term_id,
             'replaces_id' => $previous ? $previous->term_id : 0,
             'stories' => $stories,

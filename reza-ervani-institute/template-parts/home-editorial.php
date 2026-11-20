@@ -57,18 +57,23 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
                 dynamic_sidebar('home-1');
                 remove_filter('widget_display_callback', $filter, 10);
             endif; ?>
-            <?php
-            if ($show_widgets) {
+            <?php foreach ($collections as $collection) : ?>
+                <?php get_template_part('template-parts/editorial', 'collection', $collection + array('show_widgets' => $show_widgets)); ?>
+            <?php endforeach; ?>
+            <?php if ($show_widgets && is_active_sidebar('home-video-gallery')) : ?>
+                <div class="reza-editorial-video-gallery">
+                    <?php
+                    add_filter('widget_display_callback', 'reza_ervani_editorial_gallery_widget', 10, 2);
+                    dynamic_sidebar('home-video-gallery');
+                    remove_filter('widget_display_callback', 'reza_ervani_editorial_gallery_widget', 10);
+                    ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($show_widgets) :
                 add_filter('widget_display_callback', $filter, 10, 3);
-            }
-            get_template_part('template-parts/home', 'widgets', array(
-                'show_widgets' => $show_widgets,
-                'collections' => $collections,
-            ));
-            if ($show_widgets) {
+                get_template_part('template-parts/home', 'widgets', array('editorial' => true));
                 remove_filter('widget_display_callback', $filter, 10);
-            }
-            ?>
+            endif; ?>
         </div>
     <?php endif; ?>
 </main>
