@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.21 =
+* Pertahankan widget Ilmu Hadits dengan judul serif dan warna editorial.
+* Ganti Disclaimer di sidebar beranda editorial dengan masing-masing lima artikel dari Tadabbur al Quran in English dan Islamic Question Answer.
+
 = v1.2.20 =
 * Tampilkan Fathul Qarib al-Mujib dan Fatwa Lajnah Daimah dengan kisi yang sama seperti Fiqh Muyassar, sebelum pencarian beranda.
 * Tampilkan Makhthuthah sebagai deretan gambar persegi dan judul. Ganti panel lama Fatwa dan Makhthuthah, serta sembunyikan Pintasan pada beranda editorial.
