@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.14 =
+* Galeri Video Beranda dapat menggabungkan video dari pustaka dengan artikel dari kategori WordPress, dalam satu urutan.
+* Saat kategori pustaka video yang kosong sudah dipilih, widget lama menambahkan kategori artikel Video dengan slug yang sama.
+
 = v1.2.13 =
 * Galeri Video Beranda memakai widget tema. Atur jumlah, kategori, tag, dan urutan lewat Tampilan → Widget.
 * Video lama, gambar mini, dan tautan video tetap dipakai. Video baru bisa dibuat dengan blok Video atau Sematan pada menu Galeri Video.
