@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.32 =
+* Jadikan Tanya Jawab widget Kisi Kategori yang dapat dipasang berulang, dengan pilihan kategori, kedalaman, jumlah kolom dan jumlah artikel.
+
 = v1.2.31 =
 * Tambahkan pengaturan jumlah judul tambahan per kolom pada setiap widget Posting dan Iklan.
 

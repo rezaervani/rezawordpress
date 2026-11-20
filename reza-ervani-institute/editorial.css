@@ -595,7 +595,12 @@ body.reza-editorial {
     }
 }
 
-/***** Tanya Jawab *****/
+/***** Kisi Kategori *****/
+
+.reza-category-grid-widget {
+    container: reza-category-grid / inline-size;
+    margin-block-end: 0;
+}
 
 .reza-editorial-questions {
     padding-block: 1.35rem 1.65rem;
@@ -677,7 +682,7 @@ body.reza-editorial {
 }
 
 @supports (grid-template-rows: subgrid) {
-    @media (min-width: 360px) {
+    @container reza-category-grid (min-width: 328px) {
         .reza-editorial-question-grid {
             row-gap: 0;
         }
@@ -696,21 +701,21 @@ body.reza-editorial {
     }
 }
 
-@media (min-width: 360px) {
+@container reza-category-grid (min-width: 328px) {
     .reza-editorial-question-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(min(2, var(--reza-question-columns)), minmax(0, 1fr));
     }
 }
 
-@media (min-width: 700px) {
+@container reza-category-grid (min-width: 652px) {
     .reza-editorial-question-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(min(3, var(--reza-question-columns)), minmax(0, 1fr));
     }
 }
 
-@media (min-width: 1120px) {
+@container reza-category-grid (min-width: 1072px) {
     .reza-editorial-question-grid {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(var(--reza-question-columns), minmax(0, 1fr));
         column-gap: 1.15rem;
     }
 
@@ -845,7 +850,7 @@ body.reza-editorial {
     margin-block-end: 0;
 }
 
-body:not(.reza-editorial) .reza-posting-ads-widget {
+body:not(.reza-editorial) :is(.reza-posting-ads-widget, .reza-category-grid-widget) {
     --reza-ink: #201e19;
     --reza-muted: #57554d;
     --reza-rule: #cec9b9;
