@@ -1,22 +1,4 @@
 <?php
-$featured_id = absint(get_theme_mod('reza_ervani_editorial_featured', 0));
-$featured = $featured_id ? get_post($featured_id) : null;
-
-if (!$featured || $featured->post_status !== 'publish' || $featured->post_type !== 'post' || $featured->post_password !== '') {
-    $featured = null;
-}
-
-$latest_count = 8;
-$supporting_count = 2;
-$feed = reza_ervani_editorial_posts(array(
-    'numberposts' => $latest_count + $supporting_count + (int) ($featured === null),
-    'post__not_in' => $featured ? array($featured->ID) : array(),
-));
-
-if (!$featured) {
-    $featured = array_shift($feed);
-}
-
 $grid_category_ids = reza_ervani_home_widget_category_ids(Reza_Ervani_Category_Grid::ID_BASE, array(Reza_Ervani_Category_Grid::HOME_AREA));
 $fatwa_series = reza_ervani_editorial_series('fatwa-lajnah-daimah-saudi-arabia', __('Fatwa Lajnah Daimah', 'mh-healthmag'));
 $series = array_filter(array(
@@ -41,12 +23,9 @@ $english_sections = $show_widgets ? array_filter(array(
 $english_category_ids = array_column($english_sections, 'category_id');
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
-    <?php get_template_part('template-parts/editorial', 'spotlight', array(
-        'featured' => $featured,
-        'latest' => array_slice($feed, 0, $latest_count),
-        'supporting' => array_slice($feed, $latest_count, $supporting_count),
-    )); ?>
+    <?php dynamic_sidebar(Reza_Ervani_Spotlight::HOME_AREA); ?>
     <?php if (get_theme_mod('reza_ervani_show_home_categories', true)) : ?>
+        <?php $featured = Reza_Ervani_Spotlight::has_home_widget() ? Reza_Ervani_Spotlight::featured_post() : null; ?>
         <?php get_template_part('template-parts/editorial', 'categories', array(
             'featured_id' => $featured ? $featured->ID : 0,
             'excluded_category_ids' => array_filter(array_merge(
