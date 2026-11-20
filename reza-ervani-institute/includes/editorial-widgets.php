@@ -47,6 +47,16 @@ function reza_ervani_register_editorial_sidebars() {
         'after_title' => '</span></h2>',
     ) + $widget_markup);
 
+    register_sidebar(array(
+        'id' => 'home-latest-posts',
+        'name' => __('Beranda – Posting Terakhir', 'mh-healthmag'),
+        'description' => __('Segmen penutup beranda sebelum footer.', 'mh-healthmag'),
+        'before_widget' => '<section id="%1$s" class="reza-latest-posts %2$s">',
+        'after_widget' => '</section>',
+        'before_title' => '<h2 class="reza-latest-posts-heading">',
+        'after_title' => '</h2>',
+    ));
+
     foreach (reza_ervani_editorial_category_widget_rows() as $id => $row) {
         register_sidebar(array(
             'id' => $id,

@@ -70,6 +70,7 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
                 add_filter('widget_display_callback', $filter, 10, 3);
                 get_template_part('template-parts/home', 'widgets', array('editorial' => true));
                 remove_filter('widget_display_callback', $filter, 10);
+                dynamic_sidebar('home-latest-posts');
             endif; ?>
         </div>
     <?php endif; ?>
