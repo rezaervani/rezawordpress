@@ -20,16 +20,19 @@ $question_cards = $question_category ? reza_ervani_editorial_question_cards($que
 $fiqh_category = get_category_by_slug('fiqh-muyassar');
 $fiqh_stories = $fiqh_category ? reza_ervani_editorial_posts(array('cat' => $fiqh_category->term_id, 'numberposts' => 5)) : array();
 $fiqh_category_id = $fiqh_stories ? $fiqh_category->term_id : 0;
+$collections = reza_ervani_editorial_collections();
+$collection_category_ids = array_column($collections, 'category_id');
+$show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
     <?php get_template_part('template-parts/editorial', 'spotlight', array('featured' => $featured, 'feed' => $feed)); ?>
     <?php if (get_theme_mod('reza_ervani_show_home_categories', true)) : ?>
         <?php get_template_part('template-parts/editorial', 'categories', array(
             'featured_id' => $featured ? $featured->ID : 0,
-            'excluded_category_ids' => array_filter(array(
+            'excluded_category_ids' => array_filter(array_merge(array(
                 $question_cards ? $question_category->term_id : 0,
                 $fiqh_category_id,
-            )),
+            ), $collection_category_ids)),
         )); ?>
     <?php endif; ?>
     <?php if ($question_cards) : ?>
@@ -39,9 +42,29 @@ $fiqh_category_id = $fiqh_stories ? $fiqh_category->term_id : 0;
         <?php get_template_part('template-parts/editorial', 'series', array('category' => $fiqh_category, 'stories' => $fiqh_stories)); ?>
         <?php get_template_part('template-parts/editorial', 'ad'); ?>
     <?php endif; ?>
-    <?php if (get_theme_mod('reza_ervani_editorial_widgets', true)) : ?>
+    <?php if ($show_widgets || $collections) : ?>
         <div class="reza-editorial-widgets">
-            <?php get_template_part('template-parts/home', 'widgets', array('editorial' => true, 'fiqh_category_id' => $fiqh_category_id)); ?>
+            <?php if ($show_widgets) :
+                $replaced_categories = array_filter(array_merge(
+                    array($fiqh_category_id),
+                    $collection_category_ids,
+                    array_column($collections, 'replaces_id')
+                ));
+                $filter = static function ($instance, $widget, $sidebar) use ($replaced_categories) {
+                    return reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $replaced_categories);
+                };
+                add_filter('widget_display_callback', $filter, 10, 3);
+                dynamic_sidebar('home-1');
+                remove_filter('widget_display_callback', $filter, 10);
+            endif; ?>
+            <?php foreach ($collections as $collection) : ?>
+                <?php get_template_part('template-parts/editorial', 'collection', $collection); ?>
+            <?php endforeach; ?>
+            <?php if ($show_widgets) :
+                add_filter('widget_display_callback', $filter, 10, 3);
+                get_template_part('template-parts/home', 'widgets');
+                remove_filter('widget_display_callback', $filter, 10);
+            endif; ?>
         </div>
     <?php endif; ?>
 </main>

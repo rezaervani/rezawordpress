@@ -13,7 +13,7 @@ function reza_ervani_editorial_body_class($classes) {
 }
 add_filter('body_class', 'reza_ervani_editorial_body_class');
 
-function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $fiqh_category_id) {
+function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $replaced_categories) {
     if ($sidebar['id'] === 'home-1' && $widget->id_base === 'mh_slider_hp') {
         return false;
     }
@@ -22,7 +22,8 @@ function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $fiqh
         return false;
     }
 
-    if ($fiqh_category_id && $widget->id_base === 'mh_custom_posts' && (int) ($instance['category'] ?? 0) === $fiqh_category_id) {
+    if (in_array($widget->id_base, array('mh_custom_posts', 'mh_magazine_lite_posts_focus'), true) &&
+        in_array((int) ($instance['category'] ?? 0), $replaced_categories, true)) {
         return false;
     }
 
@@ -103,4 +104,35 @@ function reza_ervani_editorial_question_cards($category) {
     });
 
     return $cards;
+}
+
+function reza_ervani_editorial_collections() {
+    $topics = array(
+        'kunuuz-riyadhus-shaalihin' => array('title' => __('Kunuuz Riyadhus Shalihin', 'mh-healthmag'), 'replaces' => 'tadabbur-al-quran'),
+        'manzhumah-al-jazariyah' => array('title' => __('Jazariyyah', 'mh-healthmag'), 'replaces' => 'tanya-jawab'),
+        'ilmu-rasm-dan-dhabth' => array('title' => __('Ilmu Rasm dan Dhabth', 'mh-healthmag'), 'replaces' => 'sejarah-palestina'),
+    );
+
+    $collections = array();
+    foreach ($topics as $slug => $topic) {
+        $category = get_category_by_slug($slug);
+        if (!$category) {
+            continue;
+        }
+
+        $stories = reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 3));
+        if (!$stories) {
+            continue;
+        }
+
+        $previous = get_category_by_slug($topic['replaces']);
+        $collections[] = array(
+            'title' => $topic['title'],
+            'category_id' => $category->term_id,
+            'replaces_id' => $previous ? $previous->term_id : 0,
+            'stories' => $stories,
+        );
+    }
+
+    return $collections;
 }
