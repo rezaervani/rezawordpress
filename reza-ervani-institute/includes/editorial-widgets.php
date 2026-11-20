@@ -19,7 +19,7 @@ function reza_ervani_register_editorial_sidebars() {
     register_sidebar(array(
         'id' => 'home-video-gallery',
         'name' => __('Video Gallery Beranda', 'mh-healthmag'),
-        'description' => __('Area lebar penuh di bawah koleksi untuk widget AIOVG – Video Gallery.', 'mh-healthmag'),
+        'description' => __('Area lebar penuh di bawah koleksi untuk widget Galeri Video – Reza Ervani Institute.', 'mh-healthmag'),
         'before_title' => '<h2 class="mh-widget-title"><span class="mh-widget-title-inner">',
         'after_title' => '</span></h2>',
     ) + $widget_markup);
@@ -35,9 +35,7 @@ function reza_ervani_migrate_editorial_widgets() {
     $sidebars = get_option('sidebars_widgets', array());
     $original = $sidebars;
     $html_widgets = get_option('widget_custom_html', array());
-    $moves = array(
-        'aiovg-widget-videos-2' => array('home-2', 'home-video-gallery'),
-    );
+    $moves = array();
 
     // The existing site uses these Custom HTML instances for its two promotions.
     if (strcasecmp(trim($html_widgets[17]['title'] ?? ''), 'Aplikasi Android rezaervani.com') === 0) {
@@ -67,16 +65,3 @@ function reza_ervani_migrate_editorial_widgets() {
     update_option($migration, 1, false);
 }
 add_action('wp_loaded', 'reza_ervani_migrate_editorial_widgets');
-
-function reza_ervani_editorial_gallery_widget($instance, $widget) {
-    if ($instance === false || $widget->id_base !== 'aiovg-widget-videos') {
-        return $instance;
-    }
-
-    $instance['columns'] = 5;
-    $instance['limit'] = 5;
-    $instance['thumbnail_style'] = 'image-top';
-    unset($instance['image_position']);
-
-    return $instance;
-}

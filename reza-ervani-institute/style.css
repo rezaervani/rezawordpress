@@ -4,7 +4,7 @@ Theme URI: https://rezaervani.com/
 Description: Tema editorial Reza Ervani Institute dengan beranda berbasis widget dan kategori.
 Author: MH Themes
 Author URI: https://www.mhthemes.com/
-Version: 1.2.12
+Version: 1.2.13
 Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-header, custom-menu, featured-images, full-width-template, theme-options, threaded-comments, translation-ready, rtl-language-support, blog, news
 Text Domain: mh-healthmag
 Domain Path: /languages/
@@ -357,4 +357,82 @@ input[type=submit]:hover { background: #05c1b6; }
     .reza-home-category-grid {
         grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
     }
+}
+
+/***** Native video gallery *****/
+
+.reza-video-grid {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.reza-video-card {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.reza-video-card-link {
+    display: block;
+}
+
+.reza-video-card-link:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: .14em;
+}
+
+.reza-video-preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    margin-block-end: .65rem;
+    overflow: hidden;
+    border-radius: 3px;
+    background: #eae5d8;
+}
+
+.reza-video-preview img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reza-video-play,
+.reza-video-duration {
+    position: relative;
+    color: white;
+    background: rgb(24 24 24 / 78%);
+}
+
+.reza-video-play {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    padding-inline-start: .12em;
+    width: 2.2em;
+    height: 2.2em;
+    border: 1px solid white;
+    border-radius: 50%;
+    font-size: .9rem;
+}
+
+.reza-video-duration {
+    position: absolute;
+    inset-inline-end: .35rem;
+    inset-block-end: .35rem;
+    padding: .05rem .3rem;
+    border-radius: 2px;
+    font-size: .75rem;
+}
+
+.reza-video-card h3 {
+    color: inherit;
+    font: 700 1.08rem/1.3 var(--reza-serif);
+}
+
+.reza-video-meta {
+    margin: .32rem 0 0;
+    font-size: .8rem;
 }

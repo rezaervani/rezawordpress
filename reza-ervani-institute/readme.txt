@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.13 =
+* Galeri Video Beranda memakai widget tema. Atur jumlah, kategori, tag, dan urutan lewat Tampilan → Widget.
+* Video lama, gambar mini, dan tautan video tetap dipakai. Video baru bisa dibuat dengan blok Video atau Sematan pada menu Galeri Video.
+
 = v1.2.12 =
 * Setiap koleksi di bawah pencarian memiliki area widget iklan sendiri di kolom kanan. Kelola area ini melalui Tampilan → Widget.
 * Widget Rezandroid, Donasi, dan Video Gallery yang terpasang di rezaervani.com dipindahkan ke area baru saat tema diperbarui.
