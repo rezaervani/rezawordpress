@@ -6,8 +6,10 @@ if (!$featured || $featured->post_status !== 'publish' || $featured->post_type !
     $featured = null;
 }
 
+$latest_count = 8;
+$supporting_count = 2;
 $feed = reza_ervani_editorial_posts(array(
-    'numberposts' => $featured ? 7 : 8,
+    'numberposts' => $latest_count + $supporting_count + (int) ($featured === null),
     'post__not_in' => $featured ? array($featured->ID) : array(),
 ));
 
@@ -39,7 +41,11 @@ $english_sections = $show_widgets ? array_filter(array(
 $english_category_ids = array_column($english_sections, 'category_id');
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
-    <?php get_template_part('template-parts/editorial', 'spotlight', array('featured' => $featured, 'feed' => $feed)); ?>
+    <?php get_template_part('template-parts/editorial', 'spotlight', array(
+        'featured' => $featured,
+        'latest' => array_slice($feed, 0, $latest_count),
+        'supporting' => array_slice($feed, $latest_count, $supporting_count),
+    )); ?>
     <?php if (get_theme_mod('reza_ervani_show_home_categories', true)) : ?>
         <?php get_template_part('template-parts/editorial', 'categories', array(
             'featured_id' => $featured ? $featured->ID : 0,

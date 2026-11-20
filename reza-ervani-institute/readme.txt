@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.35 =
+* Kecilkan judul Sorotan Utama, tampilkan delapan judul di Terbaru dan samakan lebar tiga kolom di desktop.
+
 = v1.2.34 =
 * Hapus widget bawaan MH dari dashboard. Pindahkan daftar kategori dan sorotan Ilmu Hadits yang aktif ke widget Daftar Artikel.
 
