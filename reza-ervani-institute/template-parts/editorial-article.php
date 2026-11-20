@@ -19,6 +19,11 @@
                         </figure>
                     <?php endif; ?>
                     <?php the_content(); ?>
+                    <?php if (!post_password_required()) : ?>
+                        <?php foreach (reza_ervani_article_inline_ad_areas() as $area => $minimum_words) : ?>
+                            <?php get_template_part('template-parts/article', 'advertisement', array('area' => $area, 'minimum_words' => $minimum_words)); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
                 <?php the_tags('<div class="entry-tags mh-clearfix"><i class="fa fa-tag"></i><ul><li>', '</li><li>', '</li></ul></div>'); ?>
             </article>

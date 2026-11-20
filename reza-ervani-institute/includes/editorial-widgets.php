@@ -1,5 +1,12 @@
 <?php
 
+function reza_ervani_article_inline_ad_areas() {
+    return array(
+        'posts-inline-1' => 800,
+        'posts-inline-2' => 1500,
+    );
+}
+
 function reza_ervani_editorial_category_widget_rows() {
     return array(
         'home-editorial-category-widgets' => array(
@@ -28,6 +35,19 @@ function reza_ervani_register_editorial_sidebars() {
         'before_widget' => '<div id="%1$s" class="mh-widget %2$s">',
         'after_widget' => '</div>',
     );
+
+    $slot_number = 0;
+    foreach (reza_ervani_article_inline_ad_areas() as $id => $minimum_words) {
+        register_sidebar(array(
+            'id' => $id,
+            /* translators: %d: inline advertisement position. */
+            'name' => sprintf(__('Iklan Tengah Artikel %d', 'mh-healthmag'), ++$slot_number),
+            /* translators: %d: minimum article word count. */
+            'description' => sprintf(__('Tambahkan satu unit iklan responsif melalui widget HTML Khusus. Slot dapat tampil mulai dari %d kata jika ada jeda paragraf yang cukup.', 'mh-healthmag'), $minimum_words),
+            'before_title' => '<h4 class="mh-widget-title"><span class="mh-widget-title-inner">',
+            'after_title' => '</span></h4>',
+        ) + $widget_markup);
+    }
 
     foreach (reza_ervani_editorial_collection_topics() as $topic) {
         register_sidebar(array(

@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.27 =
+* Sediakan dua area widget Iklan Tengah Artikel untuk unit iklan di sela paragraf. Slot bergantung pada panjang artikel dan jarak antarparagraf.
+
 = v1.2.26 =
 * Samakan lebar tiga kolom Palestina di desktop dan tampilkan hingga lima artikel pendamping.
 * Tampilkan tanggal Masehi dan Hijriyah sipil pada header beranda sesuai zona waktu WordPress.
