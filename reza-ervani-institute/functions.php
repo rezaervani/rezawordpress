@@ -50,9 +50,12 @@ function mh_healthmag_styles() {
     $base_css = $legacy_parent ? '/style.css' : '/magazine.css';
     wp_enqueue_style('mh-magazine-lite', get_template_directory_uri() . $base_css, array(), $mh_healthmag_version);
     wp_enqueue_style('mh-healthmag', get_stylesheet_uri(), array('mh-magazine-lite'), $mh_healthmag_version);
-    if (reza_ervani_uses_editorial_home()) {
+    if (reza_ervani_uses_editorial_home() || is_singular('post')) {
         wp_enqueue_style('reza-ervani-editorial', get_stylesheet_directory_uri() . '/editorial.css', array('mh-healthmag'), $mh_healthmag_version);
         wp_enqueue_script('reza-ervani-editorial', get_stylesheet_directory_uri() . '/js/editorial.js', array(), $mh_healthmag_version, true);
+    }
+    if (is_singular('post')) {
+        wp_enqueue_style('reza-ervani-article', get_stylesheet_directory_uri() . '/article.css', array('reza-ervani-editorial'), $mh_healthmag_version);
     }
     if (is_rtl()) {
         $base_rtl_css = $legacy_parent ? '/rtl.css' : '/magazine-rtl.css';
