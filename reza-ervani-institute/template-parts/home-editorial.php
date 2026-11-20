@@ -57,14 +57,18 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
                 dynamic_sidebar('home-1');
                 remove_filter('widget_display_callback', $filter, 10);
             endif; ?>
-            <?php foreach ($collections as $collection) : ?>
-                <?php get_template_part('template-parts/editorial', 'collection', $collection); ?>
-            <?php endforeach; ?>
-            <?php if ($show_widgets) :
+            <?php
+            if ($show_widgets) {
                 add_filter('widget_display_callback', $filter, 10, 3);
-                get_template_part('template-parts/home', 'widgets');
+            }
+            get_template_part('template-parts/home', 'widgets', array(
+                'show_widgets' => $show_widgets,
+                'collections' => $collections,
+            ));
+            if ($show_widgets) {
                 remove_filter('widget_display_callback', $filter, 10);
-            endif; ?>
+            }
+            ?>
         </div>
     <?php endif; ?>
 </main>

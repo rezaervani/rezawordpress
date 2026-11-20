@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.11 =
+* Koleksi editorial memakai dua kolom di area utama dengan widget beranda di sidebar kanan.
+* Setelah pembaruan manual, bersihkan cache halaman agar pengunjung menerima HTML versi baru.
+
 = v1.2.10 =
 * Tampilkan Kunuuz Riyadhus Shalihin, Jazariyyah, dan Ilmu Rasm dan Dhabth dalam blok editorial di bawah pencarian.
 
