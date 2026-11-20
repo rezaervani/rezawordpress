@@ -12,31 +12,38 @@ $excerpt = function_exists('pms_is_post_restricted') && pms_is_post_restricted($
     ? __('Konten premium', 'mh-healthmag')
     : wp_trim_words(wp_strip_all_tags(get_the_excerpt($lead)), 29, '…');
 ?>
-<section class="reza-editorial-collection" aria-labelledby="<?php echo esc_attr($title_id); ?>">
-    <header class="reza-editorial-collection-header">
-        <h2 id="<?php echo esc_attr($title_id); ?>"><?php echo esc_html($args['title']); ?></h2>
-        <?php if (!is_wp_error($archive_url)) : ?>
-            <a class="reza-editorial-archive-link" href="<?php echo esc_url($archive_url); ?>">
-                <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
-            </a>
-        <?php endif; ?>
-    </header>
-    <div class="reza-editorial-collection-layout<?php echo $image ? ' reza-editorial-collection-with-image' : ''; ?>">
-        <article class="reza-editorial-collection-lead">
-            <h3><a href="<?php echo esc_url(get_permalink($lead)); ?>"><?php echo esc_html(reza_ervani_editorial_title($lead)); ?></a></h3>
-            <?php if ($excerpt !== '') : ?>
-                <p><?php echo esc_html($excerpt); ?></p>
+<section class="reza-editorial-collection<?php echo $args['show_widgets'] ? ' reza-editorial-collection-with-ad-column' : ''; ?>" aria-labelledby="<?php echo esc_attr($title_id); ?>">
+    <div class="reza-editorial-collection-content">
+        <header class="reza-editorial-collection-header">
+            <h2 id="<?php echo esc_attr($title_id); ?>"><?php echo esc_html($args['title']); ?></h2>
+            <?php if (!is_wp_error($archive_url)) : ?>
+                <a class="reza-editorial-archive-link" href="<?php echo esc_url($archive_url); ?>">
+                    <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
+                </a>
             <?php endif; ?>
-        </article>
-        <?php if ($image) : ?>
-            <div class="reza-editorial-collection-media"><?php echo $image; ?></div>
-        <?php endif; ?>
-        <?php if ($supporting) : ?>
-            <ul class="reza-editorial-collection-support">
-                <?php foreach ($supporting as $story) : ?>
-                    <li><a href="<?php echo esc_url(get_permalink($story)); ?>"><?php echo esc_html(reza_ervani_editorial_title($story)); ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
+        </header>
+        <div class="reza-editorial-collection-layout<?php echo $image ? ' reza-editorial-collection-with-image' : ''; ?>">
+            <article class="reza-editorial-collection-lead">
+                <h3><a href="<?php echo esc_url(get_permalink($lead)); ?>"><?php echo esc_html(reza_ervani_editorial_title($lead)); ?></a></h3>
+                <?php if ($excerpt !== '') : ?>
+                    <p><?php echo esc_html($excerpt); ?></p>
+                <?php endif; ?>
+            </article>
+            <?php if ($image) : ?>
+                <div class="reza-editorial-collection-media"><?php echo $image; ?></div>
+            <?php endif; ?>
+            <?php if ($supporting) : ?>
+                <ul class="reza-editorial-collection-support">
+                    <?php foreach ($supporting as $story) : ?>
+                        <li><a href="<?php echo esc_url(get_permalink($story)); ?>"><?php echo esc_html(reza_ervani_editorial_title($story)); ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
     </div>
+    <?php if ($args['show_widgets'] && is_active_sidebar($args['sidebar'])) : ?>
+        <aside class="reza-editorial-collection-ad" aria-label="<?php echo esc_attr(sprintf(__('Iklan %s', 'mh-healthmag'), $args['title'])); ?>">
+            <?php dynamic_sidebar($args['sidebar']); ?>
+        </aside>
+    <?php endif; ?>
 </section>

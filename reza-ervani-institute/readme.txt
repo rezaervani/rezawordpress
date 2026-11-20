@@ -58,6 +58,11 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.12 =
+* Setiap koleksi di bawah pencarian memiliki area widget iklan sendiri di kolom kanan. Kelola area ini melalui Tampilan → Widget.
+* Widget Rezandroid, Donasi, dan Video Gallery yang terpasang di rezaervani.com dipindahkan ke area baru saat tema diperbarui.
+* Video Gallery Beranda menampilkan sampai lima video berjajar pada layar lebar.
+
 = v1.2.11 =
 * Koleksi editorial memakai dua kolom di area utama dengan widget beranda di sidebar kanan.
 * Setelah pembaruan manual, bersihkan cache halaman agar pengunjung menerima HTML versi baru.
