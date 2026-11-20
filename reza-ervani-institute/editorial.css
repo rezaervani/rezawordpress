@@ -701,18 +701,14 @@ body.reza-editorial {
     padding-block: 1.25rem 1.55rem;
 }
 
-.reza-editorial-collection + .reza-home-widgets {
-    border-top: 1px solid var(--reza-ink);
-    padding-block-start: 1.35rem;
-}
-
 .reza-editorial-collection-layout {
     display: grid;
     gap: .9rem 1.35rem;
     min-width: 0;
 }
 
-.reza-editorial-collection-layout h3 {
+.reza-editorial-collection-layout h3,
+.reza-editorial-collection-support li {
     color: var(--reza-ink);
     font: 700 1.04rem/1.24 var(--reza-serif);
     overflow-wrap: anywhere;
@@ -736,9 +732,8 @@ body.reza-editorial {
     height: auto;
 }
 
-.reza-editorial-collection-support,
-.reza-editorial-collection-aside {
-    padding-block-start: .7rem;
+.reza-editorial-collection-support li {
+    padding-block: .62rem;
     border-top: 1px solid var(--reza-rule);
 }
 
@@ -748,40 +743,17 @@ body.reza-editorial {
 }
 
 @media (min-width: 850px) {
-    .reza-editorial-collection-with-image,
-    .reza-editorial-collection-with-aside {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    .reza-editorial-collection-with-image {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
         grid-template-rows: max-content 1fr;
         grid-template-areas:
             "lead image"
             "support image";
     }
 
-    .reza-editorial-collection-with-aside {
-        grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
-        grid-template-areas:
-            "lead aside"
-            "support aside";
-    }
-
-    .reza-editorial-collection-with-image.reza-editorial-collection-with-aside {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, .85fr);
-        grid-template-areas:
-            "lead image aside"
-            "support image aside";
-    }
-
-    .reza-editorial-collection-lead { grid-area: lead; }
-    .reza-editorial-collection-media { grid-area: image; }
-    .reza-editorial-collection-support { grid-area: support; }
-
-    .reza-editorial-collection-aside {
-        grid-area: aside;
-        border-top: 0;
-        border-inline-start: 1px solid var(--reza-rule);
-        padding-block-start: 0;
-        padding-inline-start: 1rem;
-    }
+    .reza-editorial-collection-with-image .reza-editorial-collection-lead { grid-area: lead; }
+    .reza-editorial-collection-with-image .reza-editorial-collection-media { grid-area: image; }
+    .reza-editorial-collection-with-image .reza-editorial-collection-support { grid-area: support; }
 
     .reza-editorial-collection-image {
         aspect-ratio: 4 / 3;

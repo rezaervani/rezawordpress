@@ -1,5 +1,6 @@
 <?php
-list($lead, $support, $aside) = array_pad($args['stories'], 3, null);
+$lead = $args['stories'][0];
+$supporting = array_slice($args['stories'], 1);
 $title_id = 'reza-editorial-collection-' . $args['category_id'];
 $archive_url = get_category_link($args['category_id']);
 $image = get_the_post_thumbnail($lead, 'medium_large', array(
@@ -20,7 +21,7 @@ $excerpt = function_exists('pms_is_post_restricted') && pms_is_post_restricted($
             </a>
         <?php endif; ?>
     </header>
-    <div class="reza-editorial-collection-layout<?php echo $image ? ' reza-editorial-collection-with-image' : ''; ?><?php echo $aside ? ' reza-editorial-collection-with-aside' : ''; ?>">
+    <div class="reza-editorial-collection-layout<?php echo $image ? ' reza-editorial-collection-with-image' : ''; ?>">
         <article class="reza-editorial-collection-lead">
             <h3><a href="<?php echo esc_url(get_permalink($lead)); ?>"><?php echo esc_html(reza_ervani_editorial_title($lead)); ?></a></h3>
             <?php if ($excerpt !== '') : ?>
@@ -30,15 +31,12 @@ $excerpt = function_exists('pms_is_post_restricted') && pms_is_post_restricted($
         <?php if ($image) : ?>
             <div class="reza-editorial-collection-media"><?php echo $image; ?></div>
         <?php endif; ?>
-        <?php if ($support) : ?>
-            <article class="reza-editorial-collection-support">
-                <h3><a href="<?php echo esc_url(get_permalink($support)); ?>"><?php echo esc_html(reza_ervani_editorial_title($support)); ?></a></h3>
-            </article>
-        <?php endif; ?>
-        <?php if ($aside) : ?>
-            <article class="reza-editorial-collection-aside">
-                <h3><a href="<?php echo esc_url(get_permalink($aside)); ?>"><?php echo esc_html(reza_ervani_editorial_title($aside)); ?></a></h3>
-            </article>
+        <?php if ($supporting) : ?>
+            <ul class="reza-editorial-collection-support">
+                <?php foreach ($supporting as $story) : ?>
+                    <li><a href="<?php echo esc_url(get_permalink($story)); ?>"><?php echo esc_html(reza_ervani_editorial_title($story)); ?></a></li>
+                <?php endforeach; ?>
+            </ul>
         <?php endif; ?>
     </div>
 </section>
