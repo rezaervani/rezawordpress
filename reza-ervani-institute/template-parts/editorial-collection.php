@@ -1,7 +1,8 @@
 <?php
 $lead = $args['stories'][0];
-$columns = array(array_slice($args['stories'], 1, 3));
-$second_list = array_slice($args['stories'], 4, 3);
+$left_count = $args['left_title_count'];
+$columns = array(array_slice($args['stories'], 1, $left_count));
+$second_list = array_slice($args['stories'], 1 + $left_count, $args['right_title_count']);
 $title_id = $args['title_id'];
 $archive_url = get_category_link($args['category_id']);
 $image = get_the_post_thumbnail($lead, 'medium_large', array(

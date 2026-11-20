@@ -3,6 +3,8 @@
 class Reza_Ervani_Posting_Ads extends WP_Widget {
     const ID_BASE = 'reza_posting_ads';
     const HOME_AREA = 'home-posting-ads';
+    const DEFAULT_TITLE_COUNT = 3;
+    const MAX_TITLE_COUNT = 50;
 
     public function __construct() {
         parent::__construct(self::ID_BASE, __('Posting dan Iklan', 'mh-healthmag'), array(
@@ -12,6 +14,18 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
         ));
     }
 
+    private function column_title_counts($instance) {
+        $counts = array();
+        foreach (array('left_title_count', 'right_title_count') as $field) {
+            $value = $instance[$field] ?? null;
+            $counts[$field] = is_numeric($value)
+                ? (int) max(0, min(self::MAX_TITLE_COUNT, $value))
+                : self::DEFAULT_TITLE_COUNT;
+        }
+
+        return $counts;
+    }
+
     public function update($new_instance, $old_instance) {
         $html = (string) ($new_instance['ad_html'] ?? '');
         $instance = array(
@@ -19,7 +33,7 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
             'title' => sanitize_text_field($new_instance['title'] ?? ''),
             'ad_title' => sanitize_text_field($new_instance['ad_title'] ?? ''),
             'ad_html' => current_user_can('unfiltered_html') ? $html : wp_kses_post($html),
-        );
+        ) + $this->column_title_counts($new_instance + $old_instance);
 
         if (!empty($old_instance['legacy_source'])) {
             $instance['legacy_source'] = $old_instance['legacy_source'];
@@ -31,6 +45,7 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
     public function form($instance) {
         $category_id = $this->get_field_id('category');
         $html_id = $this->get_field_id('ad_html');
+        $counts = $this->column_title_counts($instance);
         ?>
         <p>
             <label for="<?php echo esc_attr($category_id); ?>"><?php esc_html_e('Kategori posting', 'mh-healthmag'); ?></label>
@@ -46,6 +61,18 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
                 'selected' => absint($instance['category'] ?? 0),
             )); ?>
         </p>
+        <?php foreach (array(
+            'left_title_count' => __('Jumlah judul tambahan di kolom 1', 'mh-healthmag'),
+            'right_title_count' => __('Jumlah judul tambahan di kolom 2', 'mh-healthmag'),
+        ) as $field => $label) : ?>
+            <p>
+                <label for="<?php echo esc_attr($this->get_field_id($field)); ?>"><?php echo esc_html($label); ?></label>
+                <input class="widefat" type="number" min="0" max="<?php echo esc_attr(self::MAX_TITLE_COUNT); ?>" step="1"
+                    id="<?php echo esc_attr($this->get_field_id($field)); ?>" name="<?php echo esc_attr($this->get_field_name($field)); ?>"
+                    value="<?php echo esc_attr($counts[$field]); ?>">
+            </p>
+        <?php endforeach; ?>
+        <p class="description"><?php esc_html_e('Isi 0 untuk menyembunyikan daftar judul tambahan di kolom tersebut.', 'mh-healthmag'); ?></p>
         <?php foreach (array(
             'title' => __('Judul bagian (opsional)', 'mh-healthmag'),
             'ad_title' => __('Judul iklan (opsional)', 'mh-healthmag'),
@@ -70,7 +97,11 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
             return;
         }
 
-        $stories = reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 7));
+        $counts = $this->column_title_counts($instance);
+        $stories = reza_ervani_editorial_posts(array(
+            'cat' => $category->term_id,
+            'numberposts' => 1 + array_sum($counts),
+        ));
         if (!$stories) {
             return;
         }
@@ -86,7 +117,7 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
             'stories' => $stories,
             'ad_title' => $instance['ad_title'] ?? '',
             'ad_html' => trim($instance['ad_html'] ?? ''),
-        ));
+        ) + $counts);
         echo $args['after_widget'];
     }
 }
