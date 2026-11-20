@@ -10,6 +10,7 @@
     padding-block-end: 1.2rem;
     margin-block-end: 1.45rem;
     border-block-end: 1px solid var(--reza-ink);
+    text-align: center;
 }
 
 .reza-archive-header h1 {
@@ -21,6 +22,7 @@
 
 .reza-archive-description {
     max-inline-size: 65ch;
+    margin-inline: auto;
     margin-block-start: .7rem;
     color: var(--reza-muted);
     font: 1.05rem/1.55 var(--reza-serif);
@@ -34,6 +36,7 @@
 .reza-archive-subcategories ul {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: .3rem .8rem;
 }
 
@@ -65,16 +68,21 @@
     text-underline-offset: .15em;
 }
 
-.reza-archive-layout,
+.reza-archive-spread,
+.reza-archive-companions,
 .reza-archive-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
 }
 
-.reza-archive-feed,
-.reza-archive-sidebar,
-.reza-archive-story-copy {
+.reza-archive-spread + .reza-archive-grid {
+    margin-block-start: 1.5rem;
+}
+
+.reza-archive-companions,
+.reza-archive-grid,
+.reza-archive-story {
     min-inline-size: 0;
 }
 
@@ -128,11 +136,11 @@
 
 .reza-archive-story-featured {
     gap: clamp(1rem, 3vw, 1.8rem);
-    margin-block-end: 1.5rem;
+    border-block-end-color: var(--reza-ink);
 }
 
 .reza-archive-story-featured h2 {
-    font-size: clamp(1.55rem, 3.6vw, 2.75rem);
+    font-size: clamp(1.65rem, 2.8vw, 2.65rem);
     line-height: 1.12;
     letter-spacing: -.035em;
 }
@@ -143,6 +151,18 @@
 
 .reza-archive-story-featured time {
     margin-block-start: 0;
+}
+
+.reza-archive-story-featured img {
+    aspect-ratio: 16 / 9;
+}
+
+.reza-archive-companions {
+    gap: .9rem;
+}
+
+.reza-archive-companions h2 {
+    font-size: 1.22rem;
 }
 
 .reza-category-archive .nav-links {
@@ -173,71 +193,58 @@
     color: var(--reza-paper);
 }
 
-.reza-archive-sidebar {
-    border-block-start: 1px solid var(--reza-rule);
-    padding-block-start: 1rem;
-    font-size: .88rem;
-    line-height: 1.5;
-}
-
-.reza-archive-sidebar .mh-widget-title {
-    margin-block-end: .7rem;
-    padding-block-end: .5rem;
-    border-block-end: 1px solid var(--reza-rule);
-    color: var(--reza-green);
-    font: 700 1.15rem/1.25 var(--reza-serif);
-    text-transform: none;
-}
-
-.reza-archive-sidebar .mh-widget-title-inner {
-    background: transparent;
-    padding: 0;
-}
-
-.reza-archive-sidebar .mh-widget-title a {
-    color: inherit;
-}
-
-.reza-archive-sidebar .tagcloud a {
-    border: 1px solid var(--reza-rule);
-    background: transparent;
-    color: var(--reza-green);
-}
-
-.reza-archive-sidebar a:hover {
-    text-decoration: underline;
-}
-
 @media (min-width: 640px) {
     .reza-archive-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .reza-archive-companions {
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    }
+
     .reza-archive-story-featured.reza-archive-story-with-image {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
         align-items: start;
     }
 
     .reza-archive-story-featured .reza-archive-story-image {
         order: 1;
     }
+
+    .reza-archive-story-featured .reza-archive-story-copy {
+        align-self: center;
+    }
 }
 
-@media (min-width: 960px) {
-    .reza-archive-layout-with-sidebar {
-        grid-template-columns: minmax(0, 1fr) minmax(220px, 25%);
-        gap: clamp(1.5rem, 3vw, 2.5rem);
+@media (min-width: 980px) {
+    .reza-archive-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(.9rem, 1.6vw, 1.5rem);
     }
 
-    .reza-archive-layout:not(.reza-archive-layout-with-sidebar) .reza-archive-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .reza-archive-spread-with-companions {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "lead companions"
+            "cards companions";
     }
 
-    .reza-archive-sidebar {
-        border-block-start: 0;
+    .reza-archive-spread-with-companions > .reza-archive-story-featured {
+        grid-area: lead;
+    }
+
+    .reza-archive-grid-top {
+        grid-area: cards;
+        align-self: start;
+    }
+
+    .reza-archive-companions {
+        grid-area: companions;
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
         border-inline-start: 1px solid var(--reza-rule);
-        padding-block-start: 0;
         padding-inline-start: 1rem;
     }
 }

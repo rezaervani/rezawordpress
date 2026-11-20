@@ -1,9 +1,12 @@
 <?php
 $featured = !empty($args['featured']);
+$show_image = $args['show_image'] ?? true;
 $title = reza_ervani_editorial_title(get_post());
 $url = get_permalink();
 $protected = post_password_required();
-$image = $protected ? '' : get_the_post_thumbnail(get_the_ID(), $featured ? 'medium_large' : 'mh-magazine-lite-medium', array('alt' => ''));
+$image = $show_image && !$protected
+    ? get_the_post_thumbnail(get_the_ID(), $featured ? 'medium_large' : 'mh-magazine-lite-medium', array('alt' => ''))
+    : '';
 
 if ($protected) {
     $excerpt = __('Artikel ini dilindungi kata sandi.', 'mh-healthmag');
