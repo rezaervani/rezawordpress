@@ -17,9 +17,18 @@ if (!$featured) {
 
 $question_category = get_theme_mod('reza_ervani_show_home_questions', true) ? get_category_by_slug('tanya-jawab') : false;
 $question_cards = $question_category ? reza_ervani_editorial_question_cards($question_category) : array();
-$fiqh_category = get_category_by_slug('fiqh-muyassar');
-$fiqh_stories = $fiqh_category ? reza_ervani_editorial_posts(array('cat' => $fiqh_category->term_id, 'numberposts' => 5)) : array();
-$fiqh_category_id = $fiqh_stories ? $fiqh_category->term_id : 0;
+$fatwa_series = reza_ervani_editorial_series('fatwa-lajnah-daimah-saudi-arabia', __('Fatwa Lajnah Daimah', 'mh-healthmag'));
+$series = array_filter(array(
+    reza_ervani_editorial_series('fiqh-muyassar'),
+    reza_ervani_editorial_series('fathul-qarib-al-mujib', __('Fathul Qarib al-Mujib', 'mh-healthmag')),
+    $fatwa_series,
+));
+$manuscripts = reza_ervani_editorial_series('manuskrip', __('Makhthuthah', 'mh-healthmag'));
+$old_fatwa_category = $fatwa_series ? get_category_by_slug('fatwa') : false;
+$series_category_ids = array_filter(array_merge(array_column($series, 'category_id'), array(
+    $manuscripts['category_id'] ?? 0,
+    $old_fatwa_category ? (int) $old_fatwa_category->term_id : 0,
+)));
 $collections = reza_ervani_editorial_collections();
 $collection_category_ids = array_column($collections, 'category_id');
 $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
@@ -29,24 +38,27 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
     <?php if (get_theme_mod('reza_ervani_show_home_categories', true)) : ?>
         <?php get_template_part('template-parts/editorial', 'categories', array(
             'featured_id' => $featured ? $featured->ID : 0,
-            'excluded_category_ids' => array_filter(array_merge(array(
-                $question_cards ? $question_category->term_id : 0,
-                $fiqh_category_id,
-            ), $collection_category_ids)),
+            'excluded_category_ids' => array_filter(array_merge(
+                array($question_cards ? $question_category->term_id : 0),
+                $series_category_ids,
+                $collection_category_ids
+            )),
         )); ?>
     <?php endif; ?>
     <?php if ($question_cards) : ?>
         <?php get_template_part('template-parts/editorial', 'questions', array('category' => $question_category, 'cards' => $question_cards)); ?>
     <?php endif; ?>
-    <?php if ($fiqh_stories) : ?>
-        <?php get_template_part('template-parts/editorial', 'series', array('category' => $fiqh_category, 'stories' => $fiqh_stories)); ?>
+    <?php foreach ($series as $section) : ?>
+        <?php get_template_part('template-parts/editorial', 'series', $section); ?>
+    <?php endforeach; ?>
+    <?php if ($series) : ?>
         <?php get_template_part('template-parts/editorial', 'ad'); ?>
     <?php endif; ?>
-    <?php if ($show_widgets || $collections) : ?>
+    <?php if ($show_widgets || $collections || $manuscripts) : ?>
         <div class="reza-editorial-widgets">
             <?php if ($show_widgets) :
                 $replaced_categories = array_filter(array_merge(
-                    array($fiqh_category_id),
+                    $series_category_ids,
                     $collection_category_ids,
                     array_column($collections, 'replaces_id')
                 ));
@@ -70,8 +82,13 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
                 add_filter('widget_display_callback', $filter, 10, 3);
                 get_template_part('template-parts/home', 'widgets', array('editorial' => true));
                 remove_filter('widget_display_callback', $filter, 10);
-                dynamic_sidebar('home-latest-posts');
             endif; ?>
+            <?php if ($manuscripts) : ?>
+                <?php get_template_part('template-parts/editorial', 'series', $manuscripts + array('square_images' => true)); ?>
+            <?php endif; ?>
+            <?php if ($show_widgets) : ?>
+                <?php dynamic_sidebar('home-latest-posts'); ?>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </main>

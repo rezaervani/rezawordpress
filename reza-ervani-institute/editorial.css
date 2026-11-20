@@ -585,7 +585,7 @@ body.reza-editorial {
     }
 }
 
-/***** Serial Fiqh Muyassar *****/
+/***** Editorial series and manuscript cards *****/
 
 .reza-editorial-series {
     padding-block: 1.35rem 1.65rem;
@@ -622,6 +622,10 @@ body.reza-editorial {
     object-fit: contain;
     margin-block-end: .65rem;
     background: #eee9dc;
+}
+
+.reza-editorial-series-square .reza-editorial-series-image {
+    aspect-ratio: 1;
 }
 
 .reza-editorial-series-card h3 {

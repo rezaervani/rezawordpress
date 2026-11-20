@@ -1,10 +1,11 @@
 <?php
 $category = $args['category'];
 $archive_url = get_category_link($category->term_id);
+$title_id = 'reza-editorial-series-title-' . $category->term_id;
 ?>
-<section class="reza-editorial-series" aria-labelledby="reza-editorial-series-title">
+<section class="reza-editorial-series<?php echo !empty($args['square_images']) ? ' reza-editorial-series-square' : ''; ?>" aria-labelledby="<?php echo esc_attr($title_id); ?>">
     <header class="reza-editorial-series-header">
-        <h2 id="reza-editorial-series-title"><?php echo esc_html($category->name); ?></h2>
+        <h2 id="<?php echo esc_attr($title_id); ?>"><?php echo esc_html($args['title'] ?? $category->name); ?></h2>
         <?php if (!is_wp_error($archive_url)) : ?>
             <a class="reza-editorial-archive-link" href="<?php echo esc_url($archive_url); ?>">
                 <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>

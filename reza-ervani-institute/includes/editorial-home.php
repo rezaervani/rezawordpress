@@ -22,6 +22,11 @@ function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $repl
         return false;
     }
 
+    if ($sidebar['id'] === 'home-5' && $widget->id_base === 'mh_magazine_lite_tabbed'
+        && strcasecmp(trim(wp_strip_all_tags($instance['title'] ?? '')), 'Pintasan') === 0) {
+        return false;
+    }
+
     if (in_array($widget->id_base, array('mh_custom_posts', 'mh_magazine_lite_posts_focus'), true) &&
         in_array((int) ($instance['category'] ?? 0), $replaced_categories, true)) {
         return false;
@@ -50,6 +55,25 @@ function reza_ervani_editorial_posts($args) {
 function reza_ervani_editorial_title($post) {
     $title = get_the_title($post);
     return $title !== '' ? $title : __('Tanpa judul', 'mh-healthmag');
+}
+
+function reza_ervani_editorial_series($slug, $title = null) {
+    $category = get_category_by_slug($slug);
+    if (!$category) {
+        return array();
+    }
+
+    $stories = reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 5));
+    if (!$stories) {
+        return array();
+    }
+
+    return array(
+        'category' => $category,
+        'category_id' => (int) $category->term_id,
+        'title' => $title ?? $category->name,
+        'stories' => $stories,
+    );
 }
 
 function reza_ervani_editorial_question_cards($category) {
