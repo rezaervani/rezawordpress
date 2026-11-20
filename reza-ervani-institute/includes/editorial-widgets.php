@@ -1,5 +1,28 @@
 <?php
 
+function reza_ervani_editorial_category_widget_rows() {
+    return array(
+        'home-editorial-category-widgets' => array(
+            'name' => __('Beranda – Tiga Kolom Kategori', 'mh-healthmag'),
+            'migration' => 'reza_ervani_category_widgets_1_2_16',
+            'titles' => array(
+                'manzhumah-syatibiyah' => __("Qiroah Sab'ah", 'mh-healthmag'),
+                'ilmu-qiroaat' => __('Ilmu Qiroat', 'mh-healthmag'),
+                'hilyatut-tilawah' => __('Hilyatut Tilawah', 'mh-healthmag'),
+            ),
+        ),
+        'home-editorial-category-widgets-2' => array(
+            'name' => __('Beranda – Tiga Kolom Kategori (Baris Kedua)', 'mh-healthmag'),
+            'migration' => 'reza_ervani_category_widgets_1_2_17',
+            'titles' => array(
+                'adab' => __('Serial Adab', 'mh-healthmag'),
+                'syarh-qashiidah-al-khaaqaaniyyah' => __('Syarh al Khaaqaaniyyah', 'mh-healthmag'),
+                'makkiyah-dan-madaniyah' => __('Makkiyyah dan Madaniyyah', 'mh-healthmag'),
+            ),
+        ),
+    );
+}
+
 function reza_ervani_register_editorial_sidebars() {
     $widget_markup = array(
         'before_widget' => '<div id="%1$s" class="mh-widget %2$s">',
@@ -24,13 +47,15 @@ function reza_ervani_register_editorial_sidebars() {
         'after_title' => '</span></h2>',
     ) + $widget_markup);
 
-    register_sidebar(array(
-        'id' => 'home-editorial-category-widgets',
-        'name' => __('Beranda – Tiga Kolom Kategori', 'mh-healthmag'),
-        'description' => __('Susun widget MH Custom Posts untuk memilih kategori, judul, dan jumlah artikel di deretan bawah galeri video.', 'mh-healthmag'),
-        'before_title' => '<h2 class="mh-widget-title">',
-        'after_title' => '</h2>',
-    ) + $widget_markup);
+    foreach (reza_ervani_editorial_category_widget_rows() as $id => $row) {
+        register_sidebar(array(
+            'id' => $id,
+            'name' => $row['name'],
+            'description' => __('Susun widget MH Custom Posts untuk memilih kategori, judul, dan jumlah artikel di deretan bawah galeri video.', 'mh-healthmag'),
+            'before_title' => '<h2 class="mh-widget-title">',
+            'after_title' => '</h2>',
+        ) + $widget_markup);
+    }
 }
 add_action('widgets_init', 'reza_ervani_register_editorial_sidebars');
 
@@ -75,23 +100,26 @@ function reza_ervani_migrate_editorial_widgets() {
 add_action('wp_loaded', 'reza_ervani_migrate_editorial_widgets');
 
 function reza_ervani_migrate_category_widgets() {
-    $migration = 'reza_ervani_category_widgets_1_2_16';
-    if (get_option($migration) || is_customize_preview()) {
+    if (is_customize_preview()) {
         return;
     }
 
-    $destination = 'home-editorial-category-widgets';
+    foreach (reza_ervani_editorial_category_widget_rows() as $destination => $row) {
+        if (!get_option($row['migration'])) {
+            reza_ervani_migrate_category_widget_row($destination, $row['migration'], $row['titles']);
+        }
+    }
+}
+// Saved widget instances are registered by WP_Widget_Factory at priority 100.
+add_action('widgets_init', 'reza_ervani_migrate_category_widgets', 95);
+
+function reza_ervani_migrate_category_widget_row($destination, $migration, $titles) {
     $sidebars = (array) get_option('sidebars_widgets', array());
     if (!empty($sidebars[$destination])) {
         update_option($migration, 1, false);
         return;
     }
 
-    $titles = array(
-        'manzhumah-syatibiyah' => __("Qiroah Sab'ah", 'mh-healthmag'),
-        'ilmu-qiroaat' => __('Ilmu Qiroat', 'mh-healthmag'),
-        'hilyatut-tilawah' => __('Hilyatut Tilawah', 'mh-healthmag'),
-    );
     $instances = (array) get_option('widget_mh_custom_posts', array());
     $legacy = array();
     foreach (array('home-3', 'home-4', 'home-2', 'home-5') as $source) {
@@ -140,5 +168,27 @@ function reza_ervani_migrate_category_widgets() {
         update_option($migration, 1, false);
     }
 }
-// Saved widget instances are registered by WP_Widget_Factory at priority 100.
-add_action('widgets_init', 'reza_ervani_migrate_category_widgets', 95);
+
+function reza_ervani_move_home_topics_to_inactive_widgets() {
+    $migration = 'reza_ervani_home_topics_inactive_1_2_17';
+    if (get_option($migration) || is_customize_preview()) {
+        return;
+    }
+
+    $sidebars = (array) get_option('sidebars_widgets', array());
+    $widgets = (array) get_option('widget_custom_html', array());
+    $widget_id = 'custom_html-12';
+    $title = trim(wp_strip_all_tags($widgets[12]['title'] ?? ''));
+    if (in_array($widget_id, $sidebars['home-6'] ?? array(), true) && strcasecmp($title, 'Topik Lain di Web rezaervani.com') === 0) {
+        $sidebars['home-6'] = array_values(array_diff($sidebars['home-6'], array($widget_id)));
+        $sidebars['wp_inactive_widgets'] = array_values(array_unique(array_merge($sidebars['wp_inactive_widgets'] ?? array(), array($widget_id))));
+        wp_set_sidebars_widgets($sidebars);
+        $sidebars['array_version'] = $sidebars['array_version'] ?? 3;
+        if (get_option('sidebars_widgets') !== $sidebars) {
+            return;
+        }
+    }
+
+    update_option($migration, 1, false);
+}
+add_action('wp_loaded', 'reza_ervani_move_home_topics_to_inactive_widgets');
