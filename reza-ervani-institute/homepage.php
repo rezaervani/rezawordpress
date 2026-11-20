@@ -6,6 +6,7 @@
     <div class="mh-wrapper mh-home mh-clearfix">
         <?php dynamic_sidebar('home-1'); ?>
         <main id="main-content" class="mh-home-content">
+            <?php get_template_part('template-parts/home', 'category-widgets'); ?>
             <?php get_template_part('template-parts/home', 'widgets'); ?>
             <?php if (get_theme_mod('reza_ervani_show_home_categories', false)) : ?>
                 <?php get_template_part('template-parts/home', 'categories'); ?>

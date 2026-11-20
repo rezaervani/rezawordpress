@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.16 =
+* Pindahkan Qiroah Sab'ah, Ilmu Qiroat, dan Hilyatut Tilawah ke deretan di bawah galeri video.
+* Ubah kategori, judul, jumlah artikel, dan urutan kolom di Tampilan → Widget → Beranda – Tiga Kolom Kategori.
+
 = v1.2.15 =
 * Galeri beranda memakai artikel terbit di kategori WordPress dengan slug video.
 * Pindahkan video AIOVG sebagai artikel dengan `wp reza video migrate`. Gunakan `--dry-run` untuk memeriksanya. Alamat video lama dialihkan ke artikel yang sama.
