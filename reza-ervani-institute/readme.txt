@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.22 =
+* Tambah Aqeedah dan Hadith Explanation ke sidebar editorial. Urutkan Aqeedah, Tadabbur al Quran in English, Hadith Explanation, dan Islamic Question Answer.
+
 = v1.2.21 =
 * Pertahankan widget Ilmu Hadits dengan judul serif dan warna editorial.
 * Ganti Disclaimer di sidebar beranda editorial dengan masing-masing lima artikel dari Tadabbur al Quran in English dan Islamic Question Answer.
