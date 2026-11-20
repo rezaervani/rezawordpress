@@ -7,7 +7,6 @@ $children = get_categories(array(
     'orderby' => 'name',
     'pad_counts' => true,
 ));
-$has_sidebar = is_active_sidebar('sidebar');
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-category-archive">
     <?php mh_before_page_content(); ?>
@@ -43,35 +42,52 @@ $has_sidebar = is_active_sidebar('sidebar');
         <?php endif; ?>
     </header>
 
-    <div class="reza-archive-layout<?php echo $has_sidebar ? ' reza-archive-layout-with-sidebar' : ''; ?>">
-        <div class="reza-archive-feed">
-            <?php if (have_posts()) : ?>
-                <?php if (!is_paged()) :
+    <div class="reza-archive-feed">
+        <?php if (have_posts()) : ?>
+            <?php if (!is_paged()) :
+                $remaining_posts = $wp_query->post_count - 1;
+                $companion_count = min(3, $remaining_posts);
+                $top_grid_count = min(4, $remaining_posts - $companion_count);
+                ?>
+                <div class="reza-archive-spread<?php echo $companion_count ? ' reza-archive-spread-with-companions' : ''; ?>">
+                    <?php
                     the_post();
                     get_template_part('template-parts/category', 'story', array('featured' => true));
-                endif; ?>
-                <?php if (have_posts()) : ?>
-                    <div class="reza-archive-grid">
-                        <?php while (have_posts()) :
-                            the_post();
-                            get_template_part('template-parts/category', 'story');
-                        endwhile; ?>
-                    </div>
-                <?php endif; ?>
-                <?php the_posts_pagination(array(
-                    'mid_size' => 1,
-                    'prev_text' => __('Sebelumnya', 'mh-healthmag'),
-                    'next_text' => __('Berikutnya', 'mh-healthmag'),
-                    'screen_reader_text' => __('Navigasi arsip kategori', 'mh-healthmag'),
-                )); ?>
-            <?php else : ?>
-                <p class="reza-archive-empty"><?php esc_html_e('Belum ada artikel di kategori ini.', 'mh-healthmag'); ?></p>
+                    ?>
+                    <?php if ($companion_count) : ?>
+                        <div class="reza-archive-companions">
+                            <?php for ($index = 0; $index < $companion_count; $index++) :
+                                the_post();
+                                get_template_part('template-parts/category', 'story', array('show_image' => $index === 0));
+                            endfor; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($top_grid_count) : ?>
+                        <div class="reza-archive-grid reza-archive-grid-top">
+                            <?php for ($index = 0; $index < $top_grid_count; $index++) :
+                                the_post();
+                                get_template_part('template-parts/category', 'story');
+                            endfor; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
-        </div>
-        <?php if ($has_sidebar) : ?>
-            <aside class="reza-archive-sidebar" aria-label="<?php esc_attr_e('Informasi tambahan', 'mh-healthmag'); ?>">
-                <?php dynamic_sidebar('sidebar'); ?>
-            </aside>
+            <?php if (have_posts()) : ?>
+                <div class="reza-archive-grid">
+                    <?php while (have_posts()) :
+                        the_post();
+                        get_template_part('template-parts/category', 'story');
+                    endwhile; ?>
+                </div>
+            <?php endif; ?>
+            <?php the_posts_pagination(array(
+                'mid_size' => 1,
+                'prev_text' => __('Sebelumnya', 'mh-healthmag'),
+                'next_text' => __('Berikutnya', 'mh-healthmag'),
+                'screen_reader_text' => __('Navigasi arsip kategori', 'mh-healthmag'),
+            )); ?>
+        <?php else : ?>
+            <p class="reza-archive-empty"><?php esc_html_e('Belum ada artikel di kategori ini.', 'mh-healthmag'); ?></p>
         <?php endif; ?>
     </div>
 </main>
