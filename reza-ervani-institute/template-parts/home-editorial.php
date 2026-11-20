@@ -29,9 +29,8 @@ $series_category_ids = array_filter(array_merge(array_column($series, 'category_
     $manuscripts['category_id'] ?? 0,
     $old_fatwa_category ? (int) $old_fatwa_category->term_id : 0,
 )));
-$collections = reza_ervani_editorial_collections();
-$collection_category_ids = array_column($collections, 'category_id');
 $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
+$collection_category_ids = $show_widgets ? reza_ervani_home_posting_ads_categories() : array();
 $english_sections = $show_widgets ? array_filter(array(
     reza_ervani_editorial_series('aqeedah'),
     reza_ervani_editorial_series('tadabbur-al-quran-in-english'),
@@ -62,14 +61,14 @@ $english_category_ids = array_column($english_sections, 'category_id');
     <?php if ($series) : ?>
         <?php get_template_part('template-parts/editorial', 'ad'); ?>
     <?php endif; ?>
-    <?php if ($show_widgets || $collections || $manuscripts) : ?>
+    <?php if ($show_widgets || $manuscripts) : ?>
         <div class="reza-editorial-widgets">
             <?php if ($show_widgets) :
                 $replaced_categories = array_filter(array_merge(
                     $series_category_ids,
                     $collection_category_ids,
                     $english_category_ids,
-                    array_column($collections, 'replaces_id')
+                    reza_ervani_legacy_collection_category_ids()
                 ));
                 $filter = static function ($instance, $widget, $sidebar) use ($replaced_categories) {
                     return reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $replaced_categories);
@@ -77,10 +76,8 @@ $english_category_ids = array_column($english_sections, 'category_id');
                 add_filter('widget_display_callback', $filter, 10, 3);
                 dynamic_sidebar('home-1');
                 remove_filter('widget_display_callback', $filter, 10);
+                dynamic_sidebar(Reza_Ervani_Posting_Ads::HOME_AREA);
             endif; ?>
-            <?php foreach ($collections as $collection) : ?>
-                <?php get_template_part('template-parts/editorial', 'collection', $collection + array('show_widgets' => $show_widgets)); ?>
-            <?php endforeach; ?>
             <?php if ($show_widgets && is_active_sidebar('home-video-gallery')) : ?>
                 <div class="reza-editorial-video-gallery">
                     <?php dynamic_sidebar('home-video-gallery'); ?>

@@ -1,7 +1,7 @@
 <?php
 $lead = $args['stories'][0];
 $supporting = array_slice($args['stories'], 1);
-$title_id = 'reza-editorial-collection-' . $args['category_id'];
+$title_id = $args['title_id'];
 $archive_url = get_category_link($args['category_id']);
 $image = get_the_post_thumbnail($lead, 'medium_large', array(
     'class' => 'reza-editorial-collection-image',
@@ -12,7 +12,7 @@ $excerpt = function_exists('pms_is_post_restricted') && pms_is_post_restricted($
     ? __('Konten premium', 'mh-healthmag')
     : wp_trim_words(wp_strip_all_tags(get_the_excerpt($lead)), 29, '…');
 ?>
-<section class="reza-editorial-collection<?php echo $args['show_widgets'] ? ' reza-editorial-collection-with-ad-column' : ''; ?>" aria-labelledby="<?php echo esc_attr($title_id); ?>">
+<section class="reza-editorial-collection reza-editorial-collection-with-ad-column" aria-labelledby="<?php echo esc_attr($title_id); ?>">
     <div class="reza-editorial-collection-content">
         <header class="reza-editorial-collection-header">
             <h2 id="<?php echo esc_attr($title_id); ?>"><?php echo esc_html($args['title']); ?></h2>
@@ -41,9 +41,14 @@ $excerpt = function_exists('pms_is_post_restricted') && pms_is_post_restricted($
             <?php endif; ?>
         </div>
     </div>
-    <?php if ($args['show_widgets'] && is_active_sidebar($args['sidebar'])) : ?>
+    <?php if ($args['ad_html'] !== '') : ?>
         <aside class="reza-editorial-collection-ad" aria-label="<?php echo esc_attr(sprintf(__('Iklan %s', 'mh-healthmag'), $args['title'])); ?>">
-            <?php dynamic_sidebar($args['sidebar']); ?>
+            <div class="mh-widget">
+                <?php if ($args['ad_title'] !== '') : ?>
+                    <h3 class="mh-widget-title"><span class="mh-widget-title-inner"><?php echo esc_html($args['ad_title']); ?></span></h3>
+                <?php endif; ?>
+                <div class="textwidget custom-html-widget"><?php echo $args['ad_html']; ?></div>
+            </div>
         </aside>
     <?php endif; ?>
 </section>

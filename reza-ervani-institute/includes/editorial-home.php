@@ -183,48 +183,14 @@ function reza_ervani_editorial_question_cards($category) {
     return $cards;
 }
 
-function reza_ervani_editorial_collection_topics() {
-    return array(
-        'kunuuz-riyadhus-shaalihin' => array(
-            'title' => __('Kunuuz Riyadhus Shalihin', 'mh-healthmag'),
-            'replaces' => 'tadabbur-al-quran',
-            'sidebar' => 'home-ad-kunuuz',
-        ),
-        'manzhumah-al-jazariyah' => array(
-            'title' => __('Jazariyyah', 'mh-healthmag'),
-            'replaces' => 'tanya-jawab',
-            'sidebar' => 'home-ad-jazariyyah',
-        ),
-        'ilmu-rasm-dan-dhabth' => array(
-            'title' => __('Ilmu Rasm dan Dhabth', 'mh-healthmag'),
-            'replaces' => 'sejarah-palestina',
-            'sidebar' => 'home-ad-rasm',
-        ),
-    );
-}
+function reza_ervani_legacy_collection_category_ids() {
+    // Suppress the older sidebar duplicates of the sections at the top of the homepage.
+    $ids = get_terms(array(
+        'taxonomy' => 'category',
+        'slug' => array('tadabbur-al-quran', 'tanya-jawab', 'sejarah-palestina'),
+        'fields' => 'ids',
+        'hide_empty' => false,
+    ));
 
-function reza_ervani_editorial_collections() {
-    $collections = array();
-    foreach (reza_ervani_editorial_collection_topics() as $slug => $topic) {
-        $category = get_category_by_slug($slug);
-        if (!$category) {
-            continue;
-        }
-
-        $stories = reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 3));
-        if (!$stories) {
-            continue;
-        }
-
-        $previous = get_category_by_slug($topic['replaces']);
-        $collections[] = array(
-            'title' => $topic['title'],
-            'sidebar' => $topic['sidebar'],
-            'category_id' => $category->term_id,
-            'replaces_id' => $previous ? $previous->term_id : 0,
-            'stories' => $stories,
-        );
-    }
-
-    return $collections;
+    return is_wp_error($ids) ? array() : $ids;
 }

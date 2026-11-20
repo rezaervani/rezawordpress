@@ -6,7 +6,6 @@ $sidebar_areas = array('home-6');
 
 if (!$editorial) {
     $content_areas[] = 'home-video-gallery';
-    $sidebar_areas = array_merge(array_column(reza_ervani_editorial_collection_topics(), 'sidebar'), $sidebar_areas);
 }
 
 $content_areas = array_filter($content_areas, 'is_active_sidebar');
