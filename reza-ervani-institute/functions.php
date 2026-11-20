@@ -59,6 +59,9 @@ function mh_healthmag_styles() {
     }
     if (is_singular('post')) {
         wp_enqueue_style('reza-ervani-article', get_stylesheet_directory_uri() . '/article.css', array('reza-ervani-editorial'), $mh_healthmag_version);
+        if (!post_password_required() && array_filter(array_keys(reza_ervani_article_inline_ad_areas()), 'is_active_sidebar')) {
+            wp_enqueue_script('reza-ervani-article-ads', get_stylesheet_directory_uri() . '/js/article-ads.js', array(), $mh_healthmag_version, true);
+        }
     }
     if (is_rtl()) {
         $base_rtl_css = $legacy_parent ? '/rtl.css' : '/magazine-rtl.css';
