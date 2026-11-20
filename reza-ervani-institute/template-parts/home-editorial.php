@@ -37,6 +37,7 @@ $fiqh_category_id = $fiqh_stories ? $fiqh_category->term_id : 0;
     <?php endif; ?>
     <?php if ($fiqh_stories) : ?>
         <?php get_template_part('template-parts/editorial', 'series', array('category' => $fiqh_category, 'stories' => $fiqh_stories)); ?>
+        <?php get_template_part('template-parts/editorial', 'ad'); ?>
     <?php endif; ?>
     <?php if (get_theme_mod('reza_ervani_editorial_widgets', true)) : ?>
         <div class="reza-editorial-widgets">
