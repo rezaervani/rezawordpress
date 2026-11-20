@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.30 =
+* Tampilkan gambar utama dengan proporsi aslinya dan hingga tiga judul tambahan di tiap kolom artikel widget Posting dan Iklan.
+
 = v1.2.29 =
 * Ganti koleksi beranda statik dengan widget Posting dan Iklan yang bisa ditambah dan diurutkan di area Beranda – Posting dan Iklan.
 * Pindahkan tiga koleksi dan iklan HTML Khusus yang sudah ada ke widget baru pada pembaruan.

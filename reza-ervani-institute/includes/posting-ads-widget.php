@@ -70,7 +70,7 @@ class Reza_Ervani_Posting_Ads extends WP_Widget {
             return;
         }
 
-        $stories = reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 3));
+        $stories = reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 7));
         if (!$stories) {
             return;
         }
