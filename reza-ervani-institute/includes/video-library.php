@@ -1,7 +1,7 @@
 <?php
 
 function reza_ervani_register_video_library() {
-    if (post_type_exists('aiovg_videos')) {
+    if (post_type_exists('aiovg_videos') || get_option('reza_ervani_video_posts_migrated')) {
         return;
     }
 
@@ -68,8 +68,10 @@ function reza_ervani_register_video_library() {
 add_action('init', 'reza_ervani_register_video_library', 20);
 
 function reza_ervani_refresh_video_rewrites() {
-    $native_library = has_filter('the_content', 'reza_ervani_video_content') !== false;
-    $mode = $native_library ? 'theme' : 'plugin';
+    $mode = 'articles';
+    if (post_type_exists('aiovg_videos')) {
+        $mode = has_filter('the_content', 'reza_ervani_video_content') !== false ? 'theme' : 'plugin';
+    }
     if (get_option('reza_ervani_video_rewrite_mode') !== $mode) {
         flush_rewrite_rules(false);
         update_option('reza_ervani_video_rewrite_mode', $mode, false);
@@ -77,25 +79,10 @@ function reza_ervani_refresh_video_rewrites() {
 }
 add_action('wp_loaded', 'reza_ervani_refresh_video_rewrites');
 
-function reza_ervani_video_thumbnail($post_id, $size, $attributes = array()) {
-    $thumbnail_id = get_post_thumbnail_id($post_id) ?: absint(get_post_meta($post_id, 'image_id', true));
-    $image = $thumbnail_id ? wp_get_attachment_image($thumbnail_id, $size, false, $attributes) : '';
-    if ($image) {
-        return $image;
-    }
-
-    $url = esc_url(get_post_meta($post_id, 'image', true), array('http', 'https'));
-    return $url ? sprintf('<img src="%s" alt="" loading="lazy" decoding="async">', $url) : '';
-}
-
-function reza_ervani_video_access_allowed($post_id) {
-    if (function_exists('pms_is_post_restricted') && pms_is_post_restricted($post_id)) {
-        return false;
-    }
-
+function reza_ervani_legacy_video_policy($post_id) {
     $settings = (array) get_option('aiovg_restrictions_settings', array());
-    if (empty($settings['enable_restrictions']) || current_user_can('edit_post', $post_id) || current_user_can('manage_aiovg_options')) {
-        return true;
+    if (empty($settings['enable_restrictions'])) {
+        return array(0, array());
     }
 
     $access = (int) ($settings['access_control'] ?? 2);
@@ -105,12 +92,61 @@ function reza_ervani_video_access_allowed($post_id) {
         $access = (int) $override;
         $roles = (array) (get_post_meta($post_id, 'restricted_roles', true) ?: $roles);
     }
-    $roles = array_filter($roles);
+    return array($access, array_filter($roles));
+}
+
+function reza_ervani_video_access_allowed($post_id) {
+    if (function_exists('pms_is_post_restricted') && pms_is_post_restricted($post_id)) {
+        return false;
+    }
+    if (current_user_can('edit_post', $post_id) || current_user_can('manage_aiovg_options')) {
+        return true;
+    }
+
+    list($access, $roles) = reza_ervani_legacy_video_policy($post_id);
 
     return $access === 0
         || ($access === 1 && !is_user_logged_in())
         || ($access === 2 && is_user_logged_in() && (!$roles || array_intersect($roles, wp_get_current_user()->roles)));
 }
+
+function reza_ervani_local_video_path($url) {
+    $path = trim((string) wp_parse_url($url, PHP_URL_PATH), '/');
+    $base = trim((string) wp_parse_url(home_url('/'), PHP_URL_PATH), '/');
+    if ($path === $base) {
+        return '';
+    }
+    if ($base !== '' && strpos($path, $base . '/') === 0) {
+        $path = substr($path, strlen($base) + 1);
+    }
+    return rawurldecode($path);
+}
+
+function reza_ervani_redirect_migrated_video($wp) {
+    if (!in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', array('GET', 'HEAD'), true)) {
+        return;
+    }
+
+    $path = rawurldecode(trim((string) $wp->request, '/'));
+    $paths = (array) get_option('reza_ervani_migrated_video_paths', array());
+    $post_id = $paths[$path] ?? 0;
+    if (!$post_id || get_post_type($post_id) !== 'post') {
+        return;
+    }
+
+    $status = get_post_status($post_id);
+    if ($status !== 'publish' && !($status === 'private' && current_user_can('read_post', $post_id))) {
+        return;
+    }
+
+    $url = get_permalink($post_id);
+    if ($url && $path === reza_ervani_local_video_path($url)) {
+        $wp->query_vars = array('p' => $post_id, 'post_type' => 'post');
+    } elseif ($url && wp_safe_redirect($url, 301)) {
+        exit;
+    }
+}
+add_action('parse_request', 'reza_ervani_redirect_migrated_video');
 
 function reza_ervani_video_content($content) {
     if (!is_singular('aiovg_videos') || !in_the_loop() || !is_main_query() || post_password_required()) {

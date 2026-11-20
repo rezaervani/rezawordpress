@@ -5,7 +5,11 @@ $settings = $args['settings'];
     <?php foreach ($args['videos'] as $video) :
         $title = reza_ervani_editorial_title($video);
         $link = get_permalink($video);
-        $image = reza_ervani_video_thumbnail($video->ID, 'medium_large', array('alt' => '', 'loading' => 'lazy'));
+        $image = get_the_post_thumbnail($video, 'medium_large', array('alt' => '', 'loading' => 'lazy'));
+        if (!$image) {
+            $poster = esc_url(get_post_meta($video->ID, '_reza_video_poster', true), array('http', 'https'));
+            $image = $poster ? sprintf('<img src="%s" alt="" loading="lazy" decoding="async">', $poster) : '';
+        }
         $duration = $settings['show_duration'] ? get_post_meta($video->ID, 'duration', true) : '';
         $views = $settings['show_views'] ? get_post_meta($video->ID, 'views', true) : '';
         ?>
@@ -24,8 +28,7 @@ $settings = $args['settings'];
                 <p class="reza-video-meta"><?php echo esc_html(sprintf(__('%s tayangan', 'mh-healthmag'), number_format_i18n((int) $views))); ?></p>
             <?php endif; ?>
             <?php if ($settings['show_category']) :
-                $taxonomy = $video->post_type === 'post' ? 'category' : 'aiovg_categories';
-                $terms = get_the_term_list($video->ID, $taxonomy, '', ', ');
+                $terms = get_the_term_list($video->ID, 'category', '', ', ');
                 if ($terms && !is_wp_error($terms)) :
                     ?>
                     <p class="reza-video-meta"><?php echo wp_kses_post($terms); ?></p>
