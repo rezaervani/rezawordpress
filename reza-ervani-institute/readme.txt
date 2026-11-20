@@ -58,6 +58,11 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.17 =
+* Tambah deretan Serial Adab, Syarh al Khaaqaaniyyah, dan Makkiyyah dan Madaniyyah di bawah deretan kategori pertama.
+* Kelola deretan baru melalui Tampilan → Widget → Beranda – Tiga Kolom Kategori (Baris Kedua).
+* Pindahkan widget sidebar Topik Lain di Web Rezaervani.com ke Widget Nonaktif.
+
 = v1.2.16 =
 * Pindahkan Qiroah Sab'ah, Ilmu Qiroat, dan Hilyatut Tilawah ke deretan di bawah galeri video.
 * Ubah kategori, judul, jumlah artikel, dan urutan kolom di Tampilan → Widget → Beranda – Tiga Kolom Kategori.

@@ -820,13 +820,20 @@ body.reza-editorial {
 
 /***** Category widgets below the video gallery *****/
 
+.reza-editorial-category-widget-rows {
+    margin-block-end: 1.65rem;
+}
+
 .reza-editorial-widget-columns {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1rem 1.5rem;
-    margin-block-end: 1.65rem;
     padding-block: .9rem;
     border-block: 1px solid var(--reza-ink);
+}
+
+.reza-editorial-widget-columns + .reza-editorial-widget-columns {
+    border-block-start: 0;
 }
 
 .reza-editorial-widget-columns > .mh-widget {
