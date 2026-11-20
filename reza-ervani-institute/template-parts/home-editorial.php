@@ -33,7 +33,9 @@ $collections = reza_ervani_editorial_collections();
 $collection_category_ids = array_column($collections, 'category_id');
 $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
 $english_sections = $show_widgets ? array_filter(array(
+    reza_ervani_editorial_series('aqeedah'),
     reza_ervani_editorial_series('tadabbur-al-quran-in-english'),
+    reza_ervani_editorial_series('hadith-explanation'),
     reza_ervani_editorial_series('islamic-question-answer'),
 )) : array();
 $english_category_ids = array_column($english_sections, 'category_id');
