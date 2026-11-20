@@ -87,7 +87,7 @@ function reza_ervani_register_editorial_sidebars() {
         register_sidebar(array(
             'id' => $id,
             'name' => $row['name'],
-            'description' => __('Susun widget MH Custom Posts untuk memilih kategori, judul, dan jumlah artikel di deretan bawah galeri video.', 'mh-healthmag'),
+        'description' => __('Susun widget Daftar Artikel untuk memilih kategori, judul, dan jumlah artikel di deretan bawah galeri video.', 'mh-healthmag'),
             'before_title' => '<h2 class="mh-widget-title">',
             'after_title' => '</h2>',
         ) + $widget_markup);
@@ -96,7 +96,7 @@ function reza_ervani_register_editorial_sidebars() {
 add_action('widgets_init', 'reza_ervani_register_editorial_sidebars');
 
 function reza_ervani_migrate_category_widgets() {
-    if (is_customize_preview()) {
+    if (get_option('reza_ervani_retired_mh_widgets_1_2_34') || is_customize_preview()) {
         return;
     }
 
@@ -214,3 +214,122 @@ function reza_ervani_move_legacy_jazariyyah_to_inactive_widgets() {
     update_option($migration, 1, false);
 }
 add_action('widgets_init', 'reza_ervani_move_legacy_jazariyyah_to_inactive_widgets', 95);
+
+function reza_ervani_retire_mh_widgets() {
+    $migration = 'reza_ervani_retired_mh_widgets_1_2_34';
+    if (get_option($migration) || is_customize_preview()) {
+        return;
+    }
+
+    $retired = array(
+        'mh_custom_posts' => 'compact',
+        'mh_magazine_lite_posts_focus' => 'featured',
+        'mh_magazine_lite_posts_large' => '',
+        'mh_magazine_lite_posts_stacked' => '',
+        'mh_magazine_lite_tabbed' => '',
+        'mh_slider_hp' => '',
+    );
+    $sidebars = (array) get_option('sidebars_widgets', array());
+    $before = $sidebars;
+    $base = Reza_Ervani_Article_List::ID_BASE;
+    $option = 'widget_' . $base;
+    $instances = (array) get_option($option, array());
+    $saved = array();
+    foreach ($instances as $number => $instance) {
+        if (!empty($instance['legacy_widget'])) {
+            $saved[$instance['legacy_widget']] = $number;
+        }
+    }
+
+    $editorial = get_theme_mod('reza_ervani_editorial_home', true);
+    $replaced = $editorial ? reza_ervani_retired_editorial_category_ids() : array();
+    $legacy_settings = array();
+    $backup = array();
+    $number = 2;
+    $widget = new Reza_Ervani_Article_List();
+    foreach ($sidebars as $area => $ids) {
+        if (!is_array($ids)) {
+            continue;
+        }
+        foreach ($ids as $index => $id) {
+            if (!preg_match('/^([a-z_]+)-(\d+)$/D', $id, $match) || !isset($retired[$match[1]])) {
+                continue;
+            }
+            $old_base = $match[1];
+            $backup[$area] = $ids;
+            unset($sidebars[$area][$index]);
+            if ($area === 'wp_inactive_widgets' || $retired[$old_base] === '') {
+                continue;
+            }
+
+            $legacy_settings[$old_base] = $legacy_settings[$old_base] ?? (array) get_option('widget_' . $old_base, array());
+            $old = $legacy_settings[$old_base][$match[2]] ?? null;
+            $editorial_area = $editorial && in_array($area, array('home-1', 'home-2', 'home-3', 'home-4', 'home-5', 'home-6'), true);
+            $latest = $old_base === 'mh_magazine_lite_posts_focus' && strcasecmp(trim(wp_strip_all_tags($old['title'] ?? '')), 'Terbaru') === 0;
+            $duplicate = $latest || in_array((int) ($old['category'] ?? 0), $replaced, true);
+            if (!$old || ($editorial_area && $duplicate)) {
+                continue;
+            }
+
+            if (!isset($saved[$id])) {
+                while (isset($instances[$number])) {
+                    $number++;
+                }
+                $instances[$number] = $widget->settings(array(
+                    'layout' => $retired[$old_base],
+                    'ignore_sticky' => !empty($old['sticky'] ?? 1),
+                ) + $old) + array('legacy_widget' => $id);
+                $saved[$id] = $number;
+            }
+            $sidebars[$area][$index] = $base . '-' . $saved[$id];
+        }
+        if ($sidebars[$area] !== $ids) {
+            ksort($sidebars[$area]);
+            $sidebars[$area] = array_values(array_unique($sidebars[$area]));
+        }
+    }
+
+    if ($backup) {
+        $backup_option = 'reza_ervani_retired_mh_widget_placements';
+        if (!get_option($backup_option) && !add_option($backup_option, $backup, '', false) && !get_option($backup_option)) {
+            return;
+        }
+        // Save the replacements first so a retry can reuse their recorded widget IDs.
+        if ($instances) {
+            $instances['_multiwidget'] = 1;
+            if (!update_option($option, $instances) && get_option($option) !== $instances) {
+                return;
+            }
+        }
+        if ($before !== $sidebars) {
+            $sidebars['array_version'] = $sidebars['array_version'] ?? 3;
+            wp_set_sidebars_widgets($sidebars);
+            if (get_option('sidebars_widgets') !== $sidebars) {
+                return;
+            }
+        }
+    }
+
+    update_option($migration, 1, false);
+}
+// Run after the older homepage migrations and before the widget factory registers instances.
+add_action('widgets_init', 'reza_ervani_retire_mh_widgets', 97);
+
+function reza_ervani_retired_editorial_category_ids() {
+    $ids = array_merge(reza_ervani_legacy_collection_category_ids(), reza_ervani_home_posting_ads_categories());
+    $slugs = array('fiqh-muyassar', 'fathul-qarib-al-mujib', 'fatwa-lajnah-daimah-saudi-arabia', 'manuskrip',
+        'aqeedah', 'tadabbur-al-quran-in-english', 'hadith-explanation', 'islamic-question-answer');
+    foreach ($slugs as $slug) {
+        $series = reza_ervani_editorial_series($slug);
+        if ($series) {
+            $ids[] = $series['category_id'];
+            if ($slug === 'fatwa-lajnah-daimah-saudi-arabia') {
+                $fatwa = get_category_by_slug('fatwa');
+                if ($fatwa) {
+                    $ids[] = (int) $fatwa->term_id;
+                }
+            }
+        }
+    }
+    return $ids;
+}

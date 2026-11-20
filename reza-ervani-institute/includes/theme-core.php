@@ -257,7 +257,6 @@ if (is_admin()) {
 }
 
 require_once __DIR__ . '/mh-customizer.php';
-require_once __DIR__ . '/mh-widgets.php';
 require_once __DIR__ . '/mh-custom-functions.php';
 require_once __DIR__ . '/mh-compatibility.php';
 
