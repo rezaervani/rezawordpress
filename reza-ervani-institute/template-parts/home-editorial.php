@@ -62,11 +62,7 @@ $show_widgets = get_theme_mod('reza_ervani_editorial_widgets', true);
             <?php endforeach; ?>
             <?php if ($show_widgets && is_active_sidebar('home-video-gallery')) : ?>
                 <div class="reza-editorial-video-gallery">
-                    <?php
-                    add_filter('widget_display_callback', 'reza_ervani_editorial_gallery_widget', 10, 2);
-                    dynamic_sidebar('home-video-gallery');
-                    remove_filter('widget_display_callback', 'reza_ervani_editorial_gallery_widget', 10);
-                    ?>
+                    <?php dynamic_sidebar('home-video-gallery'); ?>
                 </div>
             <?php endif; ?>
             <?php if ($show_widgets) :
