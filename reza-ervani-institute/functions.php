@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/includes/homepage-customizer.php';
 require_once __DIR__ . '/includes/editorial-home.php';
+require_once __DIR__ . '/includes/posting-ads-widget.php';
 require_once __DIR__ . '/includes/editorial-widgets.php';
 require_once __DIR__ . '/includes/latest-posts-widget.php';
 require_once __DIR__ . '/includes/video-library.php';
@@ -51,7 +52,7 @@ function mh_healthmag_styles() {
     wp_enqueue_style('mh-magazine-lite', get_template_directory_uri() . $base_css, array(), $mh_healthmag_version);
     wp_enqueue_style('mh-healthmag', get_stylesheet_uri(), array('mh-magazine-lite'), $mh_healthmag_version);
     $editorial_home = reza_ervani_uses_editorial_home();
-    if ($editorial_home || is_singular('post')) {
+    if ($editorial_home || is_singular('post') || is_active_widget(false, false, Reza_Ervani_Posting_Ads::ID_BASE, true)) {
         wp_enqueue_style('reza-ervani-editorial', get_stylesheet_directory_uri() . '/editorial.css', array('mh-healthmag'), $mh_healthmag_version);
     }
     if ($editorial_home) {

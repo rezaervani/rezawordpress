@@ -840,6 +840,18 @@ body.reza-editorial {
 
 /***** Koleksi editorial *****/
 
+.reza-posting-ads-widget {
+    container: reza-posting-ads / inline-size;
+    margin-block-end: 0;
+}
+
+body:not(.reza-editorial) .reza-posting-ads-widget {
+    --reza-ink: #201e19;
+    --reza-muted: #57554d;
+    --reza-rule: #cec9b9;
+    --reza-sans: system-ui, sans-serif;
+}
+
 .reza-editorial-collection {
     border-top: 1px solid var(--reza-ink);
     padding-block: 1.25rem 1.55rem;
@@ -913,7 +925,7 @@ body.reza-editorial {
     text-underline-offset: .13em;
 }
 
-@media (min-width: 850px) {
+@container reza-posting-ads (min-width: 802px) {
     .reza-editorial-collection-with-ad-column {
         display: grid;
         grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
