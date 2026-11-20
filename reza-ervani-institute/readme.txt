@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.37 =
+* Jadikan Sorotan Utama widget beranda dengan pengaturan jumlah judul untuk masing-masing kolom.
+
 = v1.2.36 =
 * Bentangkan latar dan garis pembatas pita iklan beranda dan artikel sampai ke tepi halaman.
 

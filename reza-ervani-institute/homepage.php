@@ -4,6 +4,7 @@
     <?php get_template_part('template-parts/home', 'editorial'); ?>
 <?php else : ?>
     <div class="mh-wrapper mh-home mh-clearfix">
+        <?php dynamic_sidebar(Reza_Ervani_Spotlight::HOME_AREA); ?>
         <?php dynamic_sidebar('home-1'); ?>
         <?php dynamic_sidebar(Reza_Ervani_Posting_Ads::HOME_AREA); ?>
         <main id="main-content" class="mh-home-content">
