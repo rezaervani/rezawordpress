@@ -34,8 +34,9 @@ $category_labels = array(
     <?php foreach ($categories as $category) : ?>
         <?php
         $wide = in_array($category->slug, $wide_slugs, true);
+        $palestine = $category->slug === 'sejarah-palestina';
         $archive_url = get_category_link($category->term_id);
-        $count = $wide ? $wide_count : $compact_count;
+        $count = $wide ? ($palestine ? 6 : $wide_count) : $compact_count;
         $stories = reza_ervani_editorial_posts(array(
             'cat' => $category->term_id,
             'numberposts' => $count + (int) ($featured_id > 0),
@@ -55,7 +56,7 @@ $category_labels = array(
         $lead = $wide ? array_shift($stories) : null;
         $title_id = 'reza-category-' . $category->term_id;
         ?>
-        <section class="reza-editorial-category<?php echo $wide ? ' reza-editorial-category-wide' : ''; ?>" aria-labelledby="<?php echo esc_attr($title_id); ?>">
+        <section class="reza-editorial-category<?php echo $wide ? ' reza-editorial-category-wide' : ''; ?><?php echo $palestine ? ' reza-editorial-category-palestine' : ''; ?>" aria-labelledby="<?php echo esc_attr($title_id); ?>">
             <header class="reza-editorial-category-header">
                 <h2 id="<?php echo esc_attr($title_id); ?>">
                     <a href="<?php echo esc_url($archive_url); ?>"><?php echo esc_html($category_labels[$category->slug] ?? $category->name); ?></a>
@@ -87,7 +88,7 @@ $category_labels = array(
                     </ul>
                 <?php endif; ?>
             </div>
-            <?php if ($category->slug === 'sejarah-palestina') : ?>
+            <?php if ($palestine) : ?>
                 <div class="reza-editorial-category-resources">
                     <a href="<?php echo esc_url(home_url('/timeline/')); ?>"><?php esc_html_e('Timeline Palestina', 'mh-healthmag'); ?></a>
                     <a href="<?php echo esc_url(home_url('/palestina/peta')); ?>"><?php esc_html_e('Peta Palestina', 'mh-healthmag'); ?></a>

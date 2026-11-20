@@ -3,12 +3,16 @@ $menus = array(
     'main_nav' => __('Menu utama', 'mh-healthmag'),
     'top_nav' => __('Layanan dan kategori', 'mh-healthmag'),
 );
+$today = current_datetime();
 ?>
 <a class="screen-reader-text" href="#main-content"><?php esc_html_e('Lewati ke konten', 'mh-healthmag'); ?></a>
 <header class="reza-masthead google-anno-skip">
     <div class="reza-editorial-wrap">
         <div class="reza-masthead-utility">
-            <time datetime="<?php echo esc_attr(wp_date('Y-m-d')); ?>"><?php echo esc_html(wp_date('l, j F Y')); ?></time>
+            <time class="reza-masthead-date" datetime="<?php echo esc_attr($today->format('Y-m-d')); ?>">
+                <span><?php echo esc_html(wp_date('l, j F Y', $today->getTimestamp(), $today->getTimezone())); ?></span>
+                <span class="reza-masthead-date-hijri"><?php echo esc_html(reza_ervani_editorial_hijri_date($today)); ?></span>
+            </time>
             <details class="reza-masthead-search">
                 <summary><?php esc_html_e('Cari', 'mh-healthmag'); ?></summary>
                 <form method="get" action="<?php echo esc_url(home_url('/')); ?>" role="search">

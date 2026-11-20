@@ -13,6 +13,38 @@ function reza_ervani_editorial_body_class($classes) {
 }
 add_filter('body_class', 'reza_ervani_editorial_body_class');
 
+function reza_ervani_editorial_hijri_date(DateTimeImmutable $date) {
+    $utc = new DateTimeZone('UTC');
+    $civil_date = new DateTimeImmutable($date->format('Y-m-d'), $utc);
+    $epoch = new DateTimeImmutable('0622-07-19', $utc);
+    $days = (int) $epoch->diff($civil_date)->format('%r%a');
+
+    // The civil Hijri calendar uses a 30-year cycle with 11 leap days.
+    $year = intdiv(30 * $days + 10646, 10631);
+    $day_of_year = $days - (354 * ($year - 1) + intdiv(3 + 11 * $year, 30));
+
+    // Months alternate between 30 and 29 days. The leap day stays in Zulhijah.
+    $month = min(12, 1 + intdiv(2 * $day_of_year, 59));
+    $day = $day_of_year - intdiv(59 * ($month - 1) + 1, 2) + 1;
+    $months = array(
+        __('Muharam', 'mh-healthmag'),
+        __('Safar', 'mh-healthmag'),
+        __('Rabiulawal', 'mh-healthmag'),
+        __('Rabiulakhir', 'mh-healthmag'),
+        __('Jumadilawal', 'mh-healthmag'),
+        __('Jumadilakhir', 'mh-healthmag'),
+        __('Rajab', 'mh-healthmag'),
+        __('Syakban', 'mh-healthmag'),
+        __('Ramadan', 'mh-healthmag'),
+        __('Syawal', 'mh-healthmag'),
+        __('Zulkaidah', 'mh-healthmag'),
+        __('Zulhijah', 'mh-healthmag'),
+    );
+
+    /* translators: 1: Hijri day, 2: Hijri month, 3: Hijri year. */
+    return sprintf(__('%1$d %2$s %3$d H', 'mh-healthmag'), $day, $months[$month - 1], $year);
+}
+
 function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar, $replaced_categories) {
     if ($sidebar['id'] === 'home-1' && $widget->id_base === 'mh_slider_hp') {
         return false;
