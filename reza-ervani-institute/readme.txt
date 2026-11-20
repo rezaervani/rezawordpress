@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.25 =
+* Sejajarkan kolom Sorotan Utama dan Terbaru pada desktop.
+* Susun kartu Tanya Jawab dalam tujuh kolom pada layar lebar dan sejajarkan gambar serta daftar judul di setiap baris.
+
 = v1.2.24 =
 * Gunakan header artikel melekat dengan nama situs sebagai tautan ke beranda.
 * Hilangkan blok widget sidebar lama dari halaman artikel.

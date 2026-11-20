@@ -453,21 +453,95 @@ body.reza-editorial {
     }
 
     .reza-editorial-opening-with-latest {
-        grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
-        gap: 1.45rem;
+        --reza-opening-gap: 1.45rem;
+        grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+        column-gap: var(--reza-opening-gap);
+    }
+
+    .reza-editorial-spotlight,
+    .reza-editorial-latest {
+        display: flex;
+        flex-direction: column;
     }
 
     .reza-editorial-latest {
+        position: relative;
+    }
+
+    .reza-editorial-latest::before {
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: calc(var(--reza-opening-gap) / -2);
         border-inline-start: 1px solid var(--reza-rule);
-        padding-inline-start: 1.25rem;
+        content: '';
+    }
+
+    .reza-editorial-latest > ul {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+
+    .reza-editorial-latest li {
+        align-content: center;
+        flex: 1 0 auto;
     }
 
     .reza-editorial-lead-with-image {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
+        flex: 1;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+        column-gap: var(--reza-opening-gap, 1.45rem);
+    }
+
+    .reza-editorial-lead-with-image > .reza-editorial-lead-side {
+        display: contents;
+    }
+
+    .reza-editorial-lead-with-image:has(.reza-editorial-support) {
+        grid-template-rows: 1fr auto;
+    }
+
+    .reza-editorial-lead-with-image .reza-editorial-support {
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+        column-gap: var(--reza-opening-gap, 1.45rem);
+        margin-block-start: 0;
+        padding-block: .6rem;
+        border-bottom: 1px solid var(--reza-rule);
+    }
+
+    .reza-editorial-lead-with-image .reza-editorial-support li + li {
+        padding-block-start: 0;
+        border-top: 0;
     }
 
     .reza-editorial-categories {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@supports (grid-template-columns: subgrid) {
+    @media (min-width: 900px) {
+        .reza-editorial-opening-with-latest:has(.reza-editorial-lead-with-image) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+        }
+
+        .reza-editorial-opening-with-latest:has(.reza-editorial-lead-with-image) > .reza-editorial-spotlight {
+            display: grid;
+            grid-column: span 2;
+            grid-template-columns: subgrid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .reza-editorial-opening-with-latest .reza-editorial-lead-with-image,
+        .reza-editorial-opening-with-latest .reza-editorial-lead-with-image .reza-editorial-support {
+            grid-column: 1 / -1;
+            grid-template-columns: subgrid;
+        }
+
+        .reza-editorial-opening-with-latest .reza-editorial-spotlight > h2 {
+            grid-column: 1 / -1;
+        }
     }
 }
 
@@ -529,8 +603,9 @@ body.reza-editorial {
 
 .reza-editorial-question-card {
     min-width: 0;
-    padding-block-start: .65rem;
+    padding-block: .65rem .85rem;
     border-top: 1px solid var(--reza-rule);
+    border-bottom: 1px solid var(--reza-rule);
     overflow-wrap: anywhere;
 }
 
@@ -567,6 +642,26 @@ body.reza-editorial {
     text-underline-offset: .13em;
 }
 
+@supports (grid-template-rows: subgrid) {
+    @media (min-width: 360px) {
+        .reza-editorial-question-grid {
+            row-gap: 0;
+        }
+
+        .reza-editorial-question-card {
+            display: grid;
+            grid-row: span 3;
+            grid-template-rows: subgrid;
+            align-items: start;
+            margin-block-end: 1.35rem;
+        }
+
+        .reza-editorial-question-card > ul {
+            grid-row: 3;
+        }
+    }
+}
+
 @media (min-width: 360px) {
     .reza-editorial-question-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -581,7 +676,12 @@ body.reza-editorial {
 
 @media (min-width: 1120px) {
     .reza-editorial-question-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        column-gap: 1.15rem;
+    }
+
+    .reza-editorial-question-card li a {
+        font-size: .95rem;
     }
 }
 
