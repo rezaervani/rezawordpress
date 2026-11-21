@@ -69,8 +69,8 @@ function reza_ervani_register_editorial_sidebars() {
 
     register_sidebar(array(
         'id' => 'home-network-ad',
-        'name' => __('Beranda – Iklan sebelum Tanya Jawab', 'mh-healthmag'),
-        'description' => __('Tambahkan unit iklan melalui widget HTML Khusus untuk tampil di antara Jaringan Situs dan Tanya Jawab.', 'mh-healthmag'),
+        'name' => __('Beranda – Iklan setelah Tanya Jawab', 'mh-healthmag'),
+        'description' => __('Tambahkan unit iklan melalui widget HTML Khusus untuk tampil di antara Tanya Jawab dan Jaringan Situs.', 'mh-healthmag'),
         'before_title' => '<h3 class="mh-widget-title"><span class="mh-widget-title-inner">',
         'after_title' => '</span></h3>',
     ) + $widget_markup);

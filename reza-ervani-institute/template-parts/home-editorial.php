@@ -36,14 +36,14 @@ $english_category_ids = array_column($english_sections, 'category_id');
             )),
         )); ?>
     <?php endif; ?>
+    <?php dynamic_sidebar(Reza_Ervani_Category_Grid::HOME_AREA); ?>
+    <?php get_template_part('template-parts/article', 'advertisement', array('area' => 'home-network-ad', 'editorial' => true)); ?>
     <?php if (is_active_sidebar(Reza_Ervani_Network_Feed_Widget::HOME_AREA)) : ?>
         <section class="reza-network-section" aria-labelledby="reza-network-section-title">
             <h2 id="reza-network-section-title" class="reza-network-section-title"><?php esc_html_e('Palestina dan Dunia Islam', 'mh-healthmag'); ?></h2>
             <div class="reza-editorial-network" style="--reza-network-tracks: <?php echo esc_attr(Reza_Ervani_Network_Feed_Widget::MAX_POSTS + 1); ?>"><?php dynamic_sidebar(Reza_Ervani_Network_Feed_Widget::HOME_AREA); ?></div>
         </section>
     <?php endif; ?>
-    <?php get_template_part('template-parts/article', 'advertisement', array('area' => 'home-network-ad', 'editorial' => true)); ?>
-    <?php dynamic_sidebar(Reza_Ervani_Category_Grid::HOME_AREA); ?>
     <?php foreach ($series as $section) : ?>
         <?php get_template_part('template-parts/editorial', 'series', $section); ?>
     <?php endforeach; ?>
