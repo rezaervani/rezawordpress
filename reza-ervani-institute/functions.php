@@ -5,6 +5,8 @@ require_once __DIR__ . '/includes/editorial-home.php';
 require_once __DIR__ . '/includes/spotlight-widget.php';
 require_once __DIR__ . '/includes/category-grid-widget.php';
 require_once __DIR__ . '/includes/article-list-widget.php';
+require_once __DIR__ . '/includes/network-feed.php';
+require_once __DIR__ . '/includes/network-feed-widget.php';
 require_once __DIR__ . '/includes/posting-ads-widget.php';
 require_once __DIR__ . '/includes/editorial-widgets.php';
 require_once __DIR__ . '/includes/latest-posts-widget.php';

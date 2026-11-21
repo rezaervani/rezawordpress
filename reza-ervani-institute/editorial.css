@@ -373,6 +373,60 @@ body.reza-editorial {
     margin-block-start: 1.65rem;
 }
 
+.reza-editorial-network {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1.5rem;
+    margin-block-start: 1.65rem;
+}
+
+.reza-editorial-network:empty {
+    display: none;
+}
+
+.reza-network-widget {
+    min-inline-size: 0;
+    border-block-start: 1px solid var(--reza-ink);
+    padding-block-start: .85rem;
+    overflow-wrap: anywhere;
+}
+
+.reza-network-heading {
+    margin-block-end: .7rem;
+    font: 700 clamp(1.35rem, 2.5vw, 1.85rem)/1.15 var(--reza-serif);
+    letter-spacing: -.025em;
+}
+
+.reza-network-article {
+    border-block-end: 1px solid var(--reza-rule);
+}
+
+.reza-network-article a {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    padding-block: .65rem;
+}
+
+.reza-network-article img {
+    flex: none;
+    inline-size: 80px;
+    block-size: 54px;
+    object-fit: cover;
+}
+
+.reza-network-article-title {
+    display: block;
+    font: 700 1.05rem/1.22 var(--reza-serif);
+}
+
+.reza-network-article time {
+    display: block;
+    margin-block-start: .3rem;
+    color: var(--reza-muted);
+    font: .75rem/1.35 var(--reza-sans);
+}
+
 @media (min-width: 600px) {
     .reza-editorial-categories {
         --reza-category-column-gap: 1.5rem;
