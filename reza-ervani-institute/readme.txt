@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.46 =
+* Sejajarkan judul, tanggal, dan garis pemisah berita pada baris tiga kolom segmen Palestina dan Dunia Islam.
+
 = v1.2.45 =
 * Beri judul Palestina dan Dunia Islam pada segmen Jaringan Situs dan pertahankan posisi kolom desktop meski sebagian slot kosong.
 
