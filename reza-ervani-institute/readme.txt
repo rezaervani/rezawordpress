@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.48 =
+* Sejajarkan awal dan akhir daftar artikel dua widget teratas di segmen Palestina dan Dunia Islam pada desktop.
+
 = v1.2.47 =
 * Sediakan area widget iklan selebar layar di antara Jaringan Situs dan Tanya Jawab pada beranda editorial.
 

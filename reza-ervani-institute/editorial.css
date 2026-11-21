@@ -469,25 +469,58 @@ body.reza-editorial {
 
         & > .reza-network-widget {
             border-block-start-color: var(--reza-rule);
+
+            & .reza-network-article {
+                display: grid;
+            }
+
+            & .reza-network-article > a {
+                align-items: stretch;
+            }
+
+            & .reza-network-article > a > span {
+                display: flex;
+                flex-direction: column;
+            }
+
+            & .reza-network-article time {
+                margin-block-start: auto;
+                padding-block-start: .3rem;
+            }
         }
 
         & > :nth-child(-n+2 of .reza-network-widget) {
+            display: grid;
+            grid-template-rows: auto 1fr;
             border-block-start: 0;
+
+            & > .reza-network-heading {
+                grid-row: 1;
+            }
+
+            & > .reza-network-articles {
+                display: grid;
+                grid-row: 2;
+            }
         }
 
         & > :nth-child(1 of .reza-network-widget) {
             grid-column: span 2;
 
             & .reza-network-articles {
-                display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 column-gap: 1.5rem;
+            }
+
+            & .reza-network-articles:has(> :nth-child(2)) {
+                grid-template-rows: max-content;
             }
 
             & .reza-network-article:first-child {
                 grid-column: 1 / -1;
 
                 & > a {
+                    align-items: start;
                     padding-block-end: .95rem;
                 }
 
@@ -531,13 +564,22 @@ body.reza-editorial {
 
 @supports (grid-template-rows: subgrid) {
     @media (min-width: 980px) {
-        .reza-editorial-network:has(> :nth-child(3 of .reza-network-widget)) {
+        .reza-editorial-network {
             row-gap: 0;
 
-            & > :not(.reza-network-widget, :first-child),
-            &::before,
-            &::after {
+            & > :not(.reza-network-widget) {
+                margin-block: .75rem;
+            }
+
+            &:has(> :nth-child(3 of .reza-network-widget))::before,
+            &:has(> :nth-child(3 of .reza-network-widget))::after {
                 margin-block-start: 1.5rem;
+            }
+
+            /* Give the opening pair common tracks for the heading and the story list. */
+            & > :nth-child(-n+2 of .reza-network-widget) {
+                grid-row: span 2;
+                grid-template-rows: subgrid;
             }
 
             & > :nth-child(n + 3 of .reza-network-widget) {
@@ -554,24 +596,6 @@ body.reza-editorial {
                     display: grid;
                     grid-row: 2 / -1;
                     grid-template-rows: subgrid;
-                }
-
-                & .reza-network-article {
-                    display: grid;
-                }
-
-                & .reza-network-article > a {
-                    align-items: stretch;
-                }
-
-                & .reza-network-article > a > span {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                & .reza-network-article time {
-                    margin-block-start: auto;
-                    padding-block-start: .3rem;
                 }
             }
         }
