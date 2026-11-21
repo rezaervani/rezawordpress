@@ -85,6 +85,10 @@ class Reza_Ervani_Network_Feed_Widget extends WP_Widget {
         $settings = $this->settings($instance);
         $posts = Reza_Ervani_Network_Feed::posts($settings['source'], $settings['category'], $settings['count']);
         if (!$posts) {
+            if (($args['id'] ?? '') === self::HOME_AREA) {
+                // Reserve this widget's desktop position even when its feed is empty.
+                echo $args['before_widget'] . $args['after_widget'];
+            }
             return;
         }
 
