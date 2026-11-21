@@ -359,6 +359,21 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
+    .reza-archive-topic-balanced {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .reza-archive-topic-balanced > :is(.reza-archive-topic-feature, .reza-archive-topic-grid, .reza-archive-topic-list) {
+        display: grid;
+        flex: 1;
+        align-self: stretch;
+    }
+
+    .reza-archive-topic-balanced:not(.reza-archive-topic-branch, :only-child) > .reza-archive-topic-feature {
+        grid-template-rows: auto 1fr;
+    }
+
     .reza-archive-spread-with-companions > .reza-archive-story-featured {
         grid-column: span 2;
         align-self: start;

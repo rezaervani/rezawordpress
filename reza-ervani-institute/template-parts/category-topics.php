@@ -9,14 +9,25 @@ $layouts = array('feature', 'grid', 'list');
         $url = $section['url'];
         $stories = $section['stories'];
         $heading_id = 'reza-archive-topic-' . $term->term_id;
-        $layout = count($stories) > 1 ? $layouts[($index + $level - 2) % count($layouts)] : 'list';
+        $default_layout = $layouts[($index + $level - 2) % count($layouts)];
+        $layout = $section['layout'] ?? $default_layout;
+        if (count($stories) < 2) {
+            $layout = 'list';
+        }
+        $classes = array('reza-archive-topic');
+        if ($section['children']) {
+            $classes[] = 'reza-archive-topic-branch';
+        }
+        if ($section['layout']) {
+            $classes[] = 'reza-archive-topic-balanced';
+        }
         $story_args = array(
             'heading_level' => $level + 1,
             'show_image' => $layout !== 'feature',
             'show_excerpt' => false,
         );
         ?>
-        <section class="reza-archive-topic<?php echo $section['children'] ? ' reza-archive-topic-branch' : ''; ?>" aria-labelledby="<?php echo esc_attr($heading_id); ?>">
+        <section class="<?php echo esc_attr(implode(' ', $classes)); ?>" aria-labelledby="<?php echo esc_attr($heading_id); ?>">
             <header class="reza-archive-topic-header">
                 <<?php echo $heading; ?> id="<?php echo esc_attr($heading_id); ?>" class="reza-archive-topic-title">
                     <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($term->name); ?></a>

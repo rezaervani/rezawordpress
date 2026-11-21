@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.42 =
+* Ratakan kolom Encyclopedia of Jews, Family Education, dan Hadith Explanation di arsip English Article. Tampilkan hingga delapan artikel berthumbnail pada Family Education dan Hadith Explanation.
+
 = v1.2.41 =
 * Susun panel subkategori dan kartu arsip dalam tiga kolom editorial yang menyesuaikan lebar layar.
 
