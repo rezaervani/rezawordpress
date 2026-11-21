@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.41 =
+* Susun panel subkategori dan kartu arsip dalam tiga kolom editorial yang menyesuaikan lebar layar.
+
 = v1.2.40 =
 * Susun subkategori bertingkat menjadi bagian editorial tersendiri pada halaman pertama arsip kategori induk.
 

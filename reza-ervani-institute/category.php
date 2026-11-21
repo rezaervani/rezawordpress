@@ -56,7 +56,6 @@ if ($children && !is_paged()) {
             elseif (!is_paged()) :
                 $remaining_posts = $wp_query->post_count - 1;
                 $companion_count = min(3, $remaining_posts);
-                $top_grid_count = min(4, $remaining_posts - $companion_count);
                 ?>
                 <div class="reza-archive-spread<?php echo $companion_count ? ' reza-archive-spread-with-companions' : ''; ?>">
                     <?php
@@ -67,15 +66,10 @@ if ($children && !is_paged()) {
                         <div class="reza-archive-companions">
                             <?php for ($index = 0; $index < $companion_count; $index++) :
                                 the_post();
-                                get_template_part('template-parts/category', 'story', array('show_image' => $index === 0));
-                            endfor; ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($top_grid_count) : ?>
-                        <div class="reza-archive-grid reza-archive-grid-top">
-                            <?php for ($index = 0; $index < $top_grid_count; $index++) :
-                                the_post();
-                                get_template_part('template-parts/category', 'story');
+                                get_template_part('template-parts/category', 'story', array(
+                                    'show_image' => $index === 0,
+                                    'show_excerpt' => false,
+                                ));
                             endfor; ?>
                         </div>
                     <?php endif; ?>
