@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.45 =
+* Beri judul Palestina dan Dunia Islam pada segmen Jaringan Situs dan pertahankan posisi kolom desktop meski sebagian slot kosong.
+
 = v1.2.44 =
 * Susun Jaringan Situs dengan sorotan lebar dan baris tiga kolom saat setidaknya lima widget tampil.
 

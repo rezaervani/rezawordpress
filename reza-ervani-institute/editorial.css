@@ -373,18 +373,30 @@ body.reza-editorial {
     margin-block-start: 1.65rem;
 }
 
+.reza-network-section {
+    margin-block-start: 1.65rem;
+    padding-block: .85rem 1.25rem;
+    border-block: 1px solid var(--reza-ink);
+}
+
+.reza-network-section:not(:has(> .reza-editorial-network > :not(:empty))) {
+    display: none;
+}
+
+.reza-network-section-title {
+    margin-block-end: .8rem;
+    color: var(--reza-ink);
+    font: 700 clamp(1.65rem, 3vw, 2.25rem)/1.1 var(--reza-serif);
+    letter-spacing: -.025em;
+}
+
 .reza-editorial-network {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
-    margin-block-start: 1.65rem;
 }
 
-.reza-editorial-network:empty {
-    display: none;
-}
-
-.reza-editorial-network > :is(:only-child, :not(.reza-network-widget)) {
+.reza-editorial-network > :not(.reza-network-widget) {
     grid-column: 1 / -1;
 }
 
@@ -441,15 +453,19 @@ body.reza-editorial {
     }
 }
 
-@media (min-width: 980px) {
-    .reza-editorial-network:has(> :nth-child(3 of .reza-network-widget)):not(:has(> :nth-child(4 of .reza-network-widget))),
-    .reza-editorial-network:has(> :nth-child(5 of .reza-network-widget)) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (max-width: 979px) {
+    .reza-editorial-network > :only-child {
+        grid-column: 1 / -1;
     }
 
-    .reza-editorial-network:has(> :nth-child(5 of .reza-network-widget)) {
-        border-block: 1px solid var(--reza-ink);
-        padding-block-end: 1.25rem;
+    .reza-editorial-network > .reza-network-widget:empty {
+        display: none;
+    }
+}
+
+@media (min-width: 980px) {
+    .reza-editorial-network {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
 
         & > .reza-network-widget {
             border-block-start-color: var(--reza-rule);
@@ -499,6 +515,16 @@ body.reza-editorial {
                     font: .88rem/1.5 var(--reza-sans);
                 }
             }
+        }
+    }
+
+    .reza-editorial-network:not(:has(> :not(.reza-network-widget))) {
+        /* The first widget fills two tracks, so the last row can need one or two blank slots. */
+        &:has(> :last-child:nth-child(3n))::before,
+        &:has(> :last-child:is(:nth-child(3n), :nth-child(3n + 1)))::after {
+            content: "";
+            order: 1;
+            border-block-start: 1px solid var(--reza-rule);
         }
     }
 }
