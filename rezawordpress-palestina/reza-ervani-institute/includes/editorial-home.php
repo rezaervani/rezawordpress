@@ -1,7 +1,8 @@
 <?php
 
 function reza_ervani_uses_editorial_home() {
-    return is_page_template('homepage.php') && get_theme_mod('reza_ervani_editorial_home', true);
+    return get_theme_mod('reza_ervani_editorial_home', true)
+        && (is_page_template('homepage.php') || (is_home() && is_front_page()));
 }
 
 function reza_ervani_editorial_body_class($classes) {
@@ -55,11 +56,11 @@ function reza_ervani_filter_editorial_widget($instance, $widget, $sidebar) {
 }
 
 function reza_ervani_editorial_category_defaults() {
-    return 'tadabbur-al-quran, hadits, sirah-nabawiyah, bahasa-arab, sejarah-palestina, dunia-islam, english-article, spain';
+    return 'update-berita, berita-lengkap, analisa';
 }
 
 function reza_ervani_editorial_wide_defaults() {
-    return 'tadabbur-al-quran, sejarah-palestina';
+    return '';
 }
 
 function reza_ervani_editorial_posts($args) {

@@ -1,4 +1,11 @@
-<?php get_header(); ?>
+<?php
+get_header();
+if (reza_ervani_uses_editorial_home()) {
+    get_template_part('template-parts/home', 'editorial');
+    get_footer();
+    return;
+}
+?>
 <div class="mh-wrapper mh-clearfix">
 	<div id="main-content" class="mh-loop mh-content" role="main"><?php
 		mh_before_page_content();
