@@ -1,4 +1,5 @@
 #main-content.reza-category-archive {
+    --reza-archive-column-gap: clamp(1rem, 2vw, 1.75rem);
     float: none;
     width: var(--reza-wrap-width);
     margin-inline: auto;
@@ -70,10 +71,11 @@
 
 .reza-archive-spread,
 .reza-archive-companions,
-.reza-archive-grid {
+.reza-archive-grid,
+.reza-archive-topics {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
+    gap: 1.5rem var(--reza-archive-column-gap);
 }
 
 .reza-archive-spread + .reza-archive-grid {
@@ -165,22 +167,33 @@
     font-size: 1.22rem;
 }
 
-.reza-archive-topic + .reza-archive-topic,
+.reza-archive-topics {
+    row-gap: clamp(1.5rem, 3vw, 2.6rem);
+}
+
+.reza-archive-topic {
+    min-inline-size: 0;
+    padding-block-start: .75rem;
+    border-block-start: 1px solid var(--reza-rule);
+}
+
+.reza-archive-topic-branch,
+.reza-archive-topic:only-child {
+    grid-column: 1 / -1;
+}
+
+.reza-archive-topic-branch {
+    border-block-start-color: var(--reza-ink);
+}
+
 .reza-archive-topic > .reza-archive-topics,
 .reza-archive-topics + .reza-archive-more-title {
     margin-block-start: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.reza-archive-topics + .reza-archive-more-title {
     padding-block-start: 1rem;
     border-block-start: 1px solid var(--reza-ink);
-}
-
-.reza-archive-topic > .reza-archive-topics,
-.reza-archive-topic > .reza-archive-topics > .reza-archive-topic + .reza-archive-topic {
-    border-block-start-color: var(--reza-rule);
-}
-
-.reza-archive-topic > .reza-archive-topics {
-    padding-inline-start: clamp(.5rem, 1.5vw, 1.25rem);
-    border-inline-start: 1px solid var(--reza-rule);
 }
 
 .reza-archive-topic-header {
@@ -196,12 +209,11 @@
 .reza-archive-topic-title,
 .reza-archive-more-title {
     color: var(--reza-ink);
-    font: 700 clamp(1.5rem, 2.6vw, 2.35rem)/1.12 var(--reza-serif);
+    font: 700 clamp(1.35rem, 2.4vw, 1.8rem)/1.15 var(--reza-serif);
     letter-spacing: -.03em;
 }
 
-.reza-archive-topic > .reza-archive-topics .reza-archive-topic-title {
-    font-size: clamp(1.25rem, 2vw, 1.8rem);
+.reza-archive-topic .reza-archive-topic .reza-archive-topic-title {
     color: var(--reza-green);
 }
 
@@ -223,27 +235,45 @@
 .reza-archive-topic-feature,
 .reza-archive-topic-stories {
     display: grid;
-    gap: clamp(.8rem, 1.65vw, 1.4rem);
+    gap: .8rem;
     grid-template-columns: minmax(0, 1fr);
+}
+
+.reza-archive-topic .reza-archive-story {
+    gap: .55rem;
+    padding-block-end: .7rem;
+}
+
+.reza-archive-topic .reza-archive-story-title {
+    font-size: 1.1rem;
+}
+
+.reza-archive-topic .reza-archive-story time {
+    padding-block-start: .4rem;
 }
 
 .reza-archive-topic-feature > .reza-archive-story-featured {
     border-block-end-color: var(--reza-rule);
 }
 
-.reza-archive-topic-feature > .reza-archive-story-featured :is(.reza-archive-story-image, .reza-archive-story-copy) {
-    order: 0;
-    align-self: stretch;
+.reza-archive-topic-feature .reza-archive-story-featured .reza-archive-story-title {
+    font-size: clamp(1.3rem, 2vw, 1.65rem);
 }
 
-:is(.reza-archive-topic-feature, .reza-archive-topic-list) .reza-archive-topic-stories .reza-archive-story-with-image {
+.reza-archive-topic-feature .reza-archive-story-featured p {
+    font-size: .88rem;
+}
+
+:is(.reza-archive-companions, .reza-archive-topic-list) .reza-archive-story-with-image {
     display: grid;
     grid-template-columns: min(25%, 8rem) minmax(0, 1fr);
     align-items: start;
 }
 
-:is(.reza-archive-topic-feature, .reza-archive-topic-list) .reza-archive-topic-stories .reza-archive-story-title {
-    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+@media (min-width: 360px) {
+    .reza-archive-topic-grid .reza-archive-topic-stories {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .reza-category-archive .nav-links {
@@ -275,7 +305,8 @@
 }
 
 @media (min-width: 640px) {
-    .reza-archive-grid {
+    .reza-archive-grid,
+    .reza-archive-topics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -283,66 +314,64 @@
         grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
     }
 
-    .reza-archive-story-featured.reza-archive-story-with-image {
+    .reza-archive-spread .reza-archive-story-featured.reza-archive-story-with-image {
         display: grid;
-        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--reza-archive-column-gap);
         align-items: start;
     }
 
-    .reza-archive-story-featured .reza-archive-story-image {
+    .reza-archive-spread .reza-archive-story-featured .reza-archive-story-image {
         order: 1;
     }
 
-    .reza-archive-story-featured .reza-archive-story-copy {
+    .reza-archive-spread .reza-archive-story-featured .reza-archive-story-copy {
         align-self: center;
     }
 
-    .reza-archive-topic-feature {
-        grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    :is(.reza-archive-topic-branch, .reza-archive-topic:only-child) > .reza-archive-topic-feature {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--reza-archive-column-gap);
         align-items: start;
     }
 
-    .reza-archive-topic-feature > .reza-archive-story-featured.reza-archive-story-with-image {
-        display: flex;
-    }
-
-    :is(.reza-archive-topic-grid, .reza-archive-topic-list) .reza-archive-topic-stories {
+    :is(.reza-archive-topic-branch, .reza-archive-topic:only-child) > .reza-archive-topic-list .reza-archive-topic-stories {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (min-width: 980px) {
-    .reza-archive-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: clamp(.9rem, 1.6vw, 1.5rem);
+@supports (grid-template-rows: subgrid) {
+    @media (min-width: 640px) {
+        .reza-archive-topic:not(.reza-archive-topic-branch, :only-child) {
+            display: grid;
+            grid-row: span 2;
+            grid-template-rows: subgrid;
+            row-gap: 0;
+            align-items: start;
+        }
     }
+}
 
+@media (min-width: 980px) {
+    .reza-archive-grid,
+    .reza-archive-topics,
     .reza-archive-spread-with-companions {
-        grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-        grid-template-rows: auto 1fr;
-        grid-template-areas:
-            "lead companions"
-            "cards companions";
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .reza-archive-spread-with-companions > .reza-archive-story-featured {
-        grid-area: lead;
-    }
-
-    .reza-archive-grid-top {
-        grid-area: cards;
+        grid-column: span 2;
         align-self: start;
     }
 
     .reza-archive-companions {
-        grid-area: companions;
         grid-template-columns: minmax(0, 1fr);
         align-content: start;
         border-inline-start: 1px solid var(--reza-rule);
         padding-inline-start: 1rem;
     }
 
-    .reza-archive-topic-grid .reza-archive-topic-stories {
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
+    :is(.reza-archive-topic-branch, .reza-archive-topic:only-child) > .reza-archive-topic-grid .reza-archive-topic-stories {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
