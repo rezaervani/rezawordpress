@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.47 =
+* Sediakan area widget iklan selebar layar di antara Jaringan Situs dan Tanya Jawab pada beranda editorial.
+
 = v1.2.46 =
 * Sejajarkan judul, tanggal, dan garis pemisah berita pada baris tiga kolom segmen Palestina dan Dunia Islam.
 
