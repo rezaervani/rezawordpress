@@ -529,6 +529,55 @@ body.reza-editorial {
     }
 }
 
+@supports (grid-template-rows: subgrid) {
+    @media (min-width: 980px) {
+        .reza-editorial-network:has(> :nth-child(3 of .reza-network-widget)) {
+            row-gap: 0;
+
+            & > :not(.reza-network-widget, :first-child),
+            &::before,
+            &::after {
+                margin-block-start: 1.5rem;
+            }
+
+            & > :nth-child(n + 3 of .reza-network-widget) {
+                display: grid;
+                grid-row: span var(--reza-network-tracks);
+                grid-template-rows: subgrid;
+                margin-block-start: 1.5rem;
+
+                & > .reza-network-heading {
+                    grid-row: 1;
+                }
+
+                & > .reza-network-articles {
+                    display: grid;
+                    grid-row: 2 / -1;
+                    grid-template-rows: subgrid;
+                }
+
+                & .reza-network-article {
+                    display: grid;
+                }
+
+                & .reza-network-article > a {
+                    align-items: stretch;
+                }
+
+                & .reza-network-article > a > span {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                & .reza-network-article time {
+                    margin-block-start: auto;
+                    padding-block-start: .3rem;
+                }
+            }
+        }
+    }
+}
+
 @media (min-width: 600px) {
     .reza-editorial-categories {
         --reza-category-column-gap: 1.5rem;
