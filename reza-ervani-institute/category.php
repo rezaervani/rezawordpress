@@ -7,6 +7,12 @@ $children = get_categories(array(
     'orderby' => 'name',
     'pad_counts' => true,
 ));
+$previewed_posts = array();
+$topic_sections = array();
+if ($children && !is_paged()) {
+    require_once __DIR__ . '/includes/category-archive.php';
+    $topic_sections = reza_ervani_archive_topic_sections($category->term_id, $previewed_posts);
+}
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-category-archive">
     <?php mh_before_page_content(); ?>
@@ -44,7 +50,10 @@ $children = get_categories(array(
 
     <div class="reza-archive-feed">
         <?php if (have_posts()) : ?>
-            <?php if (!is_paged()) :
+            <?php if ($topic_sections) :
+                get_template_part('template-parts/category', 'topics', array('sections' => $topic_sections));
+                wp_reset_postdata();
+            elseif (!is_paged()) :
                 $remaining_posts = $wp_query->post_count - 1;
                 $companion_count = min(3, $remaining_posts);
                 $top_grid_count = min(4, $remaining_posts - $companion_count);
@@ -72,11 +81,19 @@ $children = get_categories(array(
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-            <?php if (have_posts()) : ?>
+            <?php
+            $has_remaining_posts = !$topic_sections || array_diff(wp_list_pluck($wp_query->posts, 'ID'), array_keys($previewed_posts));
+            if ($has_remaining_posts && have_posts()) : ?>
+                <?php if ($topic_sections) : ?>
+                    <h2 class="reza-archive-more-title"><?php esc_html_e('Artikel lainnya', 'mh-healthmag'); ?></h2>
+                <?php endif; ?>
                 <div class="reza-archive-grid">
                     <?php while (have_posts()) :
                         the_post();
-                        get_template_part('template-parts/category', 'story');
+                        if (isset($previewed_posts[get_the_ID()])) {
+                            continue;
+                        }
+                        get_template_part('template-parts/category', 'story', array('heading_level' => $topic_sections ? 3 : 2));
                     endwhile; ?>
                 </div>
             <?php endif; ?>

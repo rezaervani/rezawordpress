@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.40 =
+* Susun subkategori bertingkat menjadi bagian editorial tersendiri pada halaman pertama arsip kategori induk.
+
 = v1.2.39 =
 * Gunakan tata letak editorial selebar halaman pada arsip kategori, dengan artikel utama, berita pendamping, dan kisi artikel tanpa sidebar widget lama.
 
