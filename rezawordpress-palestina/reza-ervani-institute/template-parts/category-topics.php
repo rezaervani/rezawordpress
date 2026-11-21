@@ -6,6 +6,7 @@ $layouts = array('feature', 'grid', 'list');
 <div class="reza-archive-topics">
     <?php foreach ($args['sections'] as $index => $section) :
         $term = $section['term'];
+        $title = $section['title'] ?? $term->name;
         $url = $section['url'];
         $stories = $section['stories'];
         $heading_id = 'reza-archive-topic-' . $term->term_id;
@@ -23,16 +24,16 @@ $layouts = array('feature', 'grid', 'list');
         }
         $story_args = array(
             'heading_level' => $level + 1,
-            'show_image' => $layout !== 'feature',
+            'show_image' => $layout !== 'feature' && ($section['show_images'] ?? true),
             'show_excerpt' => false,
         );
         ?>
         <section class="<?php echo esc_attr(implode(' ', $classes)); ?>" aria-labelledby="<?php echo esc_attr($heading_id); ?>">
             <header class="reza-archive-topic-header">
                 <<?php echo $heading; ?> id="<?php echo esc_attr($heading_id); ?>" class="reza-archive-topic-title">
-                    <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($term->name); ?></a>
+                    <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($title); ?></a>
                 </<?php echo $heading; ?>>
-                <a class="reza-editorial-archive-link" href="<?php echo esc_url($url); ?>" aria-label="<?php echo esc_attr(sprintf(__('Lihat semua artikel di %s', 'mh-healthmag'), $term->name)); ?>">
+                <a class="reza-editorial-archive-link" href="<?php echo esc_url($url); ?>" aria-label="<?php echo esc_attr(sprintf(__('Lihat semua artikel di %s', 'mh-healthmag'), $title)); ?>">
                     <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
                 </a>
             </header>
@@ -52,6 +53,8 @@ $layouts = array('feature', 'grid', 'list');
                         endforeach; ?>
                     </div>
                 </div>
+            <?php elseif (!empty($section['empty_message'])) : ?>
+                <p class="reza-archive-empty"><?php echo esc_html($section['empty_message']); ?></p>
             <?php endif; ?>
             <?php if ($section['children']) :
                 get_template_part('template-parts/category', 'topics', array(
