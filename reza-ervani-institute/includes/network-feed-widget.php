@@ -98,7 +98,7 @@ class Reza_Ervani_Network_Feed_Widget extends WP_Widget {
         endif;
         ?>
         <ul class="reza-network-articles">
-            <?php foreach ($posts as $post) :
+            <?php foreach ($posts as $index => $post) :
                 $show_image = $settings['thumbnails'] && $post['image'];
                 ?>
                 <li class="reza-network-article">
@@ -108,6 +108,9 @@ class Reza_Ervani_Network_Feed_Widget extends WP_Widget {
                         <?php endif; ?>
                         <span>
                             <span class="reza-network-article-title"><?php echo esc_html($post['title']); ?></span>
+                            <?php if ($index === 0 && !empty($post['summary'])) : ?>
+                                <span class="reza-network-article-summary"><?php echo esc_html($post['summary']); ?></span>
+                            <?php endif; ?>
                             <?php if ($post['timestamp'] !== false) : ?>
                                 <time datetime="<?php echo esc_attr(gmdate(DATE_W3C, $post['timestamp'])); ?>"><?php echo esc_html(wp_date(get_option('date_format'), $post['timestamp'])); ?></time>
                             <?php endif; ?>
