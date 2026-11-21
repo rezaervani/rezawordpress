@@ -11,7 +11,7 @@ $previewed_posts = array();
 $topic_sections = array();
 if ($children && !is_paged()) {
     require_once __DIR__ . '/includes/category-archive.php';
-    $topic_sections = reza_ervani_archive_topic_sections($category->term_id, $previewed_posts);
+    $topic_sections = reza_ervani_archive_topic_sections($category, $previewed_posts);
 }
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-category-archive">
