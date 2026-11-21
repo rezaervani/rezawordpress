@@ -47,7 +47,7 @@ class Reza_Ervani_Network_Feed {
                 'orderby' => 'date',
                 'order' => 'desc',
                 '_embed' => 'wp:featuredmedia',
-                '_fields' => 'date_gmt,link,title,_links,_embedded',
+                '_fields' => 'date_gmt,link,title,excerpt,_links,_embedded',
             );
             if ($category) {
                 $query['categories'] = $category;
@@ -72,6 +72,7 @@ class Reza_Ervani_Network_Feed {
                     'link' => $link,
                     'image' => wp_parse_url($image, PHP_URL_HOST) === 'rezaervani.com' ? $image : '',
                     'timestamp' => $date ? strtotime($date . ' UTC') : false,
+                    'summary' => !$posts ? self::summary($item['excerpt']['rendered'] ?? '', $title) : '',
                 );
             }
             return $posts;
@@ -80,6 +81,15 @@ class Reza_Ervani_Network_Feed {
 
     private static function plain_text($value) {
         return trim(wp_strip_all_tags(html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+    }
+
+    private static function summary($excerpt, $title) {
+        $summary = self::plain_text($excerpt);
+        if (strpos($summary, $title . ' ') === 0) {
+            $summary = substr($summary, strlen($title) + 1);
+        }
+        $summary = preg_replace('/^rezaervani\.com\s*[-–—]\s*/iu', '', $summary);
+        return wp_trim_words($summary, 28, '…');
     }
 
     private static function request($source, $endpoint, $query) {

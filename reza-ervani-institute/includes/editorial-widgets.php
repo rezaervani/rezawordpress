@@ -60,7 +60,7 @@ function reza_ervani_register_editorial_sidebars() {
     register_sidebar(array(
         'id' => Reza_Ervani_Network_Feed_Widget::HOME_AREA,
         'name' => __('Beranda – Jaringan Situs', 'mh-healthmag'),
-        'description' => __('Tambahkan dan urutkan widget Artikel Jaringan Situs untuk tampil di bawah kategori utama beranda.', 'mh-healthmag'),
+        'description' => __('Urutkan widget Artikel Jaringan Situs untuk tampil di bawah kategori utama beranda. Jika lima widget atau lebih tampil, widget pertama menjadi sorotan.', 'mh-healthmag'),
         'before_widget' => '<section id="%1$s" class="%2$s">',
         'after_widget' => '</section>',
         'before_title' => '<h2 class="reza-network-heading">',

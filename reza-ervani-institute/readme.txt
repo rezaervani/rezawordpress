@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.44 =
+* Susun Jaringan Situs dengan sorotan lebar dan baris tiga kolom saat setidaknya lima widget tampil.
+
 = v1.2.43 =
 * Tambahkan widget Artikel Jaringan Situs untuk menampilkan artikel Palestina dan Dunia Islam di beranda melalui API WordPress.
 
