@@ -36,6 +36,9 @@ $english_category_ids = array_column($english_sections, 'category_id');
             )),
         )); ?>
     <?php endif; ?>
+    <?php if (is_active_sidebar(Reza_Ervani_Network_Feed_Widget::HOME_AREA)) : ?>
+        <div class="reza-editorial-network"><?php dynamic_sidebar(Reza_Ervani_Network_Feed_Widget::HOME_AREA); ?></div>
+    <?php endif; ?>
     <?php dynamic_sidebar(Reza_Ervani_Category_Grid::HOME_AREA); ?>
     <?php foreach ($series as $section) : ?>
         <?php get_template_part('template-parts/editorial', 'series', $section); ?>
