@@ -8,6 +8,7 @@ require_once __DIR__ . '/includes/article-list-widget.php';
 require_once __DIR__ . '/includes/network-feed.php';
 require_once __DIR__ . '/includes/network-feed-widget.php';
 require_once __DIR__ . '/includes/posting-ads-widget.php';
+require_once __DIR__ . '/includes/smart-ad-widget.php';
 require_once __DIR__ . '/includes/editorial-widgets.php';
 require_once __DIR__ . '/includes/latest-posts-widget.php';
 require_once __DIR__ . '/includes/video-library.php';

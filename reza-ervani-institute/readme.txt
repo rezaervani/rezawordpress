@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.59 =
+* Tambahkan pita sebelum Sorotan Utama dan widget Iklan Cerdas dengan maksimal tiga gambar cadangan.
+
 = v1.2.58 =
 * Gunakan tampilan editorial untuk Halaman dan bersihkan penempatan widget MH-Themes yang tersisa.
 

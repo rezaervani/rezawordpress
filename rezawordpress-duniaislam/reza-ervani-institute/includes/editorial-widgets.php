@@ -36,6 +36,19 @@ function reza_ervani_register_editorial_sidebars() {
         'after_widget' => '</div>',
     );
 
+    foreach (array(
+        Reza_Ervani_Smart_Ad::TOP_AREA => __('Beranda – Iklan sebelum Sorotan Utama', 'mh-healthmag'),
+        Reza_Ervani_Smart_Ad::MIDDLE_AREA => __('Beranda – Iklan Tengah', 'mh-healthmag'),
+    ) as $id => $name) {
+        register_sidebar(array(
+            'id' => $id,
+            'name' => $name,
+            'description' => __('Tambahkan widget Iklan Cerdas atau HTML Khusus.', 'mh-healthmag'),
+            'before_title' => '<h3 class="mh-widget-title">',
+            'after_title' => '</h3>',
+        ) + $widget_markup);
+    }
+
     $slot_number = 0;
     foreach (reza_ervani_article_inline_ad_areas() as $id => $minimum_words) {
         register_sidebar(array(

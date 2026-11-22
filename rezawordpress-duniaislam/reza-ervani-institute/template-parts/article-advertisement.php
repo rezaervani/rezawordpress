@@ -16,7 +16,7 @@ if (trim($widgets) === '') {
 <?php if ($minimum_words) : ?>
     <template data-reza-inline-ad-minimum="<?php echo esc_attr($minimum_words); ?>">
 <?php endif; ?>
-<aside class="<?php echo esc_attr($band_class . ($minimum_words ? ' reza-article-ad-inline' : '')); ?>" aria-label="<?php esc_attr_e('Iklan', 'mh-healthmag'); ?>">
+<aside class="<?php echo esc_attr($band_class . ' reza-widget-ad-band' . ($minimum_words ? ' reza-article-ad-inline' : '')); ?>" aria-label="<?php esc_attr_e('Iklan', 'mh-healthmag'); ?>">
     <p class="<?php echo esc_attr($band_class . '-label'); ?>"><?php esc_html_e('Iklan', 'mh-healthmag'); ?></p>
     <?php echo $widgets; ?>
 </aside>
