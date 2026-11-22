@@ -1,4 +1,11 @@
 <?php
+if (is_active_sidebar(Reza_Ervani_Smart_Ad::MIDDLE_AREA)) {
+    get_template_part('template-parts/article', 'advertisement', array(
+        'area' => Reza_Ervani_Smart_Ad::MIDDLE_AREA, 'editorial' => true,
+    ));
+    return;
+}
+
 $publisher = reza_ervani_sanitize_adsense_publisher(get_theme_mod('reza_ervani_home_adsense_publisher', ''));
 $slot = reza_ervani_sanitize_adsense_slot(get_theme_mod('reza_ervani_home_adsense_slot', ''));
 

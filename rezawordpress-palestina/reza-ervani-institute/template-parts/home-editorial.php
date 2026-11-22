@@ -1,6 +1,9 @@
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
     <?php mh_before_page_content(); ?>
     <?php if (!is_paged()) : ?>
+        <?php get_template_part('template-parts/article', 'advertisement', array(
+            'area' => Reza_Ervani_Smart_Ad::TOP_AREA, 'editorial' => true,
+        )); ?>
         <?php
         if (!Reza_Ervani_Spotlight::has_home_widget()) {
             the_widget(Reza_Ervani_Spotlight::class);

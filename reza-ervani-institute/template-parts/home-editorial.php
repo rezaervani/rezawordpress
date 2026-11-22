@@ -23,6 +23,9 @@ $english_sections = $show_widgets ? array_filter(array(
 $english_category_ids = array_column($english_sections, 'category_id');
 ?>
 <main id="main-content" class="reza-editorial-wrap reza-editorial-main">
+    <?php get_template_part('template-parts/article', 'advertisement', array(
+        'area' => Reza_Ervani_Smart_Ad::TOP_AREA, 'editorial' => true,
+    )); ?>
     <?php dynamic_sidebar(Reza_Ervani_Spotlight::HOME_AREA); ?>
     <?php if (get_theme_mod('reza_ervani_show_home_categories', true)) : ?>
         <?php $featured = Reza_Ervani_Spotlight::has_home_widget() ? Reza_Ervani_Spotlight::featured_post() : null; ?>
@@ -47,7 +50,7 @@ $english_category_ids = array_column($english_sections, 'category_id');
     <?php foreach ($series as $section) : ?>
         <?php get_template_part('template-parts/editorial', 'series', $section); ?>
     <?php endforeach; ?>
-    <?php if ($series) : ?>
+    <?php if ($series || is_active_sidebar(Reza_Ervani_Smart_Ad::MIDDLE_AREA)) : ?>
         <?php get_template_part('template-parts/editorial', 'ad'); ?>
     <?php endif; ?>
     <?php if ($show_widgets || $manuscripts) : ?>
