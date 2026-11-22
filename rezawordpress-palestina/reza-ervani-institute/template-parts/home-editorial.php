@@ -16,7 +16,9 @@
                 'featured_id' => $featured ? $featured->ID : 0,
                 'excluded_category_ids' => array_filter(array_merge($grid_category_ids, $collection_category_ids)),
             ));
-            get_template_part('template-parts/home', 'topics');
+            if (!dynamic_sidebar(Reza_Ervani_Home_Topics::HOME_AREA) && !get_option(Reza_Ervani_Home_Topics::MIGRATION_OPTION)) {
+                the_widget(Reza_Ervani_Home_Topics::class);
+            }
         endif; ?>
         <?php dynamic_sidebar(Reza_Ervani_Category_Grid::HOME_AREA); ?>
         <?php get_template_part('template-parts/editorial', 'ad'); ?>

@@ -4,6 +4,7 @@ require_once __DIR__ . '/includes/homepage-customizer.php';
 require_once __DIR__ . '/includes/editorial-home.php';
 require_once __DIR__ . '/includes/spotlight-widget.php';
 require_once __DIR__ . '/includes/category-grid-widget.php';
+require_once __DIR__ . '/includes/home-topics-widget.php';
 require_once __DIR__ . '/includes/article-list-widget.php';
 require_once __DIR__ . '/includes/network-feed.php';
 require_once __DIR__ . '/includes/network-feed-widget.php';

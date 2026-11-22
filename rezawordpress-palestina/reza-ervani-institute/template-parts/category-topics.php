@@ -9,10 +9,10 @@ $layouts = array('feature', 'grid', 'list');
         $title = $section['title'] ?? $term->name;
         $url = $section['url'];
         $stories = $section['stories'];
-        $heading_id = 'reza-archive-topic-' . $term->term_id;
+        $heading_id = $section['heading_id'] ?? 'reza-archive-topic-' . $term->term_id;
         $default_layout = $layouts[($index + $level - 2) % count($layouts)];
         $layout = $section['layout'] ?? $default_layout;
-        if (count($stories) < 2) {
+        if (count($stories) < 2 && empty($args['preserve_layout'])) {
             $layout = 'list';
         }
         $classes = array('reza-archive-topic');
