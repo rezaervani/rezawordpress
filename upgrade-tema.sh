@@ -10,7 +10,7 @@ ref=main
 sites=(utama palestina duniaislam)
 
 usage() {
-    printf 'Penggunaan: bash upgrade-tema.sh [--ref REF_GIT]\n'
+    printf 'Penggunaan: bash upgrade-tema.sh [--site utama|palestina|duniaislam] [--ref REF_GIT]\n'
 }
 
 die() {
@@ -18,15 +18,24 @@ die() {
     exit 1
 }
 
-case "${1:-}" in
-    '') ;;
-    --ref)
-        [[ $# -eq 2 && -n "$2" ]] || die 'Isi --ref dengan satu ref Git.'
-        ref=$2
-        ;;
-    --help|-h) usage; exit 0 ;;
-    *) usage >&2; exit 1 ;;
-esac
+while (( $# )); do
+    case "$1" in
+        --site)
+            case "${2:-}" in
+                utama|palestina|duniaislam) sites=("$2") ;;
+                *) die 'Isi --site dengan utama, palestina, atau duniaislam.' ;;
+            esac
+            shift 2
+            ;;
+        --ref)
+            [[ $# -ge 2 && -n "$2" && "$2" != -* ]] || die 'Isi --ref dengan satu ref Git.'
+            ref=$2
+            shift 2
+            ;;
+        --help|-h) usage; exit 0 ;;
+        *) usage >&2; exit 1 ;;
+    esac
+done
 
 wp_bin=$(command -v wp) || die 'WP-CLI (wp) perlu tersedia di PATH.'
 command -v git >/dev/null || die 'Git perlu tersedia di PATH.'
