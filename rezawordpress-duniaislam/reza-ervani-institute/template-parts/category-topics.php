@@ -22,11 +22,10 @@ $layouts = array('feature', 'grid', 'list');
         if ($section['layout']) {
             $classes[] = 'reza-archive-topic-balanced';
         }
-        $spread = $layout === 'spread';
-        $featured = $spread || $layout === 'feature';
+        $country_layout = in_array($layout, array('spread', 'double'), true);
         $story_args = array(
             'heading_level' => $level + 1,
-            'show_image' => !$featured,
+            'show_image' => $layout !== 'feature',
             'show_excerpt' => false,
         );
         ?>
@@ -39,23 +38,36 @@ $layouts = array('feature', 'grid', 'list');
                     <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
                 </a>
             </header>
-            <?php if ($stories) : ?>
-                <div class="<?php echo esc_attr($spread ? 'reza-archive-spread reza-archive-spread-with-companions' : 'reza-archive-topic-' . $layout); ?>">
-                    <?php if ($featured) :
+            <?php if (!empty($section['subcategories'])) : ?>
+                <nav class="reza-country-subcategories" aria-label="<?php echo esc_attr(sprintf(__('Subkategori %s', 'mh-healthmag'), $title)); ?>">
+                    <ul>
+                        <?php foreach ($section['subcategories'] as $subcategory) : ?>
+                            <li><a href="<?php echo esc_url($subcategory['url']); ?>"><?php echo esc_html($subcategory['name']); ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
+            <?php endif; ?>
+            <?php if ($stories && $country_layout) : ?>
+                <?php get_template_part('template-parts/home', 'country-stories', array(
+                    'stories' => $stories,
+                    'three_columns' => $layout === 'spread',
+                    'heading_level' => $level + 1,
+                )); ?>
+            <?php elseif ($stories) : ?>
+                <div class="reza-archive-topic-<?php echo esc_attr($layout); ?>">
+                    <?php if ($layout === 'feature') :
                         $lead = array_shift($stories);
                         $GLOBALS['post'] = $lead;
                         setup_postdata($lead);
                         get_template_part('template-parts/category', 'story', array('featured' => true, 'heading_level' => $level + 1));
                     endif; ?>
-                    <?php if ($stories || !$spread) : ?>
-                        <div class="<?php echo esc_attr($spread ? 'reza-archive-companions' : 'reza-archive-topic-stories'); ?>">
-                            <?php foreach ($stories as $story) :
-                                $GLOBALS['post'] = $story;
-                                setup_postdata($story);
-                                get_template_part('template-parts/category', 'story', $story_args);
-                            endforeach; ?>
-                        </div>
-                    <?php endif; ?>
+                    <div class="reza-archive-topic-stories">
+                        <?php foreach ($stories as $story) :
+                            $GLOBALS['post'] = $story;
+                            setup_postdata($story);
+                            get_template_part('template-parts/category', 'story', $story_args);
+                        endforeach; ?>
+                    </div>
                 </div>
             <?php elseif (!empty($section['empty_message'])) : ?>
                 <p class="reza-archive-empty"><?php echo esc_html($section['empty_message']); ?></p>

@@ -9,6 +9,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
     const MAX_COUNT = 30;
 
     private const PRIORITY_COUNTRIES = array('suriah', 'sudan', 'turki', 'qatar', 'afghanistan', 'saudi-arabia');
+    private const REGIONS = array('afrika', 'asia', 'asia-selatan', 'asia-tengah', 'asia-tenggara', 'eropa-dan-kaukasus', 'timteng');
     private const OTHER_CATEGORIES = array(
         'afrika', 'analisa', 'arsip', 'asia', 'asia-selatan', 'asia-tengah', 'asia-tenggara', 'ekonomi',
         'ekonomi-islam', 'eropa-dan-kaukasus', 'liga-arab', 'majalah-mujtama-kuwait', 'opini', 'sejarah',
@@ -18,13 +19,29 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
     public function __construct() {
         parent::__construct(self::ID_BASE, __('Rubrik Beranda Dunia Islam', 'mh-healthmag'), array(
             'classname' => 'reza-home-topics-widget',
-            'description' => __('Tampilkan negara dalam rubrik tiga kolom atau satu kolom.', 'mh-healthmag'),
+            'description' => __('Atur jumlah kolom, subkategori, dan jumlah artikel tiap rubrik negara.', 'mh-healthmag'),
             'customize_selective_refresh' => true,
         ));
     }
 
     public static function categories() {
-        return get_categories(array('hide_empty' => false, 'orderby' => 'name'));
+        $categories = get_categories(array('hide_empty' => false, 'orderby' => 'name'));
+        $slugs = wp_list_pluck($categories, 'slug', 'term_id');
+        $regions = array_keys(array_intersect($slugs, self::REGIONS));
+
+        // A country can sit below a region, but its subcategories belong inside its own rubric.
+        return array_filter($categories, static function ($category) use ($regions) {
+            return !array_diff(get_ancestors($category->term_id, 'category', 'taxonomy'), $regions);
+        });
+    }
+
+    public static function selected_subcategories($category, $ids) {
+        $ids = wp_parse_id_list($ids);
+        if (!$ids) {
+            return array();
+        }
+        $children = get_term_children($category->term_id, 'category');
+        return is_wp_error($children) ? array() : array_values(array_intersect($ids, $children));
     }
 
     public static function settings($instance = array()) {
@@ -33,6 +50,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
             return array(
                 'layouts' => $instance['layouts'] + $hidden,
                 'counts' => $instance['counts'] ?? array(),
+                'subcategories' => $instance['subcategories'] ?? array(),
             );
         }
 
@@ -49,7 +67,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                 $counts[$category] = self::sanitize_count($instance[$slot]['count']);
             }
         }
-        return array('layouts' => $layouts, 'counts' => $counts);
+        return array('layouts' => $layouts, 'counts' => $counts, 'subcategories' => array());
     }
 
     private static function sanitize_count($count) {
@@ -59,6 +77,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
     private static function layout_labels() {
         return array(
             'priority' => __('Tiga kolom', 'mh-healthmag'),
+            'double' => __('Dua kolom', 'mh-healthmag'),
             'compact' => __('Satu kolom', 'mh-healthmag'),
             'hidden' => __('Sembunyikan', 'mh-healthmag'),
         );
@@ -80,6 +99,14 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                     unset($settings['counts'][$slug]);
                 }
             }
+            if (isset($new_instance['subcategories'][$slug])) {
+                $terms = self::selected_subcategories($category, $new_instance['subcategories'][$slug]);
+                if ($terms) {
+                    $settings['subcategories'][$slug] = $terms;
+                } else {
+                    unset($settings['subcategories'][$slug]);
+                }
+            }
         }
         return $settings;
     }
@@ -89,7 +116,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
         ?>
         <p><?php
             printf(
-                esc_html__('Jumlah artikel bawaan %1$d untuk rubrik tiga kolom dan %2$d untuk rubrik satu kolom.', 'mh-healthmag'),
+                esc_html__('Jumlah artikel bawaan %1$d untuk rubrik dua atau tiga kolom dan %2$d untuk rubrik satu kolom.', 'mh-healthmag'),
                 self::PRIORITY_COUNT,
                 self::COMPACT_COUNT
             );
@@ -107,7 +134,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                     $slug = $category->slug;
                     $layout = $settings['layouts'][$slug] ?? 'compact';
                     ?>
-                    <tr>
+                    <tr class="reza-country-widget-option">
                         <th scope="row"><?php echo esc_html($category->name); ?></th>
                         <td>
                             <select name="<?php echo esc_attr($this->get_field_name('layouts[' . $slug . ']')); ?>"
@@ -122,6 +149,30 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                                 name="<?php echo esc_attr($this->get_field_name('counts[' . $slug . ']')); ?>"
                                 aria-label="<?php echo esc_attr(sprintf(__('Jumlah artikel %s', 'mh-healthmag'), $category->name)); ?>"
                                 value="<?php echo esc_attr($settings['counts'][$slug] ?? ''); ?>">
+                        </td>
+                    </tr>
+                    <?php
+                    $children = get_categories(array('child_of' => $category->term_id, 'hide_empty' => false, 'orderby' => 'name'));
+                    if (!$children) {
+                        continue;
+                    }
+                    $selected = self::selected_subcategories($category, $settings['subcategories'][$slug] ?? array());
+                    $name = $this->get_field_name('subcategories[' . $slug . '][]');
+                    ?>
+                    <tr class="reza-country-widget-subcategories">
+                        <td colspan="3">
+                            <fieldset>
+                                <legend><?php echo esc_html(sprintf(__('Subkategori %s', 'mh-healthmag'), $category->name)); ?></legend>
+                                <input type="hidden" name="<?php echo esc_attr($name); ?>" value="0">
+                                <?php foreach ($children as $child) : ?>
+                                    <label>
+                                        <input type="checkbox" name="<?php echo esc_attr($name); ?>"
+                                            value="<?php echo esc_attr($child->term_id); ?>" <?php checked(in_array($child->term_id, $selected, false)); ?>>
+                                        <?php echo esc_html($child->name); ?>
+                                    </label>
+                                <?php endforeach; ?>
+                                <p class="description"><?php esc_html_e('Pilih subkategori untuk membatasi artikel pada rubrik dua atau tiga kolom. Kosongkan untuk semua artikel rubrik.', 'mh-healthmag'); ?></p>
+                            </fieldset>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -144,6 +195,17 @@ function reza_ervani_register_home_topics_widget() {
     register_widget(Reza_Ervani_Home_Topics::class);
 }
 add_action('widgets_init', 'reza_ervani_register_home_topics_widget');
+
+function reza_ervani_enqueue_home_topics_controls() {
+    wp_enqueue_style('reza-ervani-home-topics-controls', get_stylesheet_directory_uri() . '/admin/home-topics.css',
+        array(), wp_get_theme()->get('Version'));
+}
+add_action('admin_enqueue_scripts', static function ($hook) {
+    if ($hook === 'widgets.php') {
+        reza_ervani_enqueue_home_topics_controls();
+    }
+});
+add_action('customize_controls_enqueue_scripts', 'reza_ervani_enqueue_home_topics_controls');
 
 function reza_ervani_migrate_home_topics_widget() {
     $migration = Reza_Ervani_Home_Topics::MIGRATION_OPTION;
