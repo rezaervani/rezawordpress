@@ -57,6 +57,7 @@ if (!function_exists('mh_magazine_lite_setup')) {
             'flex-width'  => true,
             'flex-height' => true
         ));
+        add_theme_support('align-wide');
         add_theme_support('customize-selective-refresh-widgets');
 
         // === MODIFIKASI: daftar 2 lokasi menu ===

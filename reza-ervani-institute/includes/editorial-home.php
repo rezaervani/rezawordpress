@@ -4,8 +4,12 @@ function reza_ervani_uses_editorial_home() {
     return is_page_template('homepage.php') && get_theme_mod('reza_ervani_editorial_home', true);
 }
 
+function reza_ervani_uses_editorial_page() {
+    return is_page() && !is_page_template('homepage.php');
+}
+
 function reza_ervani_editorial_body_class($classes) {
-    if (reza_ervani_uses_editorial_home() || is_category() || is_singular('post')) {
+    if (reza_ervani_uses_editorial_home() || reza_ervani_uses_editorial_page() || is_category() || is_singular('post')) {
         $classes[] = 'reza-editorial';
     }
 

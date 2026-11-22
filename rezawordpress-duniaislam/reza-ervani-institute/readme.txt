@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.58 =
+* Gunakan tampilan editorial untuk Halaman dan bersihkan penempatan widget MH-Themes yang tersisa.
+
 = v1.2.56 =
 * Tambahkan varian Dunia Islam dengan rubrik lokal yang dapat diatur, berita terkini berpaginasi, dan footer editorial.
 
