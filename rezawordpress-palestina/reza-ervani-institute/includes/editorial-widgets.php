@@ -249,13 +249,8 @@ function reza_ervani_move_legacy_jazariyyah_to_inactive_widgets() {
 }
 add_action('widgets_init', 'reza_ervani_move_legacy_jazariyyah_to_inactive_widgets', 95);
 
-function reza_ervani_retire_mh_widgets() {
-    $migration = 'reza_ervani_retired_mh_widgets_1_2_34';
-    if (get_option($migration) || is_customize_preview()) {
-        return;
-    }
-
-    $retired = array(
+function reza_ervani_retired_mh_widget_types() {
+    return array(
         'mh_custom_posts' => 'compact',
         'mh_magazine_lite_posts_focus' => 'featured',
         'mh_magazine_lite_posts_large' => '',
@@ -263,6 +258,15 @@ function reza_ervani_retire_mh_widgets() {
         'mh_magazine_lite_tabbed' => '',
         'mh_slider_hp' => '',
     );
+}
+
+function reza_ervani_retire_mh_widgets() {
+    $migration = 'reza_ervani_retired_mh_widgets_1_2_34';
+    if (get_option($migration) || is_customize_preview()) {
+        return;
+    }
+
+    $retired = reza_ervani_retired_mh_widget_types();
     $sidebars = (array) get_option('sidebars_widgets', array());
     $before = $sidebars;
     $base = Reza_Ervani_Article_List::ID_BASE;
@@ -348,6 +352,65 @@ function reza_ervani_retire_mh_widgets() {
 }
 // Run after the older homepage migrations and before the widget factory registers instances.
 add_action('widgets_init', 'reza_ervani_retire_mh_widgets', 97);
+
+// Clear stale placements even on sites that already ran the original migration.
+function reza_ervani_clear_retired_mh_widget_placements() {
+    if (is_customize_preview()) {
+        return;
+    }
+
+    $legacy = reza_ervani_retired_mh_widget_types();
+    $sidebars = (array) get_option('sidebars_widgets', array());
+    $instances = null;
+    $detached = array();
+    foreach ($sidebars as $area => $ids) {
+        if (!is_array($ids)) {
+            continue;
+        }
+        foreach ($ids as $index => $id) {
+            $base = _get_widget_id_base($id);
+            if ($base === 'block') {
+                $instances = $instances ?? (array) get_option('widget_block', array());
+                $content = $instances[substr($id, 6)]['content'] ?? '';
+                if (!str_contains($content, '<!-- wp:legacy-widget')) {
+                    continue;
+                }
+                $blocks = array_values(array_filter(parse_blocks($content), static function ($block) {
+                    return $block['blockName'] || trim($block['innerHTML']) !== '';
+                }));
+                if (count($blocks) !== 1 || $blocks[0]['blockName'] !== 'core/legacy-widget') {
+                    continue;
+                }
+                $attrs = $blocks[0]['attrs'];
+                $base = $attrs['idBase'] ?? _get_widget_id_base($attrs['id'] ?? '');
+            }
+
+            if (is_string($base) && isset($legacy[$base])) {
+                $detached[$area][] = $id;
+                unset($sidebars[$area][$index]);
+            }
+        }
+        if (isset($detached[$area])) {
+            $sidebars[$area] = array_values($sidebars[$area]);
+        }
+    }
+
+    if (!$detached) {
+        return;
+    }
+
+    $option = 'reza_ervani_retired_mh_widget_placements';
+    $backup = (array) get_option($option, array());
+    foreach ($detached as $area => $ids) {
+        $backup[$area] = array_values(array_unique(array_merge($backup[$area] ?? array(), $ids)));
+    }
+    if (!update_option($option, $backup, false) && get_option($option) !== $backup) {
+        return;
+    }
+
+    wp_set_sidebars_widgets($sidebars);
+}
+add_action('wp_loaded', 'reza_ervani_clear_retired_mh_widget_placements', 20);
 
 function reza_ervani_retired_editorial_category_ids() {
     $ids = array_merge(reza_ervani_legacy_collection_category_ids(), reza_ervani_home_posting_ads_categories());

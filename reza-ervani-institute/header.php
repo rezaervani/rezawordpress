@@ -14,7 +14,7 @@
 <?php mh_before_header();
 if (reza_ervani_uses_editorial_home() || is_category()) {
     get_template_part('template-parts/editorial', 'header');
-} elseif (is_singular('post')) {
+} elseif (is_singular('post') || reza_ervani_uses_editorial_page()) {
     get_template_part('template-parts/article', 'header');
 } else {
     get_template_part('content', 'header');
