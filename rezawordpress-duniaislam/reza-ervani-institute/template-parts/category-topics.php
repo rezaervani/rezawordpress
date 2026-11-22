@@ -22,9 +22,11 @@ $layouts = array('feature', 'grid', 'list');
         if ($section['layout']) {
             $classes[] = 'reza-archive-topic-balanced';
         }
+        $spread = $layout === 'spread';
+        $featured = $spread || $layout === 'feature';
         $story_args = array(
             'heading_level' => $level + 1,
-            'show_image' => $layout !== 'feature',
+            'show_image' => !$featured,
             'show_excerpt' => false,
         );
         ?>
@@ -38,20 +40,22 @@ $layouts = array('feature', 'grid', 'list');
                 </a>
             </header>
             <?php if ($stories) : ?>
-                <div class="reza-archive-topic-<?php echo esc_attr($layout); ?>">
-                    <?php if ($layout === 'feature') :
+                <div class="<?php echo esc_attr($spread ? 'reza-archive-spread reza-archive-spread-with-companions' : 'reza-archive-topic-' . $layout); ?>">
+                    <?php if ($featured) :
                         $lead = array_shift($stories);
                         $GLOBALS['post'] = $lead;
                         setup_postdata($lead);
                         get_template_part('template-parts/category', 'story', array('featured' => true, 'heading_level' => $level + 1));
                     endif; ?>
-                    <div class="reza-archive-topic-stories">
-                        <?php foreach ($stories as $story) :
-                            $GLOBALS['post'] = $story;
-                            setup_postdata($story);
-                            get_template_part('template-parts/category', 'story', $story_args);
-                        endforeach; ?>
-                    </div>
+                    <?php if ($stories || !$spread) : ?>
+                        <div class="<?php echo esc_attr($spread ? 'reza-archive-companions' : 'reza-archive-topic-stories'); ?>">
+                            <?php foreach ($stories as $story) :
+                                $GLOBALS['post'] = $story;
+                                setup_postdata($story);
+                                get_template_part('template-parts/category', 'story', $story_args);
+                            endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             <?php elseif (!empty($section['empty_message'])) : ?>
                 <p class="reza-archive-empty"><?php echo esc_html($section['empty_message']); ?></p>
