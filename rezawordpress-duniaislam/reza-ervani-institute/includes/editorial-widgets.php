@@ -86,7 +86,7 @@ function reza_ervani_register_editorial_sidebars() {
     register_sidebar(array(
         'id' => Reza_Ervani_Home_Topics::HOME_AREA,
         'name' => __('Beranda – Rubrik Dunia Islam', 'mh-healthmag'),
-        'description' => __('Pilih kategori dan jumlah artikel tiap kolom melalui widget Rubrik Beranda Dunia Islam.', 'mh-healthmag'),
+        'description' => __('Atur lebar rubrik dan jumlah artikel tiap negara melalui widget Rubrik Beranda Dunia Islam.', 'mh-healthmag'),
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
     ));
