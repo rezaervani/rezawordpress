@@ -22,7 +22,6 @@ foreach ($configured_topics as $slug => list($title, $layout)) {
         'stories' => reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => 4)),
         'children' => array(),
         'layout' => $layout,
-        'show_images' => $slug !== 'jurnal',
         'empty_message' => __('Belum ada artikel di rubrik ini.', 'mh-healthmag'),
     );
 }

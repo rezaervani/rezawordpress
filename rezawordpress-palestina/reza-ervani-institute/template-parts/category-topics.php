@@ -24,7 +24,7 @@ $layouts = array('feature', 'grid', 'list');
         }
         $story_args = array(
             'heading_level' => $level + 1,
-            'show_image' => $layout !== 'feature' && ($section['show_images'] ?? true),
+            'show_image' => $layout !== 'feature',
             'show_excerpt' => false,
         );
         ?>

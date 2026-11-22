@@ -98,6 +98,14 @@
     font-size: .9rem;
 }
 
+.reza-home-topics .reza-archive-topic > .reza-archive-topic-list {
+    align-self: start;
+}
+
+.reza-home-topics .reza-archive-topic-list time {
+    margin-block-start: 0;
+}
+
 .reza-archive-companions,
 .reza-archive-grid,
 .reza-archive-story {
