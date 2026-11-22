@@ -38,20 +38,13 @@ $layouts = array('feature', 'grid', 'list');
                     <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
                 </a>
             </header>
-            <?php if (!empty($section['subcategories'])) : ?>
-                <nav class="reza-country-subcategories" aria-label="<?php echo esc_attr(sprintf(__('Subkategori %s', 'mh-healthmag'), $title)); ?>">
-                    <ul>
-                        <?php foreach ($section['subcategories'] as $subcategory) : ?>
-                            <li><a href="<?php echo esc_url($subcategory['url']); ?>"><?php echo esc_html($subcategory['name']); ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </nav>
-            <?php endif; ?>
-            <?php if ($stories && $country_layout) : ?>
+            <?php if ($country_layout && ($stories || !empty($section['parts']))) : ?>
                 <?php get_template_part('template-parts/home', 'country-stories', array(
                     'stories' => $stories,
-                    'three_columns' => $layout === 'spread',
+                    'parts' => $section['parts'] ?? array(),
+                    'three_parts' => $layout === 'spread',
                     'heading_level' => $level + 1,
+                    'empty_message' => $section['empty_message'] ?? '',
                 )); ?>
             <?php elseif ($stories) : ?>
                 <div class="reza-archive-topic-<?php echo esc_attr($layout); ?>">

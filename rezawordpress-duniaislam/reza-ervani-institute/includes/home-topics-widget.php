@@ -19,7 +19,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
     public function __construct() {
         parent::__construct(self::ID_BASE, __('Rubrik Beranda Dunia Islam', 'mh-healthmag'), array(
             'classname' => 'reza-home-topics-widget',
-            'description' => __('Atur jumlah kolom, subkategori, dan jumlah artikel tiap rubrik negara.', 'mh-healthmag'),
+            'description' => __('Atur gaya, subkategori, dan jumlah judul tiap bagian rubrik negara.', 'mh-healthmag'),
             'customize_selective_refresh' => true,
         ));
     }
@@ -35,22 +35,28 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
         });
     }
 
-    public static function selected_subcategories($category, $ids) {
-        $ids = wp_parse_id_list($ids);
-        if (!$ids) {
-            return array();
-        }
-        $children = get_term_children($category->term_id, 'category');
-        return is_wp_error($children) ? array() : array_values(array_intersect($ids, $children));
+    public static function subcategory($country, $id) {
+        $subcategory = $id ? get_category(absint($id)) : null;
+        return $subcategory && !is_wp_error($subcategory) && term_is_ancestor_of($country, $subcategory, 'category')
+            ? $subcategory : null;
     }
 
     public static function settings($instance = array()) {
         $hidden = array_fill_keys(self::OTHER_CATEGORIES, 'hidden');
         if (isset($instance['layouts'])) {
+            $sections = $instance['sections'] ?? array();
+            if (!isset($instance['sections'])) {
+                // Move the old filters into their own sections in the saved order.
+                foreach ($instance['subcategories'] ?? array() as $slug => $ids) {
+                    foreach (array_slice(wp_parse_id_list($ids), 0, 2) as $index => $id) {
+                        $sections[$slug][$index + 2] = array('category' => $id);
+                    }
+                }
+            }
             return array(
                 'layouts' => $instance['layouts'] + $hidden,
                 'counts' => $instance['counts'] ?? array(),
-                'subcategories' => $instance['subcategories'] ?? array(),
+                'sections' => $sections,
             );
         }
 
@@ -67,7 +73,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                 $counts[$category] = self::sanitize_count($instance[$slot]['count']);
             }
         }
-        return array('layouts' => $layouts, 'counts' => $counts, 'subcategories' => array());
+        return array('layouts' => $layouts, 'counts' => $counts, 'sections' => array());
     }
 
     private static function sanitize_count($count) {
@@ -76,9 +82,9 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
 
     private static function layout_labels() {
         return array(
-            'priority' => __('Tiga kolom', 'mh-healthmag'),
-            'double' => __('Dua kolom', 'mh-healthmag'),
-            'compact' => __('Satu kolom', 'mh-healthmag'),
+            'priority' => __('Gaya 3', 'mh-healthmag'),
+            'double' => __('Gaya 2', 'mh-healthmag'),
+            'compact' => __('Gaya 1', 'mh-healthmag'),
             'hidden' => __('Sembunyikan', 'mh-healthmag'),
         );
     }
@@ -99,13 +105,25 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                     unset($settings['counts'][$slug]);
                 }
             }
-            if (isset($new_instance['subcategories'][$slug])) {
-                $terms = self::selected_subcategories($category, $new_instance['subcategories'][$slug]);
-                if ($terms) {
-                    $settings['subcategories'][$slug] = $terms;
-                } else {
-                    unset($settings['subcategories'][$slug]);
+            foreach (array(2, 3) as $part) {
+                $submitted = $new_instance['sections'][$slug][$part] ?? null;
+                if (!is_array($submitted)) {
+                    continue;
                 }
+                $section = $settings['sections'][$slug][$part] ?? array();
+                if (isset($submitted['category'])) {
+                    $term = self::subcategory($category, $submitted['category']);
+                    $section['category'] = $term ? $term->term_id : 0;
+                }
+                if (isset($submitted['count'])) {
+                    $count = $submitted['count'];
+                    if (is_numeric($count)) {
+                        $section['count'] = self::sanitize_count($count);
+                    } else {
+                        unset($section['count']);
+                    }
+                }
+                $settings['sections'][$slug][$part] = $section;
             }
         }
         return $settings;
@@ -116,17 +134,17 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
         ?>
         <p><?php
             printf(
-                esc_html__('Jumlah artikel bawaan %1$d untuk rubrik dua atau tiga kolom dan %2$d untuk rubrik satu kolom.', 'mh-healthmag'),
-                self::PRIORITY_COUNT,
-                self::COMPACT_COUNT
+                esc_html__('Bagian 1 mengambil semua artikel negara. Batas bawaan %1$d judul untuk Gaya 1 dan %2$d judul per bagian untuk Gaya 2 dan 3.', 'mh-healthmag'),
+                self::COMPACT_COUNT,
+                self::PRIORITY_COUNT
             );
         ?></p>
         <table class="widefat striped">
             <thead>
                 <tr>
                     <th scope="col"><?php esc_html_e('Kategori', 'mh-healthmag'); ?></th>
-                    <th scope="col"><?php esc_html_e('Tampilan', 'mh-healthmag'); ?></th>
-                    <th scope="col"><?php esc_html_e('Artikel', 'mh-healthmag'); ?></th>
+                    <th scope="col"><?php esc_html_e('Gaya', 'mh-healthmag'); ?></th>
+                    <th scope="col"><?php esc_html_e('Judul Bagian 1', 'mh-healthmag'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -138,7 +156,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                         <th scope="row"><?php echo esc_html($category->name); ?></th>
                         <td>
                             <select name="<?php echo esc_attr($this->get_field_name('layouts[' . $slug . ']')); ?>"
-                                aria-label="<?php echo esc_attr(sprintf(__('Tampilan %s', 'mh-healthmag'), $category->name)); ?>">
+                                aria-label="<?php echo esc_attr(sprintf(__('Gaya %s', 'mh-healthmag'), $category->name)); ?>">
                                 <?php foreach (self::layout_labels() as $value => $label) : ?>
                                     <option value="<?php echo esc_attr($value); ?>" <?php selected($layout, $value); ?>><?php echo esc_html($label); ?></option>
                                 <?php endforeach; ?>
@@ -147,7 +165,7 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                         <td>
                             <input class="small-text" type="number" min="1" max="<?php echo esc_attr(self::MAX_COUNT); ?>"
                                 name="<?php echo esc_attr($this->get_field_name('counts[' . $slug . ']')); ?>"
-                                aria-label="<?php echo esc_attr(sprintf(__('Jumlah artikel %s', 'mh-healthmag'), $category->name)); ?>"
+                                aria-label="<?php echo esc_attr(sprintf(__('Jumlah judul Bagian 1 %s', 'mh-healthmag'), $category->name)); ?>"
                                 value="<?php echo esc_attr($settings['counts'][$slug] ?? ''); ?>">
                         </td>
                     </tr>
@@ -156,23 +174,34 @@ class Reza_Ervani_Home_Topics extends WP_Widget {
                     if (!$children) {
                         continue;
                     }
-                    $selected = self::selected_subcategories($category, $settings['subcategories'][$slug] ?? array());
-                    $name = $this->get_field_name('subcategories[' . $slug . '][]');
                     ?>
                     <tr class="reza-country-widget-subcategories">
                         <td colspan="3">
-                            <fieldset>
-                                <legend><?php echo esc_html(sprintf(__('Subkategori %s', 'mh-healthmag'), $category->name)); ?></legend>
-                                <input type="hidden" name="<?php echo esc_attr($name); ?>" value="0">
-                                <?php foreach ($children as $child) : ?>
+                            <?php foreach (array(2, 3) as $part) :
+                                $section = $settings['sections'][$slug][$part] ?? array();
+                                $field = 'sections[' . $slug . '][' . $part . ']';
+                                ?>
+                                <fieldset class="reza-country-widget-part reza-country-widget-part-<?php echo esc_attr($part); ?>">
+                                    <legend><?php echo esc_html(sprintf(__('Bagian %1$d %2$s', 'mh-healthmag'), $part, $category->name)); ?></legend>
                                     <label>
-                                        <input type="checkbox" name="<?php echo esc_attr($name); ?>"
-                                            value="<?php echo esc_attr($child->term_id); ?>" <?php checked(in_array($child->term_id, $selected, false)); ?>>
-                                        <?php echo esc_html($child->name); ?>
+                                        <?php esc_html_e('Subkategori', 'mh-healthmag'); ?>
+                                        <select name="<?php echo esc_attr($this->get_field_name($field . '[category]')); ?>">
+                                            <option value="0"><?php esc_html_e('Pilih subkategori', 'mh-healthmag'); ?></option>
+                                            <?php foreach ($children as $child) : ?>
+                                                <option value="<?php echo esc_attr($child->term_id); ?>" <?php selected($section['category'] ?? 0, $child->term_id); ?>>
+                                                    <?php echo esc_html($child->name); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </label>
-                                <?php endforeach; ?>
-                                <p class="description"><?php esc_html_e('Pilih subkategori untuk membatasi artikel pada rubrik dua atau tiga kolom. Kosongkan untuk semua artikel rubrik.', 'mh-healthmag'); ?></p>
-                            </fieldset>
+                                    <label>
+                                        <?php esc_html_e('Jumlah judul', 'mh-healthmag'); ?>
+                                        <input class="small-text" type="number" min="1" max="<?php echo esc_attr(self::MAX_COUNT); ?>"
+                                            name="<?php echo esc_attr($this->get_field_name($field . '[count]')); ?>"
+                                            value="<?php echo esc_attr($section['count'] ?? ''); ?>">
+                                    </label>
+                                </fieldset>
+                            <?php endforeach; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
