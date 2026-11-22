@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.53 =
+* Jadikan tiga rubrik beranda Palestina satu widget dengan jumlah artikel yang bisa diatur per kolom.
+
 = v1.2.52 =
 * Tampilkan thumbnail di kiri judul dan tanggal pada daftar Jurnal di beranda Palestina.
 

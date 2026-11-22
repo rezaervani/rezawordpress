@@ -84,6 +84,14 @@ function reza_ervani_register_editorial_sidebars() {
     ) + $widget_markup);
 
     register_sidebar(array(
+        'id' => Reza_Ervani_Home_Topics::HOME_AREA,
+        'name' => __('Beranda – Rubrik Palestina', 'mh-healthmag'),
+        'description' => __('Atur jumlah artikel tiap kolom melalui widget Rubrik Beranda Palestina.', 'mh-healthmag'),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+    ));
+
+    register_sidebar(array(
         'id' => Reza_Ervani_Posting_Ads::HOME_AREA,
         'name' => __('Beranda – Posting dan Iklan', 'mh-healthmag'),
         'description' => __('Tambahkan dan urutkan widget Posting dan Iklan untuk ditampilkan sebelum galeri video.', 'mh-healthmag'),
