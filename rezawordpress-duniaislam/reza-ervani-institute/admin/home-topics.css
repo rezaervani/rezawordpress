@@ -1,0 +1,16 @@
+.reza-country-widget-option:has(option:is([value="compact"], [value="hidden"]):checked) + .reza-country-widget-subcategories {
+    display: none;
+}
+
+.reza-country-widget-subcategories fieldset {
+    padding: .1rem .5rem .4rem;
+}
+
+.reza-country-widget-subcategories legend {
+    font-weight: 600;
+}
+
+.reza-country-widget-subcategories label {
+    display: block;
+    margin-block: .3rem;
+}

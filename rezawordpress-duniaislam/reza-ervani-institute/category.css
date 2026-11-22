@@ -116,8 +116,70 @@
     border-block-start-color: var(--reza-ink);
 }
 
-.reza-home-country-priority .reza-archive-spread > .reza-archive-companions {
+.reza-home-country-priority > .reza-archive-topics > .reza-archive-topic > .reza-archive-topic-header .reza-archive-topic-title {
+    font-size: clamp(1.85rem, 3.4vw, 2.55rem);
+}
+
+.reza-country-subcategories {
+    margin-block: -.35rem 1.1rem;
+    font-size: .8rem;
+}
+
+.reza-country-subcategories ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.reza-country-subcategories a {
+    color: var(--reza-green);
+    text-decoration: underline;
+    text-underline-offset: .18em;
+}
+
+.reza-country-stories,
+.reza-country-list {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: .8rem var(--reza-archive-column-gap);
+}
+
+.reza-country-lead .reza-archive-story-featured .reza-archive-story-title {
+    font-size: clamp(1.45rem, 2.5vw, 2.2rem);
+}
+
+.reza-country-lead > .reza-country-list {
+    margin-block-start: .8rem;
+}
+
+.reza-country-list .reza-archive-story-with-image {
+    display: grid;
+    grid-template-columns: clamp(3.6rem, 14vw, 5rem) minmax(0, 1fr);
+    align-items: start;
+}
+
+.reza-country-list .reza-archive-story time {
+    margin-block-start: .3rem;
+    padding-block-start: 0;
+}
+
+@media (min-width: 980px) {
+    .reza-country-stories-with-side {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .reza-country-stories-with-side .reza-country-lead {
+        grid-column: span 2;
+    }
+
+    .reza-country-list-side {
+        border-inline-start: 1px solid var(--reza-rule);
+        padding-inline-start: 1rem;
+    }
 }
 
 .reza-home-country-priority + .reza-home-country-directory {
