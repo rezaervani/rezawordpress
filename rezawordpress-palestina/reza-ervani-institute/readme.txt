@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.51 =
+* Tambah jarak antarkartu Terkini dan tampilkan rubrik Ensiklopedia al Quds, Tokoh, serta Jurnal di beranda Palestina.
+
 = v1.2.50 =
 * Aktifkan beranda editorial Palestina pada indeks posting terbaru dengan Sorotan Utama, rubrik lokal, dan daftar Terkini berpaginasi.
 

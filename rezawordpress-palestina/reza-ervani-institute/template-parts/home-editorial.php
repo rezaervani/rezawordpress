@@ -16,6 +16,7 @@
                 'featured_id' => $featured ? $featured->ID : 0,
                 'excluded_category_ids' => array_filter(array_merge($grid_category_ids, $collection_category_ids)),
             ));
+            get_template_part('template-parts/home', 'topics');
         endif; ?>
         <?php dynamic_sidebar(Reza_Ervani_Category_Grid::HOME_AREA); ?>
         <?php get_template_part('template-parts/editorial', 'ad'); ?>

@@ -1,10 +1,13 @@
-#main-content.reza-category-archive {
+:is(.reza-category-archive, .reza-editorial-main) {
     --reza-archive-column-gap: clamp(1rem, 2vw, 1.75rem);
+    overflow-wrap: anywhere;
+}
+
+#main-content.reza-category-archive {
     float: none;
     width: var(--reza-wrap-width);
     margin-inline: auto;
     padding-block: clamp(1.3rem, 3vw, 2.6rem) 3rem;
-    overflow-wrap: anywhere;
 }
 
 .reza-archive-header {
@@ -80,6 +83,19 @@
 
 .reza-archive-spread + .reza-archive-grid {
     margin-block-start: 1.5rem;
+}
+
+.reza-home-news > .reza-archive-grid {
+    row-gap: clamp(1.65rem, 3vw, 2.5rem);
+}
+
+.reza-home-topics {
+    margin-block: 1.75rem;
+}
+
+.reza-home-topics .reza-archive-empty {
+    color: var(--reza-muted);
+    font-size: .9rem;
 }
 
 .reza-archive-companions,
