@@ -58,6 +58,9 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v1.2.61 =
+* Pisahkan semua artikel negara dan setiap rubrik subkategori dengan pilihan gaya dan batas judul per bagian.
+
 = v1.2.60 =
 * Tambahkan pilihan dua kolom, penyaringan subkategori, dan daftar artikel dengan thumbnail serta tanggal pada rubrik Dunia Islam.
 

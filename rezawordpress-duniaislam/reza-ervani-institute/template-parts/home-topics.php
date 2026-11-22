@@ -16,33 +16,34 @@ foreach (Reza_Ervani_Home_Topics::categories() as $category) {
     $count = $settings['counts'][$slug] ?? ($expanded
         ? Reza_Ervani_Home_Topics::PRIORITY_COUNT
         : Reza_Ervani_Home_Topics::COMPACT_COUNT);
-    $term_ids = $expanded ? Reza_Ervani_Home_Topics::selected_subcategories(
-        $category,
-        $settings['subcategories'][$slug] ?? array()
-    ) : array();
-    $query = $term_ids ? array('tax_query' => array(array(
-        'taxonomy' => 'category',
-        'field' => 'term_id',
-        'terms' => $term_ids,
-        'include_children' => true,
-    ))) : array('cat' => $category->term_id);
-    $subcategories = array();
-    foreach ($term_ids as $term_id) {
-        $term = get_category($term_id);
-        if (!$term || is_wp_error($term)) {
+    $heading_id = $args['widget_id'] . '-country-' . $category->term_id;
+    $parts = array();
+    $part_numbers = $layout === 'priority' ? array(2, 3) : ($expanded ? array(2) : array());
+    foreach ($part_numbers as $number) {
+        $part = $settings['sections'][$slug][$number] ?? array();
+        $term = Reza_Ervani_Home_Topics::subcategory($category, $part['category'] ?? 0);
+        if (!$term) {
             continue;
         }
         $link = get_category_link($term);
         if (!is_wp_error($link)) {
-            $subcategories[] = array('name' => $term->name, 'url' => $link);
+            $parts[$number] = array(
+                'title' => $term->name,
+                'url' => $link,
+                'heading_id' => $heading_id . '-part-' . $number,
+                'stories' => reza_ervani_editorial_posts(array(
+                    'cat' => $term->term_id,
+                    'numberposts' => $part['count'] ?? Reza_Ervani_Home_Topics::PRIORITY_COUNT,
+                )),
+            );
         }
     }
     $section = array(
         'term' => $category,
         'url' => $url,
-        'heading_id' => $args['widget_id'] . '-country-' . $category->term_id,
-        'stories' => reza_ervani_editorial_posts($query + array('numberposts' => $count)),
-        'subcategories' => $subcategories,
+        'heading_id' => $heading_id,
+        'stories' => reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => $count)),
+        'parts' => $parts,
         'children' => array(),
         'layout' => $expanded ? ($layout === 'priority' ? 'spread' : 'double') : 'list',
         'empty_message' => __('Belum ada artikel di rubrik ini.', 'mh-healthmag'),

@@ -120,24 +120,24 @@
     font-size: clamp(1.85rem, 3.4vw, 2.55rem);
 }
 
-.reza-country-subcategories {
-    margin-block: -.35rem 1.1rem;
-    font-size: .8rem;
+.reza-country-main,
+.reza-country-part {
+    min-inline-size: 0;
 }
 
-.reza-country-subcategories ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .35rem 1rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.reza-country-part {
+    border-block-start: 1px solid var(--reza-rule);
+    padding-block-start: .75rem;
 }
 
-.reza-country-subcategories a {
-    color: var(--reza-green);
-    text-decoration: underline;
-    text-underline-offset: .18em;
+.reza-country-main > .reza-country-part {
+    margin-block-start: 1.35rem;
+}
+
+.reza-country-part-title {
+    margin-block-end: .65rem;
+    color: var(--reza-ink);
+    font: 700 clamp(1.2rem, 2vw, 1.6rem)/1.2 var(--reza-serif);
 }
 
 .reza-country-stories,
@@ -172,13 +172,21 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .reza-country-stories-with-side .reza-country-lead {
+    .reza-country-stories-with-side > .reza-country-main {
         grid-column: span 2;
     }
 
-    .reza-country-list-side {
+    .reza-country-part-side {
+        border-block-start: 0;
         border-inline-start: 1px solid var(--reza-rule);
+        padding-block-start: 0;
         padding-inline-start: 1rem;
+    }
+}
+
+@media (min-width: 1100px) {
+    .reza-country-main > .reza-country-part > .reza-country-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
