@@ -10,6 +10,7 @@ require_once __DIR__ . '/includes/network-feed.php';
 require_once __DIR__ . '/includes/network-feed-widget.php';
 require_once __DIR__ . '/includes/posting-ads-widget.php';
 require_once __DIR__ . '/includes/editorial-widgets.php';
+require_once __DIR__ . '/includes/palestina-footer-widgets.php';
 require_once __DIR__ . '/includes/latest-posts-widget.php';
 require_once __DIR__ . '/includes/video-library.php';
 require_once __DIR__ . '/includes/video-gallery-widget.php';
