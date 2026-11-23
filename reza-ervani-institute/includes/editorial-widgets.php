@@ -70,15 +70,18 @@ function reza_ervani_register_editorial_sidebars() {
         'after_title' => '</h2>',
     ) + $widget_markup);
 
-    register_sidebar(array(
-        'id' => Reza_Ervani_Network_Feed_Widget::HOME_AREA,
-        'name' => __('Beranda – Jaringan Situs', 'mh-healthmag'),
-        'description' => __('Urutkan widget Artikel Jaringan Situs di segmen Palestina dan Dunia Islam. Pada desktop, widget pertama menempati sorotan selebar dua kolom.', 'mh-healthmag'),
-        'before_widget' => '<section id="%1$s" class="%2$s">',
-        'after_widget' => '</section>',
-        'before_title' => '<h3 class="reza-network-heading">',
-        'after_title' => '</h3>',
-    ));
+    foreach (Reza_Ervani_Network_Feed_Widget::home_sections() as $id => $section) {
+        register_sidebar(array(
+            'id' => $id,
+            'name' => $section['name'],
+            /* translators: %s: homepage section title. */
+            'description' => sprintf(__('Urutkan widget Artikel Jaringan Situs di segmen %s. Pada desktop, widget pertama menempati sorotan selebar dua kolom.', 'mh-healthmag'), $section['title']),
+            'before_widget' => '<section id="%1$s" class="%2$s">',
+            'after_widget' => '</section>',
+            'before_title' => '<h3 class="reza-network-heading">',
+            'after_title' => '</h3>',
+        ));
+    }
 
     register_sidebar(array(
         'id' => 'home-network-ad',
