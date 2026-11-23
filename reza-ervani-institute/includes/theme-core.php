@@ -42,7 +42,6 @@ if (!function_exists('mh_magazine_lite_setup')) {
         add_theme_support('automatic-feed-links');
         add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption'));
         add_theme_support('post-thumbnails');
-        add_theme_support('custom-background', array('default-color' => 'f7f7f7'));
         add_theme_support('custom-header', array(
             'default-image'      => '',
             'default-text-color' => '000',
