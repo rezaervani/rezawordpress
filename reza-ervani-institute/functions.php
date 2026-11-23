@@ -148,6 +148,9 @@ if (get_template() === 'mh-magazine-lite') {
     // WordPress already scheduled the legacy parent to load in this request.
     // Change the stored template for the next request without switching the stylesheet.
     add_action('shutdown', 'reza_ervani_finish_standalone_upgrade');
+    add_action('after_setup_theme', static function () {
+        remove_theme_support('custom-background');
+    }, 20);
 } else {
     require_once __DIR__ . '/includes/theme-core.php';
 }
