@@ -1,0 +1,30 @@
+.reza-country-widget-option:has(option:is([value="compact"], [value="hidden"]):checked) + .reza-country-widget-subcategories {
+    display: none;
+}
+
+.reza-country-widget-option:has(option[value="double"]:checked) + .reza-country-widget-subcategories .reza-country-widget-part-3 {
+    display: none;
+}
+
+.reza-country-widget-part {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: .75rem;
+    padding: .1rem .5rem .4rem;
+}
+
+.reza-country-widget-part legend {
+    font-weight: 600;
+}
+
+.reza-country-widget-part label {
+    display: grid;
+    gap: .25rem;
+    min-width: 0;
+    margin-block: .3rem;
+}
+
+.reza-country-widget-part select {
+    max-width: 100%;
+}

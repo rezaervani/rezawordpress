@@ -1,5 +1,5 @@
 <?php
-$areas = array_filter(array_keys(reza_ervani_editorial_category_widget_rows()), 'is_active_sidebar');
+$areas = array_filter(array_keys(reza_ervani_editorial_category_widget_rows()), 'reza_ervani_home_sidebar_active');
 if (!$areas) {
     return;
 }

@@ -70,20 +70,23 @@ function reza_ervani_register_editorial_sidebars() {
         'after_title' => '</h2>',
     ) + $widget_markup);
 
-    register_sidebar(array(
-        'id' => Reza_Ervani_Network_Feed_Widget::HOME_AREA,
-        'name' => __('Beranda – Jaringan Situs', 'mh-healthmag'),
-        'description' => __('Urutkan widget Artikel Jaringan Situs di segmen Palestina dan Dunia Islam. Pada desktop, widget pertama menempati sorotan selebar dua kolom.', 'mh-healthmag'),
-        'before_widget' => '<section id="%1$s" class="%2$s">',
-        'after_widget' => '</section>',
-        'before_title' => '<h3 class="reza-network-heading">',
-        'after_title' => '</h3>',
-    ));
+    foreach (Reza_Ervani_Network_Feed_Widget::home_sections() as $id => $section) {
+        register_sidebar(array(
+            'id' => $id,
+            'name' => $section['name'],
+            /* translators: %s: homepage section title. */
+            'description' => sprintf(__('Urutkan widget Artikel Jaringan Situs di segmen %s. Pada desktop, widget pertama menempati sorotan selebar dua kolom.', 'mh-healthmag'), $section['title']),
+            'before_widget' => '<section id="%1$s" class="%2$s">',
+            'after_widget' => '</section>',
+            'before_title' => '<h3 class="reza-network-heading">',
+            'after_title' => '</h3>',
+        ));
+    }
 
     register_sidebar(array(
         'id' => 'home-network-ad',
-        'name' => __('Beranda – Iklan setelah Tanya Jawab', 'mh-healthmag'),
-        'description' => __('Tambahkan unit iklan melalui widget HTML Khusus untuk tampil di antara Tanya Jawab dan Jaringan Situs.', 'mh-healthmag'),
+        'name' => __('Beranda – Iklan setelah Kisi Kategori', 'mh-healthmag'),
+        'description' => __('Tambahkan unit iklan melalui widget HTML Khusus untuk tampil di antara Kisi Kategori dan Jaringan Situs.', 'mh-healthmag'),
         'before_title' => '<h3 class="mh-widget-title"><span class="mh-widget-title-inner">',
         'after_title' => '</span></h3>',
     ) + $widget_markup);
@@ -97,20 +100,25 @@ function reza_ervani_register_editorial_sidebars() {
     ) + $widget_markup);
 
     register_sidebar(array(
-        'id' => Reza_Ervani_Home_Topics::HOME_AREA,
-        'name' => __('Beranda – Rubrik Palestina', 'mh-healthmag'),
-        'description' => __('Atur jumlah artikel tiap kolom melalui widget Rubrik Beranda Palestina.', 'mh-healthmag'),
-        'before_widget' => '<div id="%1$s" class="%2$s">',
-        'after_widget' => '</div>',
-    ));
-
-    register_sidebar(array(
         'id' => Reza_Ervani_Posting_Ads::HOME_AREA,
         'name' => __('Beranda – Posting dan Iklan', 'mh-healthmag'),
         'description' => __('Tambahkan dan urutkan widget Posting dan Iklan untuk ditampilkan sebelum galeri video.', 'mh-healthmag'),
         'before_title' => '<h3 class="mh-widget-title"><span class="mh-widget-title-inner">',
         'after_title' => '</span></h3>',
     ) + $widget_markup);
+
+    foreach (array(
+        Reza_Ervani_Palestina_Topics::HOME_AREA => __('Beranda – Rubrik Palestina', 'mh-healthmag'),
+        Reza_Ervani_Duniaislam_Topics::HOME_AREA => __('Beranda – Rubrik Dunia Islam', 'mh-healthmag'),
+    ) as $id => $name) {
+        register_sidebar(array(
+            'id' => $id,
+            'name' => $name,
+            'description' => __('Tambahkan widget rubrik kategori untuk ditampilkan di beranda.', 'mh-healthmag'),
+            'before_title' => '<h2 class="mh-widget-title">',
+            'after_title' => '</h2>',
+        ) + $widget_markup);
+    }
 
     register_sidebar(array(
         'id' => 'home-video-gallery',
@@ -424,6 +432,21 @@ function reza_ervani_clear_retired_mh_widget_placements() {
     wp_set_sidebars_widgets($sidebars);
 }
 add_action('wp_loaded', 'reza_ervani_clear_retired_mh_widget_placements', 20);
+
+function reza_ervani_legacy_home_widget_areas() {
+    return array('home-2', 'home-3', 'home-4', 'home-6');
+}
+
+function reza_ervani_remove_empty_legacy_home_widget_areas() {
+    $sidebars = wp_get_sidebars_widgets();
+    foreach (reza_ervani_legacy_home_widget_areas() as $area) {
+        if (empty($sidebars[$area])) {
+            unregister_sidebar($area);
+        }
+    }
+}
+add_action('wp_loaded', 'reza_ervani_remove_empty_legacy_home_widget_areas', 25);
+
 
 function reza_ervani_retired_editorial_category_ids() {
     $ids = array_merge(reza_ervani_legacy_collection_category_ids(), reza_ervani_home_posting_ads_categories());

@@ -58,6 +58,11 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v2.0.0 =
+* Gunakan katalog sepuluh widget yang sama dengan situs utama.
+* Tambahkan sakelar segmen beranda. Pertahankan setelan dan penempatan Rubrik Beranda Palestina saat upgrade.
+* Bersihkan penempatan widget MH dan area warisan yang sudah kosong.
+
 = v1.2.59 =
 * Tambahkan pita sebelum Sorotan Utama dan widget Iklan Cerdas dengan maksimal tiga gambar cadangan.
 

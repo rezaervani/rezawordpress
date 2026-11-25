@@ -50,12 +50,6 @@ function reza_ervani_customize_homepage($customizer) {
             'input_attrs' => array('min' => 0, 'step' => 1),
             'sanitize' => 'absint',
         ),
-        'reza_ervani_show_home_categories' => array(
-            'default' => get_theme_mod('reza_ervani_editorial_home', true),
-            'label' => __('Tampilkan bagian artikel per kategori', 'mh-healthmag'),
-            'type' => 'checkbox',
-            'sanitize' => 'rest_sanitize_boolean',
-        ),
         'reza_ervani_home_categories' => array(
             'default' => get_theme_mod('reza_ervani_editorial_home', true) ? reza_ervani_editorial_category_defaults() : '',
             'label' => __('Kategori dan urutannya', 'mh-healthmag'),
@@ -83,12 +77,6 @@ function reza_ervani_customize_homepage($customizer) {
             'type' => 'number',
             'input_attrs' => array('min' => 1, 'max' => 8, 'step' => 1),
             'sanitize' => 'reza_ervani_sanitize_home_article_count',
-        ),
-        'reza_ervani_editorial_widgets' => array(
-            'default' => true,
-            'label' => __('Tampilkan widget di bawah beranda editorial', 'mh-healthmag'),
-            'type' => 'checkbox',
-            'sanitize' => 'rest_sanitize_boolean',
         ),
     );
 
