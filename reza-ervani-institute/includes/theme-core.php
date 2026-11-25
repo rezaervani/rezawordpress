@@ -139,7 +139,7 @@ if (!function_exists('mh_magazine_lite_widgets_init')) {
             'after_title'   => '</span></h4>'
         ));
         register_sidebar(array(
-            'name'          => sprintf(esc_html_x('Home %d - Full Width', 'widget area name', 'mh-magazine-lite'), 1),
+            'name'          => __('Beranda – Widget Lebar Penuh', 'mh-healthmag'),
             'id'            => 'home-1',
             'description'   => esc_html__('Widget area on homepage.', 'mh-magazine-lite'),
             'before_widget' => '<div id="%1$s" class="mh-widget mh-home-1 mh-home-wide %2$s">',
@@ -175,7 +175,7 @@ if (!function_exists('mh_magazine_lite_widgets_init')) {
             'after_title'   => '</span></h4>'
         ));
         register_sidebar(array(
-            'name'          => sprintf(esc_html_x('Home %d - 2/3 Width', 'widget area name', 'mh-magazine-lite'), 5),
+            'name'          => __('Beranda – Daftar Artikel Utama', 'mh-healthmag'),
             'id'            => 'home-5',
             'description'   => esc_html__('Widget area on homepage.', 'mh-magazine-lite'),
             'before_widget' => '<div id="%1$s" class="mh-widget mh-home-5 mh-widget-col-2 %2$s">',

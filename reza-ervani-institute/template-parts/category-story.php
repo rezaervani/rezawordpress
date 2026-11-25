@@ -7,7 +7,7 @@ $title = reza_ervani_editorial_title(get_post());
 $url = get_permalink();
 $protected = post_password_required();
 $image = $show_image && !$protected
-    ? get_the_post_thumbnail(get_the_ID(), $featured ? 'medium_large' : 'mh-magazine-lite-medium', array('alt' => ''))
+    ? get_the_post_thumbnail(get_the_ID(), $args['image_size'] ?? ($featured ? 'medium_large' : 'mh-magazine-lite-medium'), array('alt' => ''))
     : '';
 
 $excerpt = '';

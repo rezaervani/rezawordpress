@@ -58,6 +58,10 @@ https://pixabay.com/de/skater-park-urban-stra%C3%9Fe-bande-1443435/
 Changelog
 ==================================
 
+= v2.0.0 =
+* Satukan sepuluh widget tema dalam satu katalog dan tambahkan area Rubrik Palestina serta Rubrik Dunia Islam ke beranda.
+* Tambahkan sakelar per segmen beranda di Customize dan sembunyikan area warisan yang sudah kosong.
+
 = v1.2.59 =
 * Tambahkan pita sebelum Sorotan Utama dan widget Iklan Cerdas dengan maksimal tiga gambar cadangan.
 

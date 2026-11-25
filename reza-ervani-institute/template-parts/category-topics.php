@@ -6,12 +6,13 @@ $layouts = array('feature', 'grid', 'list');
 <div class="reza-archive-topics">
     <?php foreach ($args['sections'] as $index => $section) :
         $term = $section['term'];
+        $title = $section['title'] ?? $term->name;
         $url = $section['url'];
         $stories = $section['stories'];
-        $heading_id = 'reza-archive-topic-' . $term->term_id;
+        $heading_id = $section['heading_id'] ?? 'reza-archive-topic-' . $term->term_id;
         $default_layout = $layouts[($index + $level - 2) % count($layouts)];
         $layout = $section['layout'] ?? $default_layout;
-        if (count($stories) < 2) {
+        if (count($stories) < 2 && empty($args['preserve_layout'])) {
             $layout = 'list';
         }
         $classes = array('reza-archive-topic');
@@ -21,6 +22,7 @@ $layouts = array('feature', 'grid', 'list');
         if ($section['layout']) {
             $classes[] = 'reza-archive-topic-balanced';
         }
+        $country_layout = in_array($layout, array('spread', 'double'), true);
         $story_args = array(
             'heading_level' => $level + 1,
             'show_image' => $layout !== 'feature',
@@ -30,13 +32,21 @@ $layouts = array('feature', 'grid', 'list');
         <section class="<?php echo esc_attr(implode(' ', $classes)); ?>" aria-labelledby="<?php echo esc_attr($heading_id); ?>">
             <header class="reza-archive-topic-header">
                 <<?php echo $heading; ?> id="<?php echo esc_attr($heading_id); ?>" class="reza-archive-topic-title">
-                    <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($term->name); ?></a>
+                    <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($title); ?></a>
                 </<?php echo $heading; ?>>
-                <a class="reza-editorial-archive-link" href="<?php echo esc_url($url); ?>" aria-label="<?php echo esc_attr(sprintf(__('Lihat semua artikel di %s', 'mh-healthmag'), $term->name)); ?>">
+                <a class="reza-editorial-archive-link" href="<?php echo esc_url($url); ?>" aria-label="<?php echo esc_attr(sprintf(__('Lihat semua artikel di %s', 'mh-healthmag'), $title)); ?>">
                     <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
                 </a>
             </header>
-            <?php if ($stories) : ?>
+            <?php if ($country_layout && ($stories || !empty($section['parts']))) : ?>
+                <?php get_template_part('template-parts/home', 'country-stories', array(
+                    'stories' => $stories,
+                    'parts' => $section['parts'] ?? array(),
+                    'three_parts' => $layout === 'spread',
+                    'heading_level' => $level + 1,
+                    'empty_message' => $section['empty_message'] ?? '',
+                )); ?>
+            <?php elseif ($stories) : ?>
                 <div class="reza-archive-topic-<?php echo esc_attr($layout); ?>">
                     <?php if ($layout === 'feature') :
                         $lead = array_shift($stories);
@@ -52,6 +62,8 @@ $layouts = array('feature', 'grid', 'list');
                         endforeach; ?>
                     </div>
                 </div>
+            <?php elseif (!empty($section['empty_message'])) : ?>
+                <p class="reza-archive-empty"><?php echo esc_html($section['empty_message']); ?></p>
             <?php endif; ?>
             <?php if ($section['children']) :
                 get_template_part('template-parts/category', 'topics', array(
