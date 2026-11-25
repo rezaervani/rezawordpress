@@ -8,8 +8,8 @@ if (!$editorial) {
     $content_areas[] = 'home-video-gallery';
 }
 
-$content_areas = array_filter($content_areas, 'is_active_sidebar');
-$sidebar_areas = array_filter($sidebar_areas, 'is_active_sidebar');
+$content_areas = array_filter($content_areas, 'reza_ervani_home_sidebar_active');
+$sidebar_areas = array_filter($sidebar_areas, 'reza_ervani_home_sidebar_active');
 $has_sidebar = $sidebar_areas || $english_sections;
 $paired_hadits = $english_sections && in_array('home-5', $content_areas, true);
 $lead_in_areas = $paired_hadits ? array_diff($content_areas, array('home-5')) : $content_areas;
@@ -19,8 +19,10 @@ $column_areas = array_intersect($content_areas, array('home-3', 'home-4'));
     <div class="reza-home-widgets<?php echo $content_areas && $has_sidebar ? ' reza-home-widgets-with-sidebar' : ''; ?><?php echo $editorial ? ' reza-home-widgets-editorial' : ''; ?>">
         <?php if ($lead_in_areas) : ?>
             <div>
-                <?php dynamic_sidebar('home-2'); ?>
-                <?php if (!$editorial) : ?>
+                <?php if (in_array('home-2', $lead_in_areas, true)) : ?>
+                    <?php dynamic_sidebar('home-2'); ?>
+                <?php endif; ?>
+                <?php if (in_array('home-video-gallery', $lead_in_areas, true)) : ?>
                     <?php dynamic_sidebar('home-video-gallery'); ?>
                 <?php endif; ?>
                 <?php if ($column_areas) : ?>
@@ -32,7 +34,7 @@ $column_areas = array_intersect($content_areas, array('home-3', 'home-4'));
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if (!$paired_hadits) : ?>
+                <?php if (in_array('home-5', $lead_in_areas, true)) : ?>
                     <?php dynamic_sidebar('home-5'); ?>
                 <?php endif; ?>
             </div>

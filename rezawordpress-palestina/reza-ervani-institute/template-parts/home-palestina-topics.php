@@ -1,8 +1,9 @@
 <?php
 $sections = array();
-foreach (Reza_Ervani_Home_Topics::topics() as $slug => list($title, $layout)) {
-    $category = get_category_by_slug($slug);
-    if (!$category) {
+foreach (Reza_Ervani_Palestina_Topics::topics() as $slug => list($title, $layout)) {
+    $category_id = $args['categories'][$slug] ?? 0;
+    $category = $category_id ? get_category($category_id) : get_category_by_slug($slug);
+    if (!$category || is_wp_error($category)) {
         continue;
     }
     $url = get_category_link($category);
@@ -11,9 +12,9 @@ foreach (Reza_Ervani_Home_Topics::topics() as $slug => list($title, $layout)) {
     }
     $sections[] = array(
         'term' => $category,
-        'title' => $title,
+        'title' => $category_id ? $category->name : $title,
         'url' => $url,
-        'heading_id' => $args['widget_id'] . '-' . $category->term_id,
+        'heading_id' => $args['widget_id'] . '-' . $slug,
         'stories' => reza_ervani_editorial_posts(array('cat' => $category->term_id, 'numberposts' => $args['counts'][$slug])),
         'children' => array(),
         'layout' => $layout,

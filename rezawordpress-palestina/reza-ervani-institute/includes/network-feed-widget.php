@@ -5,6 +5,21 @@ class Reza_Ervani_Network_Feed_Widget extends WP_Widget {
     const HOME_AREA = 'home-network-feed';
     const MAX_POSTS = 30;
 
+    public static function home_sections() {
+        return array(
+            self::HOME_AREA => array(
+                'name' => __('Beranda – Jaringan Situs', 'mh-healthmag'),
+                'title' => __('Palestina dan Dunia Islam', 'mh-healthmag'),
+                'heading_id' => 'reza-network-section-title',
+            ),
+            'home-network-duniaislam' => array(
+                'name' => __('Beranda – Jaringan Situs – Dunia Islam', 'mh-healthmag'),
+                'title' => __('Dunia Islam', 'mh-healthmag'),
+                'heading_id' => 'reza-network-duniaislam-title',
+            ),
+        );
+    }
+
     public function __construct() {
         parent::__construct(self::ID_BASE, __('Artikel Jaringan Situs', 'mh-healthmag'), array(
             'classname' => 'reza-network-widget',
@@ -85,7 +100,7 @@ class Reza_Ervani_Network_Feed_Widget extends WP_Widget {
         $settings = $this->settings($instance);
         $posts = Reza_Ervani_Network_Feed::posts($settings['source'], $settings['category'], $settings['count']);
         if (!$posts) {
-            if (($args['id'] ?? '') === self::HOME_AREA) {
+            if (isset(self::home_sections()[$args['id'] ?? ''])) {
                 // Reserve this widget's desktop position even when its feed is empty.
                 echo $args['before_widget'] . $args['after_widget'];
             }

@@ -22,6 +22,7 @@ $layouts = array('feature', 'grid', 'list');
         if ($section['layout']) {
             $classes[] = 'reza-archive-topic-balanced';
         }
+        $country_layout = in_array($layout, array('spread', 'double'), true);
         $story_args = array(
             'heading_level' => $level + 1,
             'show_image' => $layout !== 'feature',
@@ -37,7 +38,15 @@ $layouts = array('feature', 'grid', 'list');
                     <?php esc_html_e('Lihat semua', 'mh-healthmag'); ?> <span aria-hidden="true">→</span>
                 </a>
             </header>
-            <?php if ($stories) : ?>
+            <?php if ($country_layout && ($stories || !empty($section['parts']))) : ?>
+                <?php get_template_part('template-parts/home', 'country-stories', array(
+                    'stories' => $stories,
+                    'parts' => $section['parts'] ?? array(),
+                    'three_parts' => $layout === 'spread',
+                    'heading_level' => $level + 1,
+                    'empty_message' => $section['empty_message'] ?? '',
+                )); ?>
+            <?php elseif ($stories) : ?>
                 <div class="reza-archive-topic-<?php echo esc_attr($layout); ?>">
                     <?php if ($layout === 'feature') :
                         $lead = array_shift($stories);
