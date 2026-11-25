@@ -107,6 +107,19 @@ function reza_ervani_register_editorial_sidebars() {
         'after_title' => '</span></h3>',
     ) + $widget_markup);
 
+    foreach (array(
+        Reza_Ervani_Palestina_Topics::HOME_AREA => __('Beranda – Rubrik Palestina', 'mh-healthmag'),
+        Reza_Ervani_Duniaislam_Topics::HOME_AREA => __('Beranda – Rubrik Dunia Islam', 'mh-healthmag'),
+    ) as $id => $name) {
+        register_sidebar(array(
+            'id' => $id,
+            'name' => $name,
+            'description' => __('Susun widget rubrik kategori untuk ditampilkan setelah Jaringan Situs.', 'mh-healthmag'),
+            'before_title' => '<h2 class="mh-widget-title">',
+            'after_title' => '</h2>',
+        ) + $widget_markup);
+    }
+
     register_sidebar(array(
         'id' => 'home-video-gallery',
         'name' => __('Video Gallery Beranda', 'mh-healthmag'),
@@ -419,6 +432,21 @@ function reza_ervani_clear_retired_mh_widget_placements() {
     wp_set_sidebars_widgets($sidebars);
 }
 add_action('wp_loaded', 'reza_ervani_clear_retired_mh_widget_placements', 20);
+
+function reza_ervani_legacy_home_widget_areas() {
+    return array('home-2', 'home-3', 'home-4', 'home-6');
+}
+
+function reza_ervani_remove_empty_legacy_home_widget_areas() {
+    $sidebars = wp_get_sidebars_widgets();
+    foreach (reza_ervani_legacy_home_widget_areas() as $area) {
+        if (empty($sidebars[$area])) {
+            unregister_sidebar($area);
+        }
+    }
+}
+add_action('wp_loaded', 'reza_ervani_remove_empty_legacy_home_widget_areas', 25);
+
 
 function reza_ervani_retired_editorial_category_ids() {
     $ids = array_merge(reza_ervani_legacy_collection_category_ids(), reza_ervani_home_posting_ads_categories());
